@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+.env/
+.venv/
+
+# Environment Variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# SQLite Database
+*.db
+
+# Qdrant Local Data
+qdrant_storage/
+
+# Temporary files
+temp/
+tmp/
+
+# Generated embeddings/cache
+.cache/
+
+# Secrets
+secrets.toml
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Python build
+build/
+dist/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+
+# Misc
+*.swp
