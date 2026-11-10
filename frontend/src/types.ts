@@ -1,0 +1,11 @@
+export type Profile = 'lite' | 'core' | 'research';
+export interface Preferences { preferred_name: string | null; default_profile: Profile; escalation_preference: 'never' | 'when_needed' | 'always'; onboarding_skipped: boolean }
+export interface Citation { citation_id?: string; evidence_id?: string; label?: string; title?: string; source?: string; document_id?: string; excerpt?: string; quote?: string; section_path?: string[]; page_number?: number; page?: number; line_start?: number; line_end?: number; url?: string; source_location?: string }
+export interface Candidate { document_id?: string; source?: string; text?: string; dense_rank?: number; sparse_rank?: number; fusion_rank?: number; rrf_score?: number; reranker_score?: number; selected?: boolean; expansion_reason?: string; structural_path?: string; [key: string]: unknown }
+export interface ChatMessage { message_id: string; role: 'user' | 'assistant'; content: string; profile?: Profile; citations?: Citation[]; evidence_references?: Array<Citation & { evidence_id?: string }>; verification?: Record<string, unknown>; overall_reliability?: string; retrieval_inspection?: Candidate[]; execution_metadata?: Record<string, unknown>; created_at?: string }
+export interface Conversation { conversation_id: string; title: string; selected_profile: Profile; created_at?: string; updated_at?: string }
+export interface ChatResponse { conversation_id: string; user_message_id: string; assistant_message_id: string; response: { answer: string; profile_used: Profile; citations: Citation[]; retrieval_inspection: Candidate[]; execution_metadata: Record<string, unknown>; [key: string]: any } }
+export interface DocumentItem { document_id: string; filename: string; document_type?: string; size_bytes?: number; status: string; version: string; source_type?: string; collection_id?: string; created_at?: string; error_message?: string }
+export interface Collection { collection_id: string; name: string; description?: string; created_at?: string }
+export interface EvaluationStatus { available: boolean; dataset_available: boolean; suites: string[]; message: string }
+export interface AppSettings { models: Record<string, { provider?: string; model_id?: string; configured: boolean }>; limits: Record<string, number>; profiles: Profile[] }

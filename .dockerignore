@@ -1,0 +1,56 @@
+.git
+.github
+.venv
+venv
+node_modules
+frontend/node_modules
+frontend/dist
+__pycache__
+.pytest_cache
+.pytest-*
+.mypy_cache
+.ruff_cache
+.tox
+.nox
+build
+dist
+*.egg-info
+*.tsbuildinfo
+# Exclude specific mutable runtime stores mounted at /app/data. Keep corpus
+# snapshots and experiment evidence visible in the build context.
+data/cache/
+data/processed/
+data/repositories/
+data/uploads/
+data/*.sqlite3*
+data/**/*.sqlite3*
+# Local environment files may contain deployment credentials. Keep only the
+# documented, non-secret template in the build context.
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+deploy/env.production
+*.sqlite3*
+.pytest-tmp-*
+/tmp/
+/temp/
+# Local evaluation and experiment artifacts
+.m1p2_acquire/
+.p5all/
+.p5t/
+.p5x/
+docs/
+scripts/
+tests/
+evaluation/datasets/
+evaluation/results/
+.pytest-tmp-*/
+data/
+# The API imports experiments.runtime for request tracing and experiment runs.
+!experiments/
+!experiments/**
+
+# Temporary test output
+tmp*/

@@ -1,0 +1,19 @@
+# Illustrative edge configuration. Requires an independently operated auth
+# gateway that authenticates the user, strips spoofed identity headers, and
+# returns correctly HMAC-signed X-OmniRAG-* headers from /verify.
+omnirag.example.com {
+	encode zstd gzip
+	request_header -X-OmniRAG-User-ID
+	request_header -X-OmniRAG-Tenant-ID
+	request_header -X-OmniRAG-Auth-Timestamp
+	request_header -X-OmniRAG-Auth-Signature
+	forward_auth {$AUTH_GATEWAY_URL} {
+		uri /verify
+		copy_headers X-OmniRAG-User-ID X-OmniRAG-Tenant-ID X-OmniRAG-Auth-Timestamp X-OmniRAG-Auth-Signature
+	}
+	reverse_proxy 127.0.0.1:8000
+}
+
+# Caddy obtains/renews HTTPS certificates for the public hostname when DNS and
+# inbound 80/443 are correctly configured. This file does not implement auth,
+# identity signing, CORS policy, or network isolation by itself.

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "plan_id": "m1-p4-lite-concurrency",
+  "version": "0.1.0",
+  "status": "prepared_not_run",
+  "execution_authorized": false,
+  "sealed_set_used": false,
+  "source_dataset": {
+    "id": "omnirag-phase8-eval",
+    "version": "1.0.1",
+    "sha256": "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
+    "cases": [
+      "P7C-AF-001", "P7C-AF-002", "P7C-MD-001", "P7C-MD-002", "P7C-VS-001",
+      "P7C-VS-002", "P7C-CE-001", "P7C-CE-002", "P7C-US-001", "P7C-US-002"
+    ]
+  },
+  "profile": "lite",
+  "order": "the listed order, unchanged at all concurrency levels",
+  "levels": [1, 2, 4],
+  "requests_per_level": 10,
+  "repetitions_per_level": 1,
+  "request_timeout_seconds": 150,
+  "runner_retry_failed_units": false,
+  "fresh_cache_each_level": {
+    "required": true,
+    "application_retrieval_cache": "profile policy TTL zero",
+    "provider_os_and_process_cache_reset": "not currently supported or verified",
+    "execution_gate": "blocked until a reviewed cache reset/verification method is available"
+  },
+  "measurement": [
+    "request p50/p95 latency",
+    "HTTP error and 503 rate",
+    "timeout rate",
+    "queue/wait behavior where instrumented",
+    "one-second host/container CPU and RSS",
+    "pagefile usage",
+    "Ollama loaded models and VRAM metadata where available",
+    "budget ledger and failure stop reason"
+  ],
+  "runner_compatibility": {
+    "current_phase8_runner": "serial only",
+    "parallel_execution_supported": false,
+    "plan_is_executable_configuration": false
+  },
+  "acceptance": {
+    "maximum_stable_concurrency": "highest tested level completing all 10 requests without hard-stop conditions",
+    "failure_modes_reported": true,
+    "population_or_performance_claim_from_single_pass": false
+  }
+}

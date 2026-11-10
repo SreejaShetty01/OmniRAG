@@ -1,0 +1,29 @@
+# Illustrative overlay only. Replace image references with reviewed immutable
+# digests and provide secrets through the deployment secret manager. No service
+# is started by this example.
+services:
+  api:
+    image: ${OMNIRAG_API_IMAGE:?set an immutable API image reference}
+    cpus: "2.0"
+    mem_limit: 4g
+    restart: unless-stopped
+    environment:
+      OMNIRAG_ENVIRONMENT: production
+      OMNIRAG_RATE_LIMIT_REQUESTS_PER_MINUTE: "120"
+      # Configure only when Ollama is a required service dependency.
+      # OMNIRAG_OLLAMA_HEALTH_URL: http://ollama.internal:11434/api/tags
+    # Bind to loopback when a same-host TLS proxy is used.
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  qdrant:
+    image: ${OMNIRAG_QDRANT_IMAGE:?set a reviewed immutable Qdrant image digest}
+    cpus: "2.0"
+    mem_limit: 6g
+    restart: unless-stopped
+    # Keep Qdrant private to the Compose network; do not publish a host port.
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes:
+  qdrant_data:

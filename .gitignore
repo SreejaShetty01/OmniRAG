@@ -1,61 +1,115 @@
-# Python
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
 *.pyo
+__pypackages__/
 
-# Virtual Environment
-venv/
-.env/
+# Local Python environments and package/build outputs
 .venv/
-
-# Environment Variables
-.env
-
-# IDE
-.vscode/
-.idea/
-
-# OS Files
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-
-# SQLite Database
-*.db
-
-# Qdrant Local Data
-qdrant_storage/
-
-# Temporary files
-temp/
-tmp/
-
-# Generated embeddings/cache
-.cache/
-
-# Secrets
-secrets.toml
-
-# Streamlit
-.streamlit/secrets.toml
-
-# Python build
+venv/
+env/
+ENV/
 build/
 dist/
 *.egg-info/
+pip-wheel-metadata/
+*.whl
 
-# Testing
+# Python tooling and test artifacts
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
 .pytest_cache/
+.pytest-*/
 .coverage
+coverage.xml
 htmlcov/
+pytestdebug.log
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Node
+# Node/frontend dependencies and generated builds
 node_modules/
+frontend/dist/
+frontend/build/
+frontend/.next/
+frontend/.vite/
+*.tsbuildinfo
 
-# Misc
+# Local environment files and secrets; retain checked-in templates
+.env
+.env.*
+!.env.example
+!.env.*.example
+secrets/
+.secrets/
+secrets.toml
+.streamlit/secrets.toml
+/deploy/env.production
+
+# Local databases, runtime state, corpus data, and model weights
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+qdrant_storage/
+data/
+/models/*.gguf
+/models/*.safetensors
+/models/*.pt
+/models/*.pth
+/models/*.onnx
+/models/*.bin
+models/**/*.gguf
+models/**/*.safetensors
+models/**/*.pt
+models/**/*.pth
+models/**/*.onnx
+models/**/*.bin
+
+# Logs and temporary development files
+*.log
+*.tmp
+*.temp
 *.swp
+temp/
+tmp/
+tmp*/
+.cache/
+.DS_Store
+Thumbs.db
+
+# Local acquisition checkouts and phase/test scratch artifacts
+.m1p2_acquire/
+.p5all/
+.p5t/
+.p5x/
+
+# Raw run outputs and private/sealed evaluation corpora
+docs/audit/runs/
+evaluation/realworld/
+
+# Private internal audit snapshots (source reports remain under docs/history)
+docs/audit/phase8_eval_corpus_manifest.json
+docs/audit/phase8_b2_acl_verification.json
+docs/audit/phase8_b5_artifact_verification.json
+docs/audit/phase8_dev_collection_baseline.json
+
+# Private audit and raw evaluation material
+/docs/audit/
+/evaluation/results/
+/evaluation/datasets/
+
+# Local Qdrant storage
+/qdrant_storage/
+
+# Internal audit and engineering history
+/docs/audit/
+/docs/history/
+/OMNIRAG_EVALUATION_REPORT.md
+
+# Internal engineering and audit documentation
+/docs/architecture/repository-structure-audit.md
+/docs/developer/end-to-end-verification.md
+/docs/evaluation/phase8-baseline-readiness.md
+/docs/operations/release/

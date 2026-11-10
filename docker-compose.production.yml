@@ -1,0 +1,102 @@
+# Single-host production candidate. Use only after setting every value in
+# deploy/env.production and placing a trusted TLS/authenticating proxy on the host.
+services:
+  api:
+    image: ${OMNIRAG_API_IMAGE:?Set OMNIRAG_API_IMAGE to a reviewed immutable digest}
+    init: true
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    cpus: ${OMNIRAG_API_CPUS:-2.0}
+    mem_limit: ${OMNIRAG_API_MEMORY_LIMIT:-4g}
+    environment:
+      OMNIRAG_ENVIRONMENT: production
+      OMNIRAG_API_HOST: 0.0.0.0
+      OMNIRAG_API_PORT: "8000"
+      OMNIRAG_DATA_DIR: /app/data
+      OMNIRAG_DEFAULT_PROFILE: ${OMNIRAG_DEFAULT_PROFILE:-core}
+      OMNIRAG_LOG_LEVEL: ${OMNIRAG_LOG_LEVEL:-INFO}
+      OMNIRAG_MAX_UPLOAD_BYTES: ${OMNIRAG_MAX_UPLOAD_BYTES:-20000000}
+      OMNIRAG_QDRANT_URL: http://qdrant:6333
+      OMNIRAG_QDRANT_COLLECTION: ${OMNIRAG_QDRANT_COLLECTION:?Set the production collection name}
+      OMNIRAG_QDRANT_API_KEY: ${QDRANT_API_KEY:?Set a private Qdrant API key}
+      OMNIRAG_AUTH_SHARED_SECRET: ${OMNIRAG_AUTH_SHARED_SECRET:?Set a strong secret outside source control}
+      OMNIRAG_ACCEPTED_IDENTITIES_JSON: ${OMNIRAG_ACCEPTED_IDENTITIES_JSON:?Set the production principal and tenant allowlist}
+      OMNIRAG_CORS_ORIGINS: ${OMNIRAG_CORS_ORIGINS:?Set the exact trusted browser origins}
+      OMNIRAG_RATE_LIMIT_REQUESTS_PER_MINUTE: ${OMNIRAG_RATE_LIMIT_REQUESTS_PER_MINUTE:-120}
+      OMNIRAG_OLLAMA_HEALTH_URL: ${OMNIRAG_OLLAMA_HEALTH_URL:-}
+      OMNIRAG_EMBEDDING_PROVIDER: ${OMNIRAG_EMBEDDING_PROVIDER:?Set the embedding provider}
+      OMNIRAG_EMBEDDING_MODEL_ID: ${OMNIRAG_EMBEDDING_MODEL_ID:?Set the embedding model}
+      OMNIRAG_EMBEDDING_ENDPOINT: ${OMNIRAG_EMBEDDING_ENDPOINT:?Set the embedding endpoint}
+      OMNIRAG_EMBEDDING_DIMENSIONS: ${OMNIRAG_EMBEDDING_DIMENSIONS:?Set the embedding dimensions}
+      OMNIRAG_EMBEDDING_SPACE_ALIAS: ${OMNIRAG_EMBEDDING_SPACE_ALIAS:-}
+      OMNIRAG_EMBEDDING_API_KEY: ${OMNIRAG_EMBEDDING_API_KEY:-}
+      OMNIRAG_GENERATION_PROVIDER: ${OMNIRAG_GENERATION_PROVIDER:?Set the generation provider}
+      OMNIRAG_GENERATION_MODEL_ID: ${OMNIRAG_GENERATION_MODEL_ID:?Set the generation model}
+      OMNIRAG_GENERATION_ENDPOINT: ${OMNIRAG_GENERATION_ENDPOINT:?Set the generation endpoint}
+      OMNIRAG_GENERATION_API_KEY: ${OMNIRAG_GENERATION_API_KEY:-}
+      OMNIRAG_GENERATION_TIMEOUT_SECONDS: ${OMNIRAG_GENERATION_TIMEOUT_SECONDS:-90}
+      OMNIRAG_GENERATION_MAX_RETRIES: ${OMNIRAG_GENERATION_MAX_RETRIES:-1}
+      OMNIRAG_GENERATION_TEMPERATURE: ${OMNIRAG_GENERATION_TEMPERATURE:-0}
+      OMNIRAG_GENERATION_MAX_OUTPUT_TOKENS: ${OMNIRAG_GENERATION_MAX_OUTPUT_TOKENS:-1200}
+      OMNIRAG_GENERATION_MAX_CORRECTIONS: ${OMNIRAG_GENERATION_MAX_CORRECTIONS:-1}
+      OMNIRAG_RERANKER_PROVIDER: ${OMNIRAG_RERANKER_PROVIDER:-}
+      OMNIRAG_RERANKER_MODEL_ID: ${OMNIRAG_RERANKER_MODEL_ID:-}
+      OMNIRAG_RERANKER_ENDPOINT: ${OMNIRAG_RERANKER_ENDPOINT:-}
+      OMNIRAG_RERANKER_API_KEY: ${OMNIRAG_RERANKER_API_KEY:-}
+      OMNIRAG_VERIFICATION_PROVIDER: ${OMNIRAG_VERIFICATION_PROVIDER:-}
+      OMNIRAG_VERIFICATION_MODEL_ID: ${OMNIRAG_VERIFICATION_MODEL_ID:-}
+      OMNIRAG_VERIFICATION_ENDPOINT: ${OMNIRAG_VERIFICATION_ENDPOINT:-}
+      OMNIRAG_VERIFICATION_API_KEY: ${OMNIRAG_VERIFICATION_API_KEY:-}
+      OMNIRAG_VALIDATION_MAX_COST_USD: ${OMNIRAG_VALIDATION_MAX_COST_USD:-0}
+      OMNIRAG_VALIDATION_MAX_TOTAL_TOKENS: ${OMNIRAG_VALIDATION_MAX_TOTAL_TOKENS:-4200000}
+      OMNIRAG_VALIDATION_MAX_CALLS: ${OMNIRAG_VALIDATION_MAX_CALLS:-3000}
+      OMNIRAG_PROVIDER_PRICE_TABLE_JSON: ${OMNIRAG_PROVIDER_PRICE_TABLE_JSON:-{}}
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - production_api_data:/app/data
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=3)"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  qdrant:
+    image: ${QDRANT_IMAGE:?Set QDRANT_IMAGE to a verified immutable image digest}
+    restart: unless-stopped
+    cpus: ${QDRANT_CPUS:-1.0}
+    mem_limit: ${QDRANT_MEMORY_LIMIT:-2g}
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:?Set a private Qdrant API key}
+    volumes:
+      - production_qdrant_data:/qdrant/storage
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - -ec
+        - 'exec 3<>/dev/tcp/127.0.0.1/6333; printf "GET /healthz HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n" >&3; IFS= read -r response <&3; [[ "$$response" == *"200"* ]]'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+volumes:
+  production_api_data:
+    name: omnirag-production-api-data
+  production_qdrant_data:
+    name: omnirag-production-qdrant-data

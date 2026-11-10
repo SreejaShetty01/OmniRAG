@@ -1,0 +1,17 @@
+{
+  "manifest_schema_version": "1.0",
+  "experiment_id": "m1-p3-claim-entailment-ab",
+  "version": "1.1.0",
+  "status": "prepared_not_run",
+  "config_path": "experiments/p3_claim_entailment/v1.1.0/config.json",
+  "config_sha256": "0ad4186f8150506ef54f370d39eb9f7256fcb183776533e6104adb9a25e1d10a",
+  "dataset_checksum": "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
+  "snapshot_sha256": "2b325b263d49775788e66d3594c3d1109c319205c563a7c9253ad2b11dbf3847",
+  "verifier_model_id": "lytang/MiniCheck-Flan-T5-Large",
+  "verifier_model_digest": "UNKNOWN pending approved local provisioning",
+  "threshold": null,
+  "threshold_provenance": null,
+  "execution_authorized": false,
+  "sealed_set_authorized": false,
+  "run_ids": []
+}
