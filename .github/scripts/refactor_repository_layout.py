@@ -169,9 +169,17 @@ def main() -> None:
         if path.suffix in TEXT_SUFFIXES or path.suffix == ".py":
             changed += int(update_text_file(path))
 
-    # Verify every moved package is now inside the namespace and all command references changed.
+    # Ensure every first-level runtime package is an explicit Python package.
     for name in PACKAGE_ROOTS:
-        if not (SOURCE / name / "__init__.py").exists():
+        package_dir = SOURCE / name
+        if package_dir.is_dir() and not (package_dir / "__init__.py").exists():
+            (package_dir / "__init__.py").write_text(
+                f'"""OmniRAG {name} package."""\\n', encoding="utf-8"
+            )
+
+    # Verify every moved package is now inside the namespace.
+    for name in PACKAGE_ROOTS:
+        if not (SOURCE / name).is_dir() or not (SOURCE / name / "__init__.py").exists():
             raise RuntimeError(f"Package did not land correctly: omnirag.{name}")
 
     remaining = []
