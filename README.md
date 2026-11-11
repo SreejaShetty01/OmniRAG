@@ -105,6 +105,22 @@ The profiles encode a trade-off between retrieval breadth, verification depth an
 | Ingestion | [Docling](https://docling-project.github.io/docling/), [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) | Document parsing; source-code parsing |
 | Testing & eval | [pytest](https://docs.pytest.org/), [Vitest](https://vitest.dev/), versioned datasets, diagnostic runners | Backend/frontend test suites; retrieval, citation and latency diagnostics |
 
+## Repository Structure
+
+The repository is organized as a full-stack monorepo. The backend is a single installable Python package; operational tooling and evaluation assets remain separate from runtime code.
+
+```text
+backend/
+  src/omnirag/       Python application packages
+frontend/            React + TypeScript application
+evaluation/          Evaluation datasets, scorers and benchmark runners
+experiments/          Versioned experiment configurations and runtime artifacts
+scripts/              Maintenance, diagnostics and operational commands
+tests/                Unit, integration and evaluation tests
+deploy/               Deployment examples and environment templates
+docs/                 Architecture, development and operations documentation
+```
+
 ## Getting Started
 
 ### Prerequisites
