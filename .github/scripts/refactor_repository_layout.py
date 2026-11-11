@@ -174,7 +174,7 @@ def main() -> None:
         package_dir = SOURCE / name
         if package_dir.is_dir() and not (package_dir / "__init__.py").exists():
             (package_dir / "__init__.py").write_text(
-                f'"""OmniRAG {name} package."""\\n', encoding="utf-8"
+                f'"""OmniRAG {name} package."""' + chr(10), encoding="utf-8"
             )
 
     # Verify every moved package is now inside the namespace.
