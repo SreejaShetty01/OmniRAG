@@ -17,6 +17,7 @@ SNAPSHOT = ROOT / "docs/audit/phase8_eval_corpus_manifest.json"
 HISTORICAL = ROOT / "data/phase8/benchmarks/phase8-pilot-20261104-b5"
 
 
+@pytest.mark.skipif(not SNAPSHOT.is_file(), reason="Private Phase 8 snapshot is not published")
 def test_hash_stamp_and_dataset_schema_are_diagnostic_not_pinned(tmp_path):
     raw_hash = sha256_file(DATASET)
     assert raw_hash.startswith("6a99cdd3")
@@ -152,6 +153,7 @@ def test_summary_separates_answer_confusion_and_profiles_are_data_driven():
     }
 
 
+@pytest.mark.skipif(not (SNAPSHOT.is_file() and HISTORICAL.is_dir()), reason="Private Phase 8 snapshot and historical B5 artifacts are not published")
 def test_dry_run_uses_historical_artifacts_only_as_fixture_and_sends_no_requests():
     result = dry_run(DATASET, SNAPSHOT, HISTORICAL)
     assert result["mode"] == "dry_run_no_api_requests"

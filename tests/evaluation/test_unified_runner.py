@@ -1,4 +1,5 @@
 import json
+import pytest
 
 from evaluation.unified_runner import (
     DEFAULT_BENCHMARK, DEFAULT_DATASET, DEFAULT_SNAPSHOT,
@@ -6,6 +7,10 @@ from evaluation.unified_runner import (
 )
 
 
+@pytest.mark.skipif(
+    not DEFAULT_SNAPSHOT.is_file() or not (DEFAULT_BENCHMARK / "progress.json").is_file(),
+    reason="Private Phase 8 snapshot and historical B5 artifacts are not published",
+)
 def test_historical_b5_replay_is_pinned_and_labeled_incomplete(tmp_path):
     report = evaluate_saved_run(DEFAULT_DATASET, DEFAULT_SNAPSHOT, DEFAULT_BENCHMARK)
     assert report["baseline_validity"] == "invalid_incomplete_historical_pilot"

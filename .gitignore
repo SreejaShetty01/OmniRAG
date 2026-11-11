@@ -96,15 +96,14 @@ docs/audit/phase8_b5_artifact_verification.json
 docs/audit/phase8_dev_collection_baseline.json
 
 # Private audit and raw evaluation material
-/docs/audit/
+/docs/audit/*
 /evaluation/results/
-/evaluation/datasets/
-
+/evaluation/datasets/*
 # Local Qdrant storage
 /qdrant_storage/
 
 # Internal audit and engineering history
-/docs/audit/
+/docs/audit/*
 /docs/history/
 /OMNIRAG_EVALUATION_REPORT.md
 
@@ -113,3 +112,13 @@ docs/audit/phase8_dev_collection_baseline.json
 /docs/developer/end-to-end-verification.md
 /docs/evaluation/phase8-baseline-readiness.md
 /docs/operations/release/
+
+# Public synthetic regression fixtures (not private benchmark outputs)
+/evaluation/datasets/*
+!/evaluation/datasets/omnirag-phase8-eval-1.0.0.json
+!/evaluation/datasets/omnirag-phase8-eval-1.0.0.manifest.json
+!/evaluation/datasets/omnirag-phase8-eval-1.0.1.json
+!/evaluation/datasets/omnirag-phase8-eval-1.0.1.manifest.json
+
+/docs/audit/*
+!/docs/audit/smoke_corpus_manifest.md

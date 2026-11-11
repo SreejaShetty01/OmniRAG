@@ -1,0 +1,51 @@
+{
+  "manifest_schema_version": "1.0",
+  "dataset_id": "omnirag-phase8-eval",
+  "dataset_version": "1.0.1",
+  "created_at": "2026-11-03T17:57:16.471172Z",
+  "corpus_id": "phase7a-smoke-corpus",
+  "corpus_version": "phase7a-synthetic-v1",
+  "corpus_manifest": "docs/audit/smoke_corpus_manifest.md",
+  "case_count": 40,
+  "verified_case_count": 40,
+  "provisional_case_count": 0,
+  "category_distribution": {
+    "acl_tenant_isolation": 4,
+    "answerable_factual": 5,
+    "citation_provenance": 5,
+    "conflicting_evidence": 4,
+    "multi_document": 5,
+    "profile_sensitive": 4,
+    "prompt_injection": 4,
+    "unsupported": 4,
+    "version_sensitive": 5
+  },
+  "source_documents": [
+    "01_network_manual.md",
+    "02_support_policy.txt",
+    "03_alpha.py",
+    "04_services.ts",
+    "08_catalog.java",
+    "09_web_reference.html",
+    "10_rate_guide_v1.md",
+    "11_rate_guide_v2.md",
+    "12_restricted_team.txt",
+    "13_prompt_injection.md",
+    "14_identifier_catalog.md",
+    "15_rollout_plan.md",
+    "16_measurements.md",
+    "18_empty_topic_gap.txt",
+    "19_operator_notes.docx",
+    "20_system_overview.pdf"
+  ],
+  "schema_version": "1.0",
+  "validation_status": "passed",
+  "dataset_sha256": "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
+  "known_limitations": [
+    "The corpus is synthetic and small; these cases are not representative of production traffic.",
+    "ACL/tenant cases require the structured access metadata recorded in each case to be applied when building the evaluation snapshot; the source text alone does not enforce it.",
+    "The corpus has one explicit unsupported-topic record; unsupported cases vary the requested fact within that topic.",
+    "Most answer evidence is sourced from text, Markdown, code, and HTML fixtures; PDF/image-OCR quality is outside this ground-truth set.",
+    "No model output is labeled as ground truth; profile cases specify evidence and behavior while allowing response detail to vary."
+  ]
+}

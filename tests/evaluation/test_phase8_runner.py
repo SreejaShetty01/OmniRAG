@@ -161,7 +161,8 @@ def test_transport_failure_is_recorded_and_still_stops_without_retry(tmp_path):
     assert len(calls) == 1
     assert detail["exception_class"] == "urllib.error.URLError"
     assert "PermissionError" in detail["reason_repr"] and detail["errno"] == 13
-    assert detail["winerror"] == 10013
+    expected_winerror = getattr(PermissionError(13, "socket blocked", None, 10013, None), "winerror", None)
+    assert detail["winerror"] == expected_winerror
     assert detail["target"] == {"scheme": "http", "host": "localhost", "port": 8001,
                                  "path": "/api/v1/chat"}
     assert detail["request_likely_sent"] is False
