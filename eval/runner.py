@@ -11,6 +11,8 @@ COMMANDS = {
     "score": ("scripts.eval.score_run", "Score a completed evaluation run."),
     "acl-audit": ("scripts.eval.validate_acl", "Validate evaluation ACL isolation."),
     "verify-artifacts": ("scripts.eval.verify_pilot_artifacts", "Verify evaluation artifacts."),
+    "identity-audit": ("scripts.eval.validate_identity", "Validate evaluation identity configuration."),
+    "resource-sampler": ("scripts.eval.resource_sampler", "Sample host resources during evaluation."),
     "diagnostic": ("scripts.diagnostic.run_diagnostic", "Run the evaluation diagnostic workflow."),
 }
 

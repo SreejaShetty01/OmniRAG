@@ -83,6 +83,9 @@ def test_scorer_does_not_report_metrics_with_incomplete_human_labels(tmp_path):
 
 def test_blind_export_has_no_verifier_fields_and_hashes_unchanged():
     root = Path(__file__).resolve().parents[2]
+    required_source = root / "data/diagnostic/posthoc-remediation-20261107T072431Z-663cec3c/attempts_scored.jsonl"
+    if not required_source.exists():
+        pytest.skip("requires the private posthoc diagnostic artifact, which is not part of the public repository")
     out_dir = prepare_exports(root=root, run_id="review-test-" + uuid.uuid4().hex[:8])
     blind_path = out_dir / "answers_to_label.csv"
     with blind_path.open(encoding="utf-8-sig", newline="") as stream:
