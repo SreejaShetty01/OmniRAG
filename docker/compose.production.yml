@@ -1,5 +1,5 @@
 # Single-host production candidate. Use only after setting every value in
-# deploy/env.production and placing a trusted TLS/authenticating proxy on the host.
+# docker/env.production and placing a trusted TLS/authenticating proxy on the host.
 services:
   api:
     image: ${OMNIRAG_API_IMAGE:?Set OMNIRAG_API_IMAGE to a reviewed immutable digest}
