@@ -18,7 +18,7 @@ from omnirag.verification.claim_verifier import verify_claims
 from omnirag.verification.contradiction_detector import detect_contradictions
 from omnirag.infrastructure.provider_budget import BudgetExceeded
 from omnirag.verification.nli_verifier import UnconfiguredEntailmentVerifier
-from experiments.runtime import record_stage
+from omnirag.experimentation.runtime import record_stage
 
 logger = logging.getLogger(__name__)
 

@@ -9,7 +9,7 @@ from omnirag.llm.llm_client import ChatMessage, ChatProvider, ChatRequest, provi
 from omnirag.retrieval.contracts import RetrievalResult
 from omnirag.generation.prompt_templates import build_generation_messages
 from omnirag.verification.claim_extractor import extract_claims
-from experiments.runtime import record_stage
+from omnirag.experimentation.runtime import record_stage
 
 
 class GenerationOutputError(ValueError):

@@ -30,7 +30,7 @@ from omnirag.retrieval.query_filters import FilterBuilder
 from omnirag.retrieval.reranker import Reranker, reranker_from_settings
 from omnirag.retrieval.sparse_retriever import SparseRetriever
 from omnirag.retrieval.sufficiency import EvidenceSufficiencyAssessor
-from experiments.runtime import record_stage
+from omnirag.experimentation.runtime import record_stage
 
 logger = logging.getLogger(__name__)
 

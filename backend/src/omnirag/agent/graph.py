@@ -24,7 +24,7 @@ from omnirag.retrieval.hybrid_retriever import HybridRetriever
 from omnirag.retrieval.query_analyzer import QueryAnalyzer
 from omnirag.verification.contradiction_detector import detect_contradictions
 from omnirag.infrastructure.provider_budget import BudgetExceeded
-from experiments.runtime import record_stage
+from omnirag.experimentation.runtime import record_stage
 
 
 class ResearchLimits(BaseModel):

@@ -14,7 +14,7 @@ from omnirag.profiles.execution import ProfileExecutionService
 from omnirag.retrieval.contracts import RetrievalScope
 from omnirag.config.profiles import PROFILE_CONFIGS
 from omnirag.config.settings import get_settings
-from experiments.runtime import ExperimentRunStore, ExperimentRunner
+from omnirag.experimentation.runtime import ExperimentRunStore, ExperimentRunner
 
 router = APIRouter(tags=["chat"])
 Identity = Annotated[RequestIdentity, Depends(get_request_identity)]

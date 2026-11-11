@@ -16,7 +16,7 @@ from omnirag.models.response import OmniRAGResponse
 from omnirag.retrieval.contracts import RetrievalPolicy, RetrievalScope
 from omnirag.retrieval.hybrid_retriever import HybridRetriever
 from omnirag.infrastructure.provider_budget import BudgetExceeded
-from experiments.runtime import ExperimentConfig, record_stage
+from omnirag.experimentation.runtime import ExperimentConfig, record_stage
 
 logger = logging.getLogger(__name__)
 
