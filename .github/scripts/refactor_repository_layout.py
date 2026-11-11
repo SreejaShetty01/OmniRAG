@@ -32,7 +32,8 @@ FROM_IMPORT = re.compile(
 )
 IMPORT_LINE = re.compile(r"(?m)^([ \t]*import[ \t]+)([^\n#]+)")
 DYNAMIC_IMPORT = re.compile(
-    r"([\"'])(agent|api|config|generation|indexing|infrastructure|ingestion|llm|models|profiles|retrieval|services|utils|verification)(?=\.|\1)"
+    r"((?:setattr|import_module|patch|resolve_name)\\s*\\(\\s*[\"'])"
+    r"(agent|api|config|generation|indexing|infrastructure|ingestion|llm|models|profiles|retrieval|services|utils|verification)(?=\\.)"
 )
 
 
@@ -54,8 +55,12 @@ def rewrite_python_imports(text: str) -> str:
                 r"^(\s*)([A-Za-z_][A-Za-z0-9_.]*)(.*)$", item
             )
             if found and found.group(2).split(".", 1)[0] in MODULES:
-                module = "omnirag." + found.group(2)
-                item = found.group(1) + module + found.group(3)
+                original_module = found.group(2)
+                module = "omnirag." + original_module
+                suffix = found.group(3)
+                if not suffix.strip():
+                    suffix = " as " + original_module.split(".", 1)[0]
+                item = found.group(1) + module + suffix
             parts.append(item)
         return prefix + ",".join(parts)
 
