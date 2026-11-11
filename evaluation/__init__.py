@@ -1,4 +1,6 @@
-"""Backward-compatible namespace for the relocated eval package."""
-from pathlib import Path
+"""Compatibility alias for the relocated :mod:`eval` package."""
+import sys
+from importlib import import_module
 
-__path__ = [str(Path(__file__).resolve().parent.parent / "eval")]
+_eval_package = import_module("eval")
+sys.modules[__name__] = _eval_package

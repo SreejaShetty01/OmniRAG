@@ -2,17 +2,17 @@ import json
 
 import pytest
 
-from scripts.phase8.resource_sampler import ResourceSampler
+from scripts.eval.resource_sampler import ResourceSampler
 
 
 def test_sampler_records_container_process_pagefile_and_ollama(monkeypatch):
-    monkeypatch.setattr("scripts.phase8.resource_sampler._psutil_snapshot", lambda pids: {
+    monkeypatch.setattr("scripts.eval.resource_sampler._psutil_snapshot", lambda pids: {
         "available": True, "processes": [{"pid": 10, "cpu_percent": 11.0, "rss_bytes": 2048}],
         "pagefile": {"used_bytes": 4096, "total_bytes": 8192, "source": "test"}})
-    monkeypatch.setattr("scripts.phase8.resource_sampler._docker_stats", lambda names: [
+    monkeypatch.setattr("scripts.eval.resource_sampler._docker_stats", lambda names: [
         {"name": name, "cpu_percent": "20.0%", "memory_usage": "1MiB / 2MiB", "memory_percent": "50%"}
         for name in names])
-    monkeypatch.setattr("scripts.phase8.resource_sampler._ollama_loaded_models", lambda url: {
+    monkeypatch.setattr("scripts.eval.resource_sampler._ollama_loaded_models", lambda url: {
         "available": True, "models": [{"name": "local-model"}]})
     record = ResourceSampler(containers=["api-eval"], pids=[10]).sample()
     assert record["host_processes"][0]["rss_bytes"] == 2048
