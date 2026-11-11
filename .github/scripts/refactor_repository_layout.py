@@ -118,8 +118,8 @@ def main() -> None:
     )
     new_block = (
         '[tool.setuptools.packages.find]\n'
-        'where = ["backend/src"]\n'
-        'include = ["omnirag*"]\n\n'
+        'where = ["backend/src", "."]\n'
+        'include = ["omnirag*", "evaluation*", "experiments*"]\n\n'
     )
     config, count = old_block.subn(new_block, config, count=1)
     if count != 1:
