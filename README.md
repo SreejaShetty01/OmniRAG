@@ -9,7 +9,7 @@
 ![React](https://img.shields.io/badge/React-TypeScript-61DAFB?logo=react&logoColor=black)
 ![Qdrant](https://img.shields.io/badge/Qdrant-vector%20store-DC244C)
 ![LangGraph](https://img.shields.io/badge/LangGraph-orchestration-1C3C3C)
-![Status](https://img.shields.io/badge/release-v0.1%20local--dev-blue)
+![Status](https://img.shields.io/badge/status-local%20development-blue)
 
 </div>
 
@@ -107,18 +107,17 @@ The profiles encode a trade-off between retrieval breadth, verification depth an
 
 ## Repository Structure
 
-The repository is organized as a full-stack monorepo. The backend is a single installable Python package; operational tooling and evaluation assets remain separate from runtime code.
+OmniRAG is organized as a full-stack monorepo with clear boundaries between application runtime, evaluation tooling, deployment assets, and developer support.
 
 ```text
-backend/
-  src/omnirag/       Python application packages
-frontend/            React + TypeScript application
-evaluation/          Evaluation datasets, scorers and benchmark runners
-experiments/          Versioned experiment configurations and runtime artifacts
-scripts/              Maintenance, diagnostics and operational commands
-tests/                Unit, integration and evaluation tests
-deploy/               Deployment examples and environment templates
-docs/                 Architecture, development and operations documentation
+backend/src/omnirag/   Installable Python application
+frontend/              React + TypeScript application
+docker/                Dockerfile and development/evaluation/production Compose files
+eval/                  Versioned datasets, protocols, scorers, metrics, and evaluation CLI
+scripts/               Operational and evaluation command implementations
+tests/                 Unit, integration, evaluation, diagnostic tests, and fixtures
+docs/                  Architecture, developer, evaluation, and operations documentation
+.github/               CI, contribution templates, and dependency automation
 ```
 
 ## Getting Started
@@ -134,7 +133,7 @@ docs/                 Architecture, development and operations documentation
 ```bash
 git clone <repo-url> && cd OmniRag
 cp .env.example .env     # configure providers, Qdrant URL and model names
-docker compose up -d     # start the service stack
+docker compose -f docker/compose.yml up -d     # start the service stack
 ```
 
 For the reference local model setup:
@@ -190,6 +189,6 @@ Designed for deployment behind a trusted authenticating reverse proxy:
 
 ## Documentation
 
-Architecture notes, configuration reference, experiment manifests and curated evaluation results live under `docs/` and the versioned evaluation directories.
+Architecture and operations documentation live under `docs/`; versioned datasets and evaluation tooling live under `eval/`.
 
 External references: [Qdrant documentation](https://qdrant.tech/documentation/) · [Reciprocal Rank Fusion (Cormack et al., SIGIR 2009)](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) · [LangGraph](https://langchain-ai.github.io/langgraph/) · [Docling](https://docling-project.github.io/docling/) · [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) · [Ollama](https://ollama.com)

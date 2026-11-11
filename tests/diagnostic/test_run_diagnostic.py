@@ -12,7 +12,7 @@ from scripts.diagnostic.run_diagnostic import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DATASET = ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json"
+DATASET = ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json"
 SNAPSHOT = ROOT / "docs/audit/phase8_eval_corpus_manifest.json"
 HISTORICAL = ROOT / "data/phase8/benchmarks/phase8-pilot-20261104-b5"
 

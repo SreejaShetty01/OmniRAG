@@ -6,7 +6,7 @@ This phase prepares labels only. It does not run the RAG pipeline, score model o
 
 ## Dataset architecture
 
-The release contains a strict Pydantic schema and validator in `evaluation/dataset.py`, human-authored seed cases in `evaluation/phase7c_seed.py`, and a versioned JSON dataset plus sidecar manifest in `evaluation/datasets/`. Validation reads the original Phase 7a synthetic corpus under `tests/fixtures/phase7_smoke/`. It checks corpus references, safe relative paths, evidence locators, exact quoted text, answer support, category-specific expectations, and manifest consistency. Invalid records fail with case-specific errors; records are not silently omitted.
+The release contains a strict Pydantic schema and validator in `eval/dataset.py`, human-authored seed cases in `eval/phase7c_seed.py`, and a versioned JSON dataset plus sidecar manifest in `eval/datasets/`. Validation reads the original Phase 7a synthetic corpus under `tests/fixtures/phase7_smoke/`. It checks corpus references, safe relative paths, evidence locators, exact quoted text, answer support, category-specific expectations, and manifest consistency. Invalid records fail with case-specific errors; records are not silently omitted.
 
 The existing `evaluation/generation_benchmark.py`, `evaluation/retrieval_benchmark.py`, and `evaluation/profile_benchmark.py` provide metric helpers and injected-case runners, but they did not provide a shared case schema, corpus quote validation, immutable dataset versions, or a dataset manifest. The prior `evaluation/eval_dataset.json` and `evaluation/run_evaluation.py` were empty. This release does not change those existing paths or couple dataset preparation to the chat request path.
 
@@ -17,8 +17,8 @@ The existing `evaluation/generation_benchmark.py`, `evaluation/retrieval_benchma
 - Schema version: `1.0`
 - Corpus ID: `phase7a-smoke-corpus`
 - Corpus version: `phase7a-synthetic-v1`
-- Current release files: `evaluation/datasets/omnirag-phase8-eval-1.0.1.json` and `evaluation/datasets/omnirag-phase8-eval-1.0.1.manifest.json`
-- Preserved prior release: `evaluation/datasets/omnirag-phase8-eval-1.0.0.json` and its manifest remain unchanged.
+- Current release files: `eval/datasets/omnirag-phase8-eval-1.0.1.json` and `eval/datasets/omnirag-phase8-eval-1.0.1.manifest.json`
+- Preserved prior release: `eval/datasets/omnirag-phase8-eval-1.0.0.json` and its manifest remain unchanged.
 
 Each case includes a stable `P7C-XX-NNN` ID, category, query, answer and match mode (where appropriate), corpus document references, quoted evidence with line locators, expected citations/behavior, abstention or conflict labels, profile coverage, optional ACL/tenant/security context, tags, difficulty, ground-truth status, and a verification note. Profiles are restricted to `lite`, `core`, and `research`; category and status values are enumerated by the schema.
 
@@ -61,7 +61,7 @@ No model output, live answer, unverified document, or invented citation is label
 Validate the checked-in release from the repository root:
 
 ```powershell
-.\.venv\Scripts\python.exe -m evaluation.dataset
+.\.venv\Scripts\python.exe -m eval.dataset
 ```
 
 The command validates case schema, unique IDs, categories/profiles, document existence, path boundaries, evidence locations and quotes, answer support, unsupported/conflict/ACL/prompt-injection requirements, and the manifest checksum/count/distribution/version consistency.
