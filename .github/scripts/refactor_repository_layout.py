@@ -133,7 +133,7 @@ def main() -> None:
     pyproject.write_text(config, encoding="utf-8", newline="")
 
     api_main = SOURCE / "api" / "main.py"
-    text = api_main.read_text(encoding="utf-8")
+    text = rewrite_python_imports(api_main.read_text(encoding="utf-8"))
     if "import os\n" not in text:
         text = text.replace("import logging\n", "import logging\nimport os\n", 1)
     old_frontend = (
