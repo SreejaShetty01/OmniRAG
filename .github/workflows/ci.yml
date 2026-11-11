@@ -28,3 +28,5 @@ jobs:
         run: |
           cp .env.example .env
           docker compose config --quiet
+      - name: Build Docker image
+        run: docker build --tag omnirag:ci .
