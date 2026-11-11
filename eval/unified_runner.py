@@ -22,10 +22,10 @@ from evaluation.phase8_scorer import score_directory
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_DATASET = ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json"
+DEFAULT_DATASET = ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json"
 DEFAULT_SNAPSHOT = ROOT / "docs/audit/phase8_eval_corpus_manifest.json"
 DEFAULT_BENCHMARK = ROOT / "data/phase8/benchmarks/phase8-pilot-20261104-b5"
-DEFAULT_OUTPUT = ROOT / "evaluation/results/phase8-b5-offline"
+DEFAULT_OUTPUT = ROOT / "eval/results/phase8-b5-offline"
 PROFILES = ("lite", "core", "research")
 
 

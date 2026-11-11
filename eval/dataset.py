@@ -321,9 +321,9 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dataset", type=Path, default=Path(f"evaluation/datasets/{DATASET_ID}-{DATASET_VERSION}.json"))
+    parser.add_argument("--dataset", type=Path, default=Path(f"eval/datasets/{DATASET_ID}-{DATASET_VERSION}.json"))
     parser.add_argument("--manifest", type=Path, default=Path(
-        f"evaluation/datasets/{DATASET_ID}-{DATASET_VERSION}.manifest.json"))
+        f"eval/datasets/{DATASET_ID}-{DATASET_VERSION}.manifest.json"))
     parser.add_argument("--corpus", type=Path, default=CORPUS_RELATIVE_ROOT)
     parser.add_argument("--repository-root", type=Path, default=Path.cwd())
     args = parser.parse_args()
