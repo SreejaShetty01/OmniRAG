@@ -19,7 +19,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 from uuid import uuid4
-from api.trusted_proxy import verify_proxy_identity
+from omnirag.api.trusted_proxy import verify_proxy_identity
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))

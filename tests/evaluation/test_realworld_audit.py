@@ -1,7 +1,7 @@
 import hashlib
 from types import SimpleNamespace
 
-from indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
+from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
 from scripts.realworld import audit_corpus
 
 

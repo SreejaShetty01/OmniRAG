@@ -16,7 +16,7 @@ from uuid import uuid4
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from config.settings import get_settings
+from omnirag.config.settings import get_settings
 
 
 DATASET = ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json"

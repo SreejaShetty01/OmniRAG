@@ -22,7 +22,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 from uuid import uuid4
-from utils.atomic_file import atomic_replace
+from omnirag.utils.atomic_file import atomic_replace
 
 from evaluation.dataset import DATASET_ID, DATASET_VERSION, EvaluationCase, EvaluationDataset, dataset_checksum
 from evaluation.phase8_safety import require_evaluation_collection, verify_snapshot_manifest

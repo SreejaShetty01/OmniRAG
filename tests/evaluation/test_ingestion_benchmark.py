@@ -3,8 +3,8 @@ from evaluation.ingestion_benchmark import (
     ChunkingStrategy,
     run_chunking_benchmark,
 )
-from ingestion.parsers.document_parser import DocumentParser
-from ingestion.structure.schema import LoadedSource
+from omnirag.ingestion.parsers.document_parser import DocumentParser
+from omnirag.ingestion.structure.schema import LoadedSource
 
 
 def test_ingestion_benchmark_compares_structure_and_simple_baseline():

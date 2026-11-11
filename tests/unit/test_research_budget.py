@@ -1,6 +1,6 @@
-from agent.graph import ResearchGraph, ResearchLimits
-from config.profiles import ProfileName
-from models.query import Query
+from omnirag.agent.graph import ResearchGraph, ResearchLimits
+from omnirag.config.profiles import ProfileName
+from omnirag.models.query import Query
 
 
 def test_research_budget_termination_routes_directly_to_finalize():
@@ -19,7 +19,7 @@ def test_research_budget_exceeded_response_is_explicit_and_abstains():
 
 
 def test_research_assessment_preserves_provider_budget_termination_without_results():
-    from models.query import Query
+    from omnirag.models.query import Query
 
     graph = ResearchGraph(object(), object())
     result = graph._assess_and_ledger({

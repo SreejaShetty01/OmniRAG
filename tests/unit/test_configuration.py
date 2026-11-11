@@ -1,8 +1,8 @@
-from config.profiles import ProfileName, get_profile_config
+from omnirag.config.profiles import ProfileName, get_profile_config
 import pytest
 from pydantic import ValidationError
 
-from config.settings import Settings
+from omnirag.config.settings import Settings
 
 
 def test_environment_settings_load_and_validate(monkeypatch):

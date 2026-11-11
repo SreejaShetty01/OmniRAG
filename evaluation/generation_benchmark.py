@@ -5,7 +5,7 @@ import re
 import statistics
 from typing import Iterable
 
-from models.response import (ClaimVerificationStatus, OmniRAGResponse,
+from omnirag.models.response import (ClaimVerificationStatus, OmniRAGResponse,
                              VerificationStatus)
 
 

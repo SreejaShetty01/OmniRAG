@@ -3,9 +3,9 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from ingestion.chunking.contextualizer import DeterministicContextualizer
-from ingestion.chunking.structure_chunker import ChunkingConfig, StructureChunker, estimate_tokens
-from ingestion.structure.schema import NormalizedDocument
+from omnirag.ingestion.chunking.contextualizer import DeterministicContextualizer
+from omnirag.ingestion.chunking.structure_chunker import ChunkingConfig, StructureChunker, estimate_tokens
+from omnirag.ingestion.structure.schema import NormalizedDocument
 
 
 class ChunkingStrategy(StrEnum):

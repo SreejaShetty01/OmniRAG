@@ -1,10 +1,10 @@
 import pytest
 from pydantic import ValidationError
 
-from api.dependencies import RequestIdentity
-from api.routes.product import application_settings
-from api.trusted_proxy import identity_is_allowed
-from config.settings import Settings
+from omnirag.api.dependencies import RequestIdentity
+from omnirag.api.routes.product import application_settings
+from omnirag.api.trusted_proxy import identity_is_allowed
+from omnirag.config.settings import Settings
 
 
 def test_isolated_instance_refuses_non_evaluation_collection():
@@ -38,7 +38,7 @@ def test_settings_reports_configured_collection_embedding_budget_and_identities(
         validation_max_calls=3_000,
         accepted_identities_json='[{"user_id":"corpus-reader","tenant_id":"realworld"}]',
     )
-    monkeypatch.setattr("api.routes.product.get_settings", lambda: settings)
+    monkeypatch.setattr("omnirag.api.routes.product.get_settings", lambda: settings)
 
     result = application_settings(RequestIdentity(user_id="corpus-reader", tenant_id="realworld"))
 

@@ -1,7 +1,7 @@
 import hashlib
 import hmac
 
-from api.trusted_proxy import verify_proxy_identity
+from omnirag.api.trusted_proxy import verify_proxy_identity
 
 
 def test_signed_fresh_proxy_identity_is_accepted():

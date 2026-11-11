@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from config.settings import Settings
+from omnirag.config.settings import Settings
 from evaluation.dataset import (
     EvaluationDataset, create_manifest, dataset_checksum, validate_dataset,
     validate_manifest, write_release,

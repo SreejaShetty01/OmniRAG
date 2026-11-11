@@ -1,4 +1,4 @@
-from api.main import _interactive_docs_enabled
+from omnirag.api.main import _interactive_docs_enabled
 
 
 def test_interactive_openapi_docs_are_disabled_only_in_production():

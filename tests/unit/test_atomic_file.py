@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-import utils.atomic_file as atomic_file
+import omnirag.utils.atomic_file as atomic_file
 
 
 def test_atomic_replace_retries_transient_windows_permission_lock(tmp_path, monkeypatch):
