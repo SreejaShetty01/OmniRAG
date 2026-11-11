@@ -19,6 +19,6 @@ RUN groupadd --system --gid 10001 omnirag \
     && chown 10001:10001 /app/data
 COPY --from=frontend /ui/dist ./frontend/dist
 USER 10001:10001
-ENV OMNIRAG_ENVIRONMENT=production
+ENV OMNIRAG_ENVIRONMENT=production OMNIRAG_FRONTEND_DIST=/app/frontend/dist
 EXPOSE 8000
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]
+CMD ["uvicorn", "omnirag.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]

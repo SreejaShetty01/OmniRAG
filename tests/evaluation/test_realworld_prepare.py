@@ -11,7 +11,7 @@ from scripts.realworld.prepare_corpus import (content_set_sha256, leakage_candid
 from scripts.realworld.acquire_selected import scan_file_notices
 from scripts.realworld.ingest_corpus import (build_dry_run, execute_ingestion,
                                              sign_identity_headers)
-from api.trusted_proxy import verify_proxy_identity
+from omnirag.api.trusted_proxy import verify_proxy_identity
 
 
 def _integrity_fixture(tmp_path):

@@ -7,7 +7,7 @@ services:
     cpus: "2.0"
     mem_limit: 4g
     container_name: omnirag-api-eval-rw
-    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn omnirag.api.main:app --host 0.0.0.0 --port 8000
     env_file:
       - .env.phase8-rw
     environment:

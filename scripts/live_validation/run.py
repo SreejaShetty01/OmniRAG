@@ -66,13 +66,13 @@ def _new_run_directory(non_live: bool) -> Path:
 
 def _settings():
     sys.path.insert(0, str(ROOT))
-    from config.settings import get_settings
+    from omnirag.config.settings import get_settings
     get_settings.cache_clear()
     return get_settings()
 
 
 def _budget_preflight(settings) -> dict:
-    from infrastructure.provider_budget import activate_run_budget
+    from omnirag.infrastructure.provider_budget import activate_run_budget
 
     limits = (settings.validation_max_cost_usd, settings.validation_max_total_tokens,
               settings.validation_max_calls)
@@ -254,7 +254,7 @@ def _percentile(values: list[float], pct: float):
 
 
 def fake_run() -> Path:
-    from infrastructure.provider_budget import BudgetExceeded, RunBudget
+    from omnirag.infrastructure.provider_budget import BudgetExceeded, RunBudget
     queries, corpus = _read_queries(), _corpus_files()
     run_dir = _new_run_directory(non_live=True)
     ledger = RunBudget("fake-budget-check", max_cost_usd=1.0, max_total_tokens=2,

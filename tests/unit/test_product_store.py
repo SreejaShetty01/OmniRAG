@@ -1,4 +1,4 @@
-from infrastructure.product_store import ProductStore
+from omnirag.infrastructure.product_store import ProductStore
 
 
 def test_preferences_persist_across_store_instances(tmp_path):

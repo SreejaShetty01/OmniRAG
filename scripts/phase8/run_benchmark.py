@@ -11,7 +11,7 @@ from uuid import uuid4
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from config.settings import Settings
+from omnirag.config.settings import Settings
 from evaluation.dataset import (
     DATASET_ID, DATASET_VERSION, EvaluationDataset, dataset_checksum,
     validate_dataset, validate_manifest,

@@ -15,7 +15,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
+from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
 from scripts.realworld.prepare_corpus import CORPUS_ROOT, MANIFEST, validate_corpus
 
 

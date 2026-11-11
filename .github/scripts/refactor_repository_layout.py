@@ -80,9 +80,9 @@ def update_text_file(path: Path) -> bool:
         updated = rewrite_python_imports(updated)
 
     # Update documented commands and container entry points.
-    updated = updated.replace("uvicorn api.main:app", "uvicorn omnirag.api.main:app")
-    updated = updated.replace('"api.main:app"', '"omnirag.api.main:app"')
-    updated = updated.replace("'api.main:app'", "'omnirag.api.main:app'")
+    updated = updated.replace("uvicorn omnirag.api.main:app", "uvicorn omnirag.api.main:app")
+    updated = updated.replace('"omnirag.api.main:app"', '"omnirag.api.main:app"')
+    updated = updated.replace("'omnirag.api.main:app'", "'omnirag.api.main:app'")
 
     if updated != original:
         path.write_text(updated, encoding="utf-8", newline="")
@@ -161,7 +161,7 @@ def main() -> None:
         "ENV OMNIRAG_ENVIRONMENT=production",
         "ENV OMNIRAG_ENVIRONMENT=production OMNIRAG_FRONTEND_DIST=/app/frontend/dist",
     )
-    docker = docker.replace("api.main:app", "omnirag.api.main:app")
+    docker = docker.replace("omnirag.api.main:app", "omnirag.api.main:app")
     dockerfile.write_text(docker, encoding="utf-8", newline="")
 
     changed = 0

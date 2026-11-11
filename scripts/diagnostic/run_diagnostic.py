@@ -722,7 +722,7 @@ def execute(dataset_path: Path, snapshot_path: Path, output_dir: Path, base_url:
             operator_confirmed_local_ollama: bool = False,
             api_container_name: str | None = None) -> dict[str, Any]:
     """Serial live execution. Caller must obtain explicit approval before --execute."""
-    from config.settings import get_settings
+    from omnirag.config.settings import get_settings
     from evaluation.phase8_runner import schedule_units
 
     dataset_raw = json.loads(dataset_path.read_text(encoding="utf-8"))

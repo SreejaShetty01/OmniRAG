@@ -15,7 +15,7 @@ import sys
 import time
 from typing import Any, Callable
 from uuid import uuid4
-from utils.atomic_file import atomic_replace
+from omnirag.utils.atomic_file import atomic_replace
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -180,7 +180,7 @@ class ExperimentRunStore:
 
 def _redact_configured_secrets(value: Any) -> Any:
     """Redact configured credentials from all persisted Phase 7b artifact strings."""
-    from config.settings import get_settings
+    from omnirag.config.settings import get_settings
     settings = get_settings()
     secret_fields = (
         "auth_shared_secret", "qdrant_api_key", "embedding_api_key", "generation_api_key",
@@ -409,7 +409,7 @@ class ExperimentRunner:
         missing: list[str] = []
         differences: list[str] = []
         configured = _available_settings(settings)
-        from config.profiles import PROFILE_CONFIGS, ProfileName
+        from omnirag.config.profiles import PROFILE_CONFIGS, ProfileName
         saved_config = ExperimentConfig.model_validate(parent["experiment_config"])
         switches = parent.get("resolved_switches") or saved_config.resolved_switches(
             PROFILE_CONFIGS[ProfileName(parent["profile"])])

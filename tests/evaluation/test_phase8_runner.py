@@ -205,7 +205,7 @@ def test_empty_generation_usage_for_safe_abstention_does_not_trigger_budget_stop
 
 
 def test_request_signs_identity_and_forces_no_escalation():
-    from api.trusted_proxy import verify_proxy_identity
+    from omnirag.api.trusted_proxy import verify_proxy_identity
 
     unit = ScheduledUnit(case(), "lite", 1)
     body, headers, request_id = build_chat_request(

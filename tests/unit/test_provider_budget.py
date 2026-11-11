@@ -2,7 +2,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
-from infrastructure.provider_budget import BudgetExceeded, RunBudget
+from omnirag.infrastructure.provider_budget import BudgetExceeded, RunBudget
 
 
 def budget(*, usd=1.0, tokens=100, calls=10):
