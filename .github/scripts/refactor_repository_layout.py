@@ -32,7 +32,7 @@ FROM_IMPORT = re.compile(
 )
 IMPORT_LINE = re.compile(r"(?m)^([ \t]*import[ \t]+)([^\n#]+)")
 DYNAMIC_IMPORT = re.compile(
-    r"((?:setattr|import_module|patch|resolve_name)\s*\(\s*["'])"
+    r"""((?:setattr|import_module|patch|resolve_name)\s*\(\s*["'])"""
     r"(agent|api|config|generation|indexing|infrastructure|ingestion|llm|models|profiles|retrieval|services|utils|verification)(?=\.)"
 )
 
