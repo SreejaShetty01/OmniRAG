@@ -17,7 +17,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("benchmark_dir", type=Path)
     parser.add_argument("--dataset", type=Path,
-                        default=ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json")
+                        default=ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json")
     parser.add_argument("--snapshot", type=Path,
                         default=ROOT / "docs/audit/phase8_eval_corpus_manifest.json")
     parser.add_argument("--output", type=Path)

@@ -26,9 +26,9 @@ from evaluation.phase8_safety import verify_snapshot_manifest
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base-url", default="http://localhost:8001")
-    parser.add_argument("--dataset", type=Path, default=ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json")
+    parser.add_argument("--dataset", type=Path, default=ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json")
     parser.add_argument("--dataset-manifest", type=Path,
-                        default=ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.manifest.json")
+                        default=ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.manifest.json")
     parser.add_argument("--snapshot-manifest", type=Path,
                         default=ROOT / "docs/audit/phase8_eval_corpus_manifest.json")
     parser.add_argument("--output-root", type=Path)

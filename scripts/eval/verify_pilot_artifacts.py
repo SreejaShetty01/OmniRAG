@@ -20,7 +20,7 @@ def main() -> None:
     parser.add_argument("--snapshot", type=Path,
                         default=ROOT / "docs/audit/phase8_eval_corpus_manifest.json")
     parser.add_argument("--dataset", type=Path,
-                        default=ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json")
+                        default=ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json")
     parser.add_argument("--data-dir", type=Path, default=get_settings().data_dir)
     parser.add_argument("--output", type=Path,
                         help="Optional safe JSON summary path; this does not alter Phase 7b artifacts")

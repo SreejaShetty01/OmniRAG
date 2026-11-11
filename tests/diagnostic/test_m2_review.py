@@ -5,16 +5,15 @@ import uuid
 
 import pytest
 
-from prepare_m2_review import (
+from scripts.diagnostic.prepare_m2_review import (
     PINNED_DATASET_SHA256,
-    canonical_json,
     prepare_exports,
     sha256_file,
     source_hashes,
     stable_id,
     write_csv,
 )
-from score_review import cohens_kappa, wilson_interval, write_scoring_reports
+from scripts.diagnostic.score_review import cohens_kappa, wilson_interval, write_scoring_reports
 
 
 def test_csv_round_trip_and_stable_ids(tmp_path):

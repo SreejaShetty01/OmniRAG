@@ -9,7 +9,7 @@ import math
 from pathlib import Path
 from typing import Iterable
 
-from prepare_m2_review import PINNED_DATASET_SHA256, write_csv
+from scripts.diagnostic.prepare_m2_review import PINNED_DATASET_SHA256, write_csv
 
 
 class IncompleteReview(ValueError):

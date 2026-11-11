@@ -1,4 +1,4 @@
-"""Unified command-line entry point for OmniRAG evaluation workflows."""
+"""Unified CLI for OmniRAG evaluation workflows."""
 from __future__ import annotations
 
 import argparse
@@ -6,17 +6,17 @@ import runpy
 import sys
 
 COMMANDS = {
-    "benchmark": ("scripts.phase8.run_benchmark", "Run the Phase 8 evaluation benchmark."),
-    "score": ("scripts.phase8.score_run", "Score a completed evaluation run."),
-    "acl-audit": ("scripts.phase8.validate_acl", "Validate evaluation ACL isolation."),
+    "benchmark": ("scripts.eval.run_benchmark", "Run the evaluation benchmark."),
+    "bootstrap": ("scripts.eval.bootstrap_corpus", "Validate and bootstrap the evaluation corpus."),
+    "score": ("scripts.eval.score_run", "Score a completed evaluation run."),
+    "acl-audit": ("scripts.eval.validate_acl", "Validate evaluation ACL isolation."),
+    "verify-artifacts": ("scripts.eval.verify_pilot_artifacts", "Verify evaluation artifacts."),
     "diagnostic": ("scripts.diagnostic.run_diagnostic", "Run the evaluation diagnostic workflow."),
 }
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="OmniRAG evaluation command runner."
-    )
+    parser = argparse.ArgumentParser(description="OmniRAG evaluation command runner.")
     subparsers = parser.add_subparsers(dest="command", required=True)
     for name, (_, description) in COMMANDS.items():
         subparsers.add_parser(name, help=description)

@@ -12,7 +12,7 @@ import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
 PINNED_DATASET_SHA256 = "7b44b8f616b2df74768ff962c30d3a311000ef0bffd41015f7bb49123ca7af1"
-DEFAULT_DATASET = Path("evaluation/datasets/omnirag-phase8-eval-1.0.1.json")
+DEFAULT_DATASET = Path("eval/datasets/omnirag-phase8-eval-1.0.1.json")
 DEFAULT_SNAPSHOT = Path("docs/audit/phase8_eval_corpus_manifest.json")
 DEFAULT_ATTEMPTS = Path("data/diagnostic/posthoc-remediation-20261107T072431Z-663cec3c/attempts_scored.jsonl")
 PROFILE_ORDER = {"lite": 0, "core": 1, "research": 2}
