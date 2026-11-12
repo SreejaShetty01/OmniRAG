@@ -1,19 +1,19 @@
 import time
 import pytest
 
-from agent.graph import ResearchGraph, ResearchLimits
-from agent.planner import DeterministicResearchPlanner
-from config.profiles import PROFILE_CONFIGS, ProfileName
-from generation.answer_pipeline import AnswerPipeline
-from models.chunk import AccessControlMetadata, Chunk
-from models.document import DocumentType
-from models.query import EscalationPreference, Query
-from retrieval.contracts import (
+from omnirag.agent.graph import ResearchGraph, ResearchLimits
+from omnirag.agent.planner import DeterministicResearchPlanner
+from omnirag.config.profiles import PROFILE_CONFIGS, ProfileName
+from omnirag.generation.answer_pipeline import AnswerPipeline
+from omnirag.models.chunk import AccessControlMetadata, Chunk
+from omnirag.models.document import DocumentType
+from omnirag.models.query import EscalationPreference, Query
+from omnirag.retrieval.contracts import (
     EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis, QueryCharacteristics,
     RetrievalEvidence, RetrievalFilters, RetrievalResult,
 )
-from profiles.execution import ConversationProfileStore, EscalationConfig, ProfileExecutionService
-from llm.llm_client import ChatMessage, ChatRequest, ChatResponse, FallbackChatProvider
+from omnirag.profiles.execution import ConversationProfileStore, EscalationConfig, ProfileExecutionService
+from omnirag.llm.llm_client import ChatMessage, ChatRequest, ChatResponse, FallbackChatProvider
 
 
 class MockRetriever:

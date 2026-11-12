@@ -1,8 +1,8 @@
-from api.main import app, health, profiles
-from api.dependencies import RequestIdentity
-from api.routes.preferences import get_preferences, update_preferences
-from api.schemas import PreferencesUpdate
-from infrastructure.product_store import ProductStore
+from omnirag.api.main import app, health, profiles
+from omnirag.api.dependencies import RequestIdentity
+from omnirag.api.routes.preferences import get_preferences, update_preferences
+from omnirag.api.schemas import PreferencesUpdate
+from omnirag.infrastructure.product_store import ProductStore
 
 
 def test_health_endpoint():
@@ -30,7 +30,7 @@ def test_preferences_api_persists_preferred_name(tmp_path):
 def test_upload_filename_validation_rejects_invalid_extension():
     import pytest
     from fastapi import HTTPException
-    from api.routes.documents import _safe_filename
+    from omnirag.api.routes.documents import _safe_filename
 
     with pytest.raises(HTTPException) as exc:
         _safe_filename("payload.exe")
@@ -38,7 +38,7 @@ def test_upload_filename_validation_rejects_invalid_extension():
 
 
 def test_upload_filename_validation_accepts_corpus_proto_and_rst_types():
-    from api.routes.documents import _doc_type, _safe_filename, _source_type
+    from omnirag.api.routes.documents import _doc_type, _safe_filename, _source_type
 
     assert _safe_filename("points.proto") == "points.proto"
     assert _source_type("points.proto") == "code"
@@ -49,8 +49,8 @@ def test_upload_filename_validation_accepts_corpus_proto_and_rst_types():
 
 
 def test_upload_size_guard_rejects_chunk_that_crosses_limit():
-    from api.routes.documents import _upload_exceeds_limit
-    from config.settings import get_settings
+    from omnirag.api.routes.documents import _upload_exceeds_limit
+    from omnirag.config.settings import get_settings
 
     maximum = get_settings().max_upload_bytes
     assert _upload_exceeds_limit(maximum - 1, 2, maximum)
@@ -58,8 +58,8 @@ def test_upload_size_guard_rejects_chunk_that_crosses_limit():
 
 
 def test_failed_ingestion_is_not_reported_as_successful_upload_or_reingestion():
-    from ingestion.pipeline import IngestionResult, IngestionStatus
-    from api.routes.documents import _ingestion_response_status
+    from omnirag.ingestion.pipeline import IngestionResult, IngestionStatus
+    from omnirag.api.routes.documents import _ingestion_response_status
 
     failed = IngestionResult(
         status=IngestionStatus.FAILED,

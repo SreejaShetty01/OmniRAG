@@ -1,8 +1,8 @@
-from evaluation.retrieval_benchmark import RetrievalGoldCase, aggregate_metrics, case_metrics
-from retrieval.contracts import EvidenceAssessment, RetrievalEvidence, RetrievalResult
-from models.chunk import AccessControlMetadata, Chunk
-from models.document import DocumentType
-from retrieval.contracts import QueryAnalysis, QueryCharacteristics, RetrievalFilters
+from eval.retrieval_benchmark import RetrievalGoldCase, aggregate_metrics, case_metrics
+from omnirag.retrieval.contracts import EvidenceAssessment, RetrievalEvidence, RetrievalResult
+from omnirag.models.chunk import AccessControlMetadata, Chunk
+from omnirag.models.document import DocumentType
+from omnirag.retrieval.contracts import QueryAnalysis, QueryCharacteristics, RetrievalFilters
 
 
 def _chunk(chunk_id, section):

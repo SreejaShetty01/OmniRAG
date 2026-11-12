@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "m1-p3-claim-entailment-ab",
+  "version": "1.1.0",
+  "status": "prepared_not_run",
+  "design": {
+    "unit": "case_profile_condition_repetition",
+    "paired": true,
+    "profiles": ["lite", "core", "research"],
+    "repetitions": 3,
+    "concurrency": 1,
+    "same_case_profile_order_in_both_conditions": true,
+    "single_variable": "ExperimentConfig.verification (OFF vs ON)",
+    "lite_role": "compatibility check; citations_only profile should not invoke claim entailment"
+  },
+  "dataset": {
+    "id": "omnirag-phase8-eval",
+    "version": "1.0.1",
+    "path": "eval/datasets/omnirag-phase8-eval-1.0.1.json",
+    "dataset_sha256": "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
+    "file_sha256": "6a99cdd3389e4579a5d4e0aa55d083764595361680bd4b09af7168df8defc561",
+    "manifest_file_sha256": "356d3e077ed85d944a02d06ffb1ea5a1ac83f963d4111bfc209719cc6ddb75eb",
+    "case_count": 40,
+    "immutable": true
+  },
+  "corpus": {
+    "collection": "omnirag_eval_phase8_20261104",
+    "snapshot_manifest": "docs/audit/phase8_eval_corpus_manifest.json",
+    "snapshot_manifest_file_sha256": "e471427114a8559be3f8253edf7388feff4f0bb45b777c8948468256b578d45a",
+    "snapshot_sha256": "2b325b263d49775788e66d3594c3d1109c319205c563a7c9253ad2b11dbf3847"
+  },
+  "partitions": {
+    "method": "explicit immutable 20/20 case-ID assignment; no runtime reassignment",
+    "calibration_case_ids": ["P7C-AF-001", "P7C-AF-003", "P7C-AF-005", "P7C-AT-001", "P7C-AT-003", "P7C-CE-001", "P7C-CE-003", "P7C-CP-001", "P7C-CP-003", "P7C-CP-005", "P7C-MD-002", "P7C-MD-004", "P7C-PI-002", "P7C-PI-004", "P7C-PS-002", "P7C-PS-004", "P7C-US-002", "P7C-US-004", "P7C-VS-002", "P7C-VS-004"],
+    "evaluation_case_ids": ["P7C-AF-002", "P7C-AF-004", "P7C-AT-002", "P7C-AT-004", "P7C-CE-002", "P7C-CE-004", "P7C-CP-002", "P7C-CP-004", "P7C-MD-001", "P7C-MD-003", "P7C-MD-005", "P7C-PI-001", "P7C-PI-003", "P7C-PS-001", "P7C-PS-003", "P7C-US-001", "P7C-US-003", "P7C-VS-001", "P7C-VS-003", "P7C-VS-005"],
+    "disjoint": true,
+    "calibration_labels": "HUMAN REVIEW REQUIRED; none are present in the immutable dataset",
+    "threshold": null,
+    "threshold_provenance": null
+  },
+  "shared_conditions": {
+    "generation_model": "llama3.2:3b",
+    "embedding_model": "nomic-embed-text",
+    "embedding_dimensions": 768,
+    "retrieval_configuration_source": "config/profiles.py and pinned corpus snapshot",
+    "research_escalation": false,
+    "request_timeout_seconds": 150,
+    "budget": {"max_cost_usd": 0, "max_total_tokens": 4200000, "max_provider_calls": 3000}
+  },
+  "verifier": {
+    "provider": "minicheck_http",
+    "model_id": "lytang/MiniCheck-Flan-T5-Large",
+    "model_digest": "UNKNOWN until authorized local model provisioning",
+    "service_contract": "POST /verify: claim + concatenated cited evidence -> label, score, threshold, model_id, model_digest",
+    "default": "OFF",
+    "resource_size_ram_latency": "UNMEASURED"
+  },
+  "conditions": {
+    "control": {"experiment": {"verification": true, "semantic_verification": false}},
+    "treatment": {"experiment": {"verification": true, "semantic_verification": true}}
+  },
+  "scoring": {
+    "implementation": "eval/p3_grounding_scorer.py",
+    "offline_only": true,
+    "unsupported_claim_rate": "unsupported claims / claims with resolved supported, unsupported, or contradicted status; uncertain and not_checked excluded",
+    "citation_entailment_precision": "human-supported cited claim/evidence pairs / system-predicted-supported cited pairs with a human label",
+    "citation_entailment_coverage": "reviewed cited pairs / cited pairs submitted for human audit",
+    "false_abstention_rate": "abstained answerable completed requests / answerable completed requests with a recorded abstained boolean",
+    "human_audit_target": {"claims": 50, "citations": 30},
+    "target_labels": "human_review_only"
+  },
+  "execution": {"authorized": false, "sealed_set_authorized": false},
+  "hard_gates": ["ACL/tenant violation", "denied evidence leak", "budget or timeout violation", "missing usage ledger"]
+}

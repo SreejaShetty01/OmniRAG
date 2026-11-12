@@ -1,10 +1,10 @@
 import pytest
 from pydantic import ValidationError
 
-from api.dependencies import RequestIdentity
-from api.routes.product import application_settings
-from api.trusted_proxy import identity_is_allowed
-from config.settings import Settings
+from omnirag.api.dependencies import RequestIdentity
+from omnirag.api.routes.product import application_settings
+from omnirag.api.trusted_proxy import identity_is_allowed
+from omnirag.config.settings import Settings
 
 
 def test_isolated_instance_refuses_non_evaluation_collection():

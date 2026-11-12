@@ -1,21 +1,21 @@
 import json
 
-from llm.llm_client import ChatResponse
-from models.chunk import AccessControlMetadata, Chunk
-from models.document import DocumentType
-from models.query import Query
-from models.response import ClaimVerificationStatus, VerificationStatus
-from retrieval.contracts import (
+from omnirag.llm.llm_client import ChatResponse
+from omnirag.models.chunk import AccessControlMetadata, Chunk
+from omnirag.models.document import DocumentType
+from omnirag.models.query import Query
+from omnirag.models.response import ClaimVerificationStatus, VerificationStatus
+from omnirag.retrieval.contracts import (
     EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis, QueryCharacteristics,
     RetrievalEvidence, RetrievalFilters, RetrievalResult,
 )
-from generation.answer_pipeline import AnswerPipeline
-from generation.answer_generator import AnswerGenerator
-from generation.prompt_templates import build_generation_messages
-from verification.nli_verifier import EntailmentLabel, EntailmentResult, UnconfiguredEntailmentVerifier
-from verification.claim_verifier import verify_claims
-from verification.contradiction_detector import detect_contradictions
-from verification.citation_validator import validate_citations
+from omnirag.generation.answer_pipeline import AnswerPipeline
+from omnirag.generation.answer_generator import AnswerGenerator
+from omnirag.generation.prompt_templates import build_generation_messages
+from omnirag.verification.nli_verifier import EntailmentLabel, EntailmentResult, UnconfiguredEntailmentVerifier
+from omnirag.verification.claim_verifier import verify_claims
+from omnirag.verification.contradiction_detector import detect_contradictions
+from omnirag.verification.citation_validator import validate_citations
 
 
 def evidence(chunk_id="chunk-a", content="The retention period is 30 days.", version="v1"):
@@ -98,7 +98,7 @@ def test_invalid_citation_gets_one_bounded_correction_then_reverification():
     assert not result.abstained
 
 def test_invalid_citation_preserves_enum_status():
-    from models.response import ClaimVerification
+    from omnirag.models.response import ClaimVerification
 
     fabricated = ClaimVerification(
         claim_id="CL1",
@@ -119,7 +119,7 @@ def test_invalid_citation_preserves_enum_status():
 
 
 def test_identifier_verification_ignores_terminal_sentence_punctuation():
-    from models.response import ClaimVerification
+    from omnirag.models.response import ClaimVerification
 
     claim = ClaimVerification(
         claim_id="CL1", claim_text="This applies to Rate Guide v2.",
@@ -134,7 +134,7 @@ def test_identifier_verification_ignores_terminal_sentence_punctuation():
 
 
 def test_identifier_verification_ignores_terminal_punctuation_after_internal_identifier():
-    from models.response import ClaimVerification
+    from omnirag.models.response import ClaimVerification
 
     claim = ClaimVerification(
         claim_id="CL1", claim_text="The key is ticket_id:.",
@@ -149,7 +149,7 @@ def test_identifier_verification_ignores_terminal_punctuation_after_internal_ide
 
 
 def test_identifier_verification_keeps_internal_identifier_punctuation_significant():
-    from models.response import ClaimVerification
+    from omnirag.models.response import ClaimVerification
 
     claim = ClaimVerification(
         claim_id="CL1", claim_text="The key is A.B.",
@@ -165,7 +165,7 @@ def test_identifier_verification_keeps_internal_identifier_punctuation_significa
 
 
 def test_missing_supporting_evidence_preserves_enum_status():
-    from models.response import ClaimVerification
+    from omnirag.models.response import ClaimVerification
 
     claim = ClaimVerification(
         claim_id="CL2",
@@ -266,7 +266,7 @@ def test_retrieved_instruction_is_delimited_and_flagged_as_untrusted():
 
 
 def test_numeric_and_identifier_checks_do_not_mark_missing_values_supported():
-    from models.response import ClaimVerification
+    from omnirag.models.response import ClaimVerification
     claims = [ClaimVerification(claim_id="CL1", claim_text="The retention period is 90 days.",
                                supporting_evidence_ids=["E1"])]
     verified, warnings = verify_claims(claims, [evidence()], UnconfiguredEntailmentVerifier())

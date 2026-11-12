@@ -11,7 +11,7 @@ from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
-MANIFEST = ROOT / "evaluation/realworld/corpus_manifest.json"
+MANIFEST = ROOT / "eval/realworld/corpus_manifest.json"
 CORPUS_ROOT = ROOT / "data/realworld_corpus"
 ALLOWED_EXTENSIONS = {".md", ".rst", ".py", ".proto", ".rs"}
 MAX_SOURCE_BYTES = 50 * 1024 * 1024
@@ -209,12 +209,12 @@ def validate_corpus(manifest: dict, corpus_root: str | Path = CORPUS_ROOT,
         try:
             eval_manifest = json.loads(eval_path.read_text(encoding="utf-8-sig"))
             if eval_manifest != manifest:
-                errors.append("evaluation/realworld corpus manifest differs from data corpus manifest")
+                errors.append("eval/realworld corpus manifest differs from data corpus manifest")
             recorded_manifest_hash = report_sidecar.get("manifest_sha256")
             if recorded_manifest_hash and sha256_file(eval_path) != recorded_manifest_hash:
                 errors.append("acquisition_report manifest_sha256 does not match manifest bytes")
         except (OSError, UnicodeError, json.JSONDecodeError):
-            errors.append("evaluation/realworld corpus manifest is invalid JSON")
+            errors.append("eval/realworld corpus manifest is invalid JSON")
 
     disk_bytes = sum(p.stat().st_size for p in root.rglob("*") if p.is_file()) if root.is_dir() else 0
     return {"valid": not errors, "document_count": len(manifest.get("sources", [])),

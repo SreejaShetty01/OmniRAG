@@ -2,12 +2,12 @@ import logging
 
 from pydantic import SecretStr
 
-import config.settings as settings_module
-from api import main
-from experiments.runtime import ExperimentRunStore
-from infrastructure.rate_limit import PrincipalRateLimiter
-from infrastructure.runtime_metrics import RuntimeMetrics
-from utils.logger import JsonLogFormatter
+import omnirag.config.settings as settings_module
+from omnirag.api import main
+from omnirag.experiments.runtime import ExperimentRunStore
+from omnirag.infrastructure.rate_limit import PrincipalRateLimiter
+from omnirag.infrastructure.runtime_metrics import RuntimeMetrics
+from omnirag.utils.logger import JsonLogFormatter
 
 
 def test_rate_limit_is_per_principal_and_reports_retry_after():
@@ -28,7 +28,7 @@ def test_evaluation_limit_allows_six_hundred_serial_units():
 
 
 def test_api_rate_limit_returns_429_with_retry_after():
-    from infrastructure.rate_limit import too_many_requests_response
+    from omnirag.infrastructure.rate_limit import too_many_requests_response
     response = too_many_requests_response("req-1", 15)
     assert response.status_code == 429
     assert response.headers["retry-after"] == "15"

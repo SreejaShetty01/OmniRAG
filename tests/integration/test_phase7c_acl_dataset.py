@@ -13,26 +13,26 @@ from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
 from qdrant_client import QdrantClient
 
-from api.dependencies import get_product_store, get_profile_execution_service
-from api.routes import chat as chat_route
-from api.routes.chat import router as chat_router
-from api.trusted_proxy import verify_proxy_identity
-from config.settings import Settings
-from experiments.runtime import ExperimentRunStore
-from generation.answer_generator import AnswerGenerator
-from generation.answer_pipeline import AnswerPipeline
-from indexing.embeddings import EmbeddingService
-from indexing.qdrant_indexer import QdrantIndexer
-from infrastructure.product_store import ProductStore
-from llm.llm_client import ChatResponse
-from models.chunk import AccessControlMetadata, Chunk
-from models.document import DocumentType
-from profiles.execution import ProfileExecutionService
-from retrieval.context_expander import ContextExpander
-from retrieval.dense_retriever import DenseRetriever
-from retrieval.hybrid_retriever import HybridRetriever
-from retrieval.sparse_retriever import SparseRetriever
-from verification.nli_verifier import UnconfiguredEntailmentVerifier
+from omnirag.api.dependencies import get_product_store, get_profile_execution_service
+from omnirag.api.routes import chat as chat_route
+from omnirag.api.routes.chat import router as chat_router
+from omnirag.api.trusted_proxy import verify_proxy_identity
+from omnirag.config.settings import Settings
+from omnirag.experiments.runtime import ExperimentRunStore
+from omnirag.generation.answer_generator import AnswerGenerator
+from omnirag.generation.answer_pipeline import AnswerPipeline
+from omnirag.indexing.embeddings import EmbeddingService
+from omnirag.indexing.qdrant_indexer import QdrantIndexer
+from omnirag.infrastructure.product_store import ProductStore
+from omnirag.llm.llm_client import ChatResponse
+from omnirag.models.chunk import AccessControlMetadata, Chunk
+from omnirag.models.document import DocumentType
+from omnirag.profiles.execution import ProfileExecutionService
+from omnirag.retrieval.context_expander import ContextExpander
+from omnirag.retrieval.dense_retriever import DenseRetriever
+from omnirag.retrieval.hybrid_retriever import HybridRetriever
+from omnirag.retrieval.sparse_retriever import SparseRetriever
+from omnirag.verification.nli_verifier import UnconfiguredEntailmentVerifier
 
 
 ROOT = Path(__file__).resolve().parents[2]

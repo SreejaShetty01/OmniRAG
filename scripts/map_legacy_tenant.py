@@ -131,13 +131,13 @@ def main() -> None:
     parser.add_argument("--apply", action="store_true", help="Apply mappings (default is dry-run)")
     args = parser.parse_args()
 
-    from config.settings import get_settings
+    from omnirag.config.settings import get_settings
     settings = get_settings()
     sqlite_path = args.sqlite or (settings.data_dir / "omnirag.sqlite3")
     mapping = json.loads(args.mapping.read_text(encoding="utf-8"))
     qdrant_client = None
     if mapping.get("qdrant"):
-        from infrastructure.qdrant_client import get_qdrant_client
+        from omnirag.infrastructure.qdrant_client import get_qdrant_client
         qdrant_client = get_qdrant_client()
     actions = run_mapping(mapping, sqlite_path=sqlite_path, qdrant_client=qdrant_client,
                           collection=args.collection or settings.qdrant_collection,

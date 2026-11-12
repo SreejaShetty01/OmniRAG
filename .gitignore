@@ -87,7 +87,7 @@ Thumbs.db
 
 # Raw run outputs and private/sealed evaluation corpora
 docs/audit/runs/
-evaluation/realworld/
+eval/realworld/
 
 # Private internal audit snapshots (source reports remain under docs/history)
 docs/audit/phase8_eval_corpus_manifest.json
@@ -97,8 +97,8 @@ docs/audit/phase8_dev_collection_baseline.json
 
 # Private audit and raw evaluation material
 /docs/audit/*
-/evaluation/results/
-/evaluation/datasets/*
+/eval/results/
+/eval/datasets/*
 # Local Qdrant storage
 /qdrant_storage/
 
@@ -114,11 +114,11 @@ docs/audit/phase8_dev_collection_baseline.json
 /docs/operations/release/
 
 # Public synthetic regression fixtures (not private benchmark outputs)
-/evaluation/datasets/*
-!/evaluation/datasets/omnirag-phase8-eval-1.0.0.json
-!/evaluation/datasets/omnirag-phase8-eval-1.0.0.manifest.json
-!/evaluation/datasets/omnirag-phase8-eval-1.0.1.json
-!/evaluation/datasets/omnirag-phase8-eval-1.0.1.manifest.json
+/eval/datasets/*
+!/eval/datasets/omnirag-phase8-eval-1.0.0.json
+!/eval/datasets/omnirag-phase8-eval-1.0.0.manifest.json
+!/eval/datasets/omnirag-phase8-eval-1.0.1.json
+!/eval/datasets/omnirag-phase8-eval-1.0.1.manifest.json
 
 /docs/audit/*
 !/docs/audit/smoke_corpus_manifest.md

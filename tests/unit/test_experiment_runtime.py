@@ -4,18 +4,18 @@ import sys
 
 import pytest
 
-from config.profiles import PROFILE_CONFIGS, ProfileName
-from config.settings import Settings
-from experiments.runtime import (
+from omnirag.config.profiles import PROFILE_CONFIGS, ProfileName
+from omnirag.config.settings import Settings
+from omnirag.experiments.runtime import (
     ExperimentConfig, ExperimentRunStore, ExperimentRunner, ReplayUnavailable,
     StageTraceCollector,
 )
-from models.response import OmniRAGResponse
-from profiles.execution import ProfileExecutionService
-from models.chunk import AccessControlMetadata, Chunk
-from models.document import DocumentType
-from retrieval.contracts import RetrievalCandidate, RetrievalPolicy, RetrievalScope
-from retrieval.hybrid_retriever import HybridRetriever
+from omnirag.models.response import OmniRAGResponse
+from omnirag.profiles.execution import ProfileExecutionService
+from omnirag.models.chunk import AccessControlMetadata, Chunk
+from omnirag.models.document import DocumentType
+from omnirag.retrieval.contracts import RetrievalCandidate, RetrievalPolicy, RetrievalScope
+from omnirag.retrieval.hybrid_retriever import HybridRetriever
 
 
 def _settings():
@@ -110,7 +110,7 @@ def test_manifest_trace_result_and_unique_run_ids(tmp_path):
     initial_statuses = []
 
     async def execute():
-        from experiments.runtime import record_stage
+        from omnirag.experiments.runtime import record_stage
         statuses = [json.loads(path.read_text(encoding="utf-8"))["status"]
                     for path in tmp_path.glob("*/manifest.json")]
         initial_statuses.append(statuses.count("running"))
@@ -199,7 +199,7 @@ def test_replay_creates_child_and_reports_missing_dependencies(tmp_path):
 
 
 def test_chat_schema_accepts_optional_experiment_without_changing_default():
-    from api.schemas import ChatRequest
+    from omnirag.api.schemas import ChatRequest
 
     plain = ChatRequest(query_text="question")
     experimental = ChatRequest(query_text="question", experiment={"reranking": False})
@@ -208,13 +208,13 @@ def test_chat_schema_accepts_optional_experiment_without_changing_default():
 
 
 def test_chat_route_persists_opt_in_experiment_artifacts(tmp_path, monkeypatch):
-    from api import routes
-    from api.dependencies import RequestIdentity
-    from api.routes.chat import chat
-    from api.schemas import ChatRequest
-    from config.settings import Settings
-    from infrastructure.product_store import ProductStore
-    from retrieval.contracts import RetrievalPolicy, RetrievalScope
+    from omnirag.api import routes
+    from omnirag.api.dependencies import RequestIdentity
+    from omnirag.api.routes.chat import chat
+    from omnirag.api.schemas import ChatRequest
+    from omnirag.config.settings import Settings
+    from omnirag.infrastructure.product_store import ProductStore
+    from omnirag.retrieval.contracts import RetrievalPolicy, RetrievalScope
 
     settings = Settings(_env_file=None, data_dir=tmp_path)
     monkeypatch.setattr(routes.chat, "get_settings", lambda: settings)

@@ -4,14 +4,14 @@ import argparse
 import json
 from pathlib import Path
 
-from evaluation.p3_grounding_scorer import write_audit_csv
+from eval.p3_grounding_scorer import write_audit_csv
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--attempts-dir", type=Path)
     parser.add_argument("--output", type=Path,
-                        default=Path("evaluation/p3_human_audit_template.csv"))
+                        default=Path("eval/p3_human_audit_template.csv"))
     args = parser.parse_args()
     attempts = []
     if args.attempts_dir:

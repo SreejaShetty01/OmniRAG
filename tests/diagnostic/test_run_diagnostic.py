@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import pytest
 
-from evaluation.dataset import EvaluationDataset
+from eval.dataset import EvaluationDataset
 from scripts.diagnostic.run_diagnostic import (
     classify_http_outcome, diagnostic_stamp, dry_run, export_human_audit, retrieval_metric_values,
     score_human_audit, score_response, sha256_file, summarize, verify_snapshot_integrity,
@@ -12,7 +12,7 @@ from scripts.diagnostic.run_diagnostic import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DATASET = ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json"
+DATASET = ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json"
 SNAPSHOT = ROOT / "docs/audit/phase8_eval_corpus_manifest.json"
 HISTORICAL = ROOT / "data/phase8/benchmarks/phase8-pilot-20261104-b5"
 
@@ -52,7 +52,7 @@ def test_leakage_detected_from_restricted_candidate_context_citation_and_answer_
     raw = json.loads(DATASET.read_text(encoding="utf-8"))
     case_data = next(c for c in raw["cases"] if c["category"] == "acl_tenant_isolation"
                      and c["acl_context"]["expected_access"] == "deny")
-    from evaluation.dataset import EvaluationCase
+    from eval.dataset import EvaluationCase
     case = EvaluationCase.model_validate(case_data)
     snapshot = {"documents": [{"filename": "12_restricted_team.txt", "tenant_id": "other-tenant",
                                 "acl_allowed_principals": ["user:other"]}],
@@ -78,7 +78,7 @@ def test_leakage_detected_from_restricted_candidate_context_citation_and_answer_
 
 def test_authorized_marker_in_answer_is_not_classified_as_acl_leak():
     raw = json.loads(DATASET.read_text(encoding="utf-8"))
-    from evaluation.dataset import EvaluationCase
+    from eval.dataset import EvaluationCase
     case_data = next(c for c in raw["cases"] if c["case_id"] == "P7C-AT-001")
     case = EvaluationCase.model_validate(case_data)
     snapshot = {"documents": [{"filename": "12_restricted_team.txt", "tenant_id": "phase7a-tenant-a",
@@ -98,7 +98,7 @@ def test_successful_slow_http_200_is_completed_with_latency_budget_violation():
     assert classify_http_outcome(200, 151_000) == ("completed", True)
     assert classify_http_outcome(504, 151_000) == ("timed_out", True)
     raw = json.loads(DATASET.read_text(encoding="utf-8"))
-    from evaluation.dataset import EvaluationCase
+    from eval.dataset import EvaluationCase
     case = EvaluationCase.model_validate(next(c for c in raw["cases"] if c["case_id"] == "P7C-AT-001"))
     response = {"profile_used": "lite", "answer": "", "abstained": True}
     row = score_response(case, response, {"documents": [], "points": []}, 151_000)

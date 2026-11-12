@@ -9,15 +9,15 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from evaluation.dataset import dataset_checksum
-from evaluation.realworld_annotations import (HumanAnnotation, annotation_summary,
+from eval.dataset import dataset_checksum
+from eval.realworld_annotations import (HumanAnnotation, annotation_summary,
                                               convert_human_approved_annotations)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--annotations", type=Path,
-                        default=Path("evaluation/realworld/sealed_dataset.json"))
+                        default=Path("eval/realworld/sealed_dataset.json"))
     parser.add_argument("--corpus-root", type=Path)
     parser.add_argument("--versions", type=Path,
                         help="JSON mapping corpus-relative source path to exact version")
@@ -27,7 +27,7 @@ def main() -> int:
     parser.add_argument("--dataset-version", default="0.1.0")
     parser.add_argument("--corpus-id", default="omnirag-realtech-m1p2")
     parser.add_argument("--corpus-version", default="v1")
-    parser.add_argument("--corpus-manifest", default="evaluation/realworld/corpus_manifest.json")
+    parser.add_argument("--corpus-manifest", default="eval/realworld/corpus_manifest.json")
     args = parser.parse_args()
     raw = json.loads(args.annotations.read_text(encoding="utf-8-sig"))
     records = [HumanAnnotation.model_validate(item) for item in raw["cases"]]

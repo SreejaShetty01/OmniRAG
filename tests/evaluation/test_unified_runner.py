@@ -1,7 +1,7 @@
 import json
 import pytest
 
-from evaluation.unified_runner import (
+from eval.runner import (
     DEFAULT_BENCHMARK, DEFAULT_DATASET, DEFAULT_SNAPSHOT,
     evaluate_saved_run, write_outputs,
 )

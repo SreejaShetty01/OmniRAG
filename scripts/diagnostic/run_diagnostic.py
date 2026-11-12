@@ -23,9 +23,9 @@ from typing import Any
 from uuid import uuid4
 from urllib.error import URLError
 
-from evaluation.dataset import EvaluationDataset, EvaluationCase, CORPUS_RELATIVE_ROOT, validate_dataset
-from evaluation.phase8_scorer import _expected_chunks, score_artifacts
-from evaluation.phase8_runner import _collect_ids, _identity_for, sign_identity, _http_post, _http_get
+from eval.dataset import EvaluationDataset, EvaluationCase, CORPUS_RELATIVE_ROOT, validate_dataset
+from eval.phase8_scorer import _expected_chunks, score_artifacts
+from eval.phase8_runner import _collect_ids, _identity_for, sign_identity, _http_post, _http_get
 
 ROOT = Path(__file__).resolve().parents[2]
 PINNED_DATASET_HASH_PREFIX = "7b44b8f6"
@@ -67,8 +67,8 @@ def verify_snapshot_integrity(snapshot: dict[str, Any]) -> str:
 
 
 def diagnostic_stamp(dataset_sha256: str) -> str:
-    return (f"DIAGNOSTIC — dataset hash {dataset_sha256} != pinned "
-            f"{PINNED_DATASET_HASH_PREFIX}…")
+    return (f"DIAGNOSTIC â€” dataset hash {dataset_sha256} != pinned "
+            f"{PINNED_DATASET_HASH_PREFIX}â€¦")
 
 
 def classify_http_outcome(http_status: int, elapsed_ms: float) -> tuple[str, bool]:
@@ -722,8 +722,8 @@ def execute(dataset_path: Path, snapshot_path: Path, output_dir: Path, base_url:
             operator_confirmed_local_ollama: bool = False,
             api_container_name: str | None = None) -> dict[str, Any]:
     """Serial live execution. Caller must obtain explicit approval before --execute."""
-    from config.settings import get_settings
-    from evaluation.phase8_runner import schedule_units
+    from omnirag.config.settings import get_settings
+    from eval.phase8_runner import schedule_units
 
     dataset_raw = json.loads(dataset_path.read_text(encoding="utf-8"))
     dataset = EvaluationDataset.model_validate(dataset_raw)

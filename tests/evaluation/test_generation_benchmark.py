@@ -1,6 +1,6 @@
-from evaluation.generation_benchmark import AnswerGoldCase, evaluate_response
-from models.response import Citation, EvidenceReference, OmniRAGResponse
-from config.profiles import ProfileName
+from eval.generation_benchmark import AnswerGoldCase, evaluate_response
+from omnirag.models.response import Citation, EvidenceReference, OmniRAGResponse
+from omnirag.config.profiles import ProfileName
 
 
 def test_generation_benchmark_metrics_are_computed_from_labeled_case():
@@ -31,7 +31,7 @@ def test_unavailable_semantic_metrics_remain_null_when_aggregated():
     case = AnswerGoldCase("case-3", frozenset(), frozenset(), {}, False)
     response = OmniRAGResponse(answer="", profile_used=ProfileName.CORE)
     metrics = evaluate_response(case, response)
-    from evaluation.generation_benchmark import aggregate_answer_metrics
+    from eval.generation_benchmark import aggregate_answer_metrics
     aggregate = aggregate_answer_metrics([metrics])
     assert aggregate["faithfulness"] is None
     assert aggregate["answer_relevancy"] is None

@@ -15,7 +15,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data/realworld_corpus"
-EVAL_MANIFEST = ROOT / "evaluation/realworld/corpus_manifest.json"
+EVAL_MANIFEST = ROOT / "eval/realworld/corpus_manifest.json"
 LICENSE_CACHE = ROOT / ".m1p2_acquire"
 MAX_FILE_BYTES = 5 * 1024 * 1024
 FILE_NOTICE_PATTERN = re.compile(

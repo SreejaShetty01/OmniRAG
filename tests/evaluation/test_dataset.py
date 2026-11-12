@@ -7,13 +7,13 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from config.settings import Settings
-from evaluation.dataset import (
+from omnirag.config.settings import Settings
+from eval.dataset import (
     EvaluationDataset, create_manifest, dataset_checksum, validate_dataset,
     validate_manifest, write_release,
 )
-from evaluation.phase7c_seed import build_dataset
-from experiments.runtime import ExperimentConfig, ExperimentRunStore, ExperimentRunner
+from eval.phase7c_seed import build_dataset
+from omnirag.experiments.runtime import ExperimentConfig, ExperimentRunStore, ExperimentRunner
 
 
 ROOT = Path(__file__).resolve().parents[2]

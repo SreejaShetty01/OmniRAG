@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "m1-p3-claim-entailment-ab",
+  "version": "1.0.0",
+  "status": "prepared_not_run",
+  "design": {
+    "unit": "case_profile_condition_repetition",
+    "paired": true,
+    "profiles": ["lite", "core", "research"],
+    "repetitions": 5,
+    "seed": 20261104,
+    "concurrency": 1,
+    "same_case_profile_order_in_both_conditions": true,
+    "lite_role": "compatibility check; Lite uses citations_only and should not invoke claim entailment"
+  },
+  "dataset": {
+    "id": "omnirag-phase8-eval",
+    "version": "1.0.1",
+    "path": "eval/datasets/omnirag-phase8-eval-1.0.1.json",
+    "dataset_sha256": "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
+    "file_sha256": "6a99cdd3389e4579a5d4e0aa55d083764595361680bd4b09af7168df8defc561",
+    "case_count": 40,
+    "immutable": true
+  },
+  "corpus": {
+    "collection": "omnirag_eval_phase8_20261104",
+    "snapshot_manifest": "docs/audit/phase8_eval_corpus_manifest.json",
+    "snapshot_manifest_file_sha256": "e471427114a8559be3f8253edf7388feff4f0bb45b777c8948468256b578d45a",
+    "snapshot_sha256": "2b325b263d49775788e66d3594c3d1109c319205c563a7c9253ad2b11dbf3847"
+  },
+  "shared_conditions": {
+    "generation_provider": "openai_compatible",
+    "generation_model_id": "llama3.2:3b",
+    "generation_endpoint": "http://host.docker.internal:11434/v1",
+    "generation_temperature": 0,
+    "embedding_provider": "openai_compatible",
+    "embedding_model_id": "nomic-embed-text",
+    "embedding_dimensions": 768,
+    "retrieval_configuration_source": "config/profiles.py and the pinned snapshot manifest",
+    "application_retrieval_cache_policy": "disabled_by_profile_policy_ttl_zero",
+    "research_escalation": false,
+    "request_timeout_seconds": 150,
+    "run_timeout_seconds": 108000,
+    "budget": {
+      "max_cost_usd": 0,
+      "max_total_tokens": 4200000,
+      "max_provider_calls": 3000
+    }
+  },
+  "conditions": {
+    "control": {
+      "verification_provider": null,
+      "verification_model_id": null,
+      "verification_endpoint": null,
+      "effective_verifier": "numeric and identifier checks followed by UnconfiguredEntailmentVerifier; semantic result is uncertain"
+    },
+    "treatment": {
+      "verification_provider": "openai_compatible",
+      "verification_model_id": "llama3.2:3b",
+      "verification_endpoint": "http://host.docker.internal:11434/v1",
+      "effective_verifier": "ChatEntailmentVerifier; temperature 0; JSON-object response format"
+    }
+  },
+  "scoring": {
+    "implementation": "eval/phase8_scorer.py",
+    "scorer_version": "phase8-offline-2",
+    "offline_only": true,
+    "paired_key": ["case_id", "profile", "repetition"],
+    "metrics": [
+      "expected answer match on answerable cases",
+      "correct abstention and false abstention on answerability denominators",
+      "evidence and citation precision/recall and citation validity",
+      "supported, unsupported, contradicted, and uncertain claim-status counts",
+      "ACL/tenant audit pass (hard gate)",
+      "latency_ms, input_tokens, output_tokens, provider/model metadata"
+    ],
+    "claim_level_false_acceptance_rejection": "not computable from the current case-level gold labels; requires human-adjudicated atomic claim/evidence labels and must be reported UNKNOWN until supplied"
+  },
+  "hard_gates": [
+    "any ACL or tenant violation fails the experiment",
+    "any denied evidence exposed in candidate, evidence, citation, response, or artifact data fails the experiment",
+    "unknown evidence-to-chunk mapping fails the experiment",
+    "budget, timeout, provider, and missing-ledger stop policies remain enabled"
+  ],
+  "reproducibility": {
+    "source_revision_must_be_recorded_at_execution": true,
+    "model_digests": "UNKNOWN until local Ollama metadata is accessible",
+    "raw_user_content_retention": "follow existing Phase 8 privacy-safe attempt artifact allowlist",
+    "execution_authorized": false
+  }
+}

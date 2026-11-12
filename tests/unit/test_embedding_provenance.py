@@ -3,11 +3,11 @@ from types import SimpleNamespace
 import pytest
 from qdrant_client import models
 
-from indexing.provenance import (
+from omnirag.indexing.provenance import (
     EmbeddingProvenanceMismatch, assert_collection_embedder_compatible, new_point_provenance,
 )
-from indexing.qdrant_indexer import prepare_point
-from models.chunk import Chunk
+from omnirag.indexing.qdrant_indexer import prepare_point
+from omnirag.models.chunk import Chunk
 
 
 def test_new_point_has_provenance_and_legacy_point_is_tolerated():

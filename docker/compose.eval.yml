@@ -1,0 +1,110 @@
+# Additive Phase 8 API. Run with:
+# docker compose -f docker/compose.yml -f docker/compose.eval.yml up -d --build api-eval api-eval-rw
+# The existing .env is read unchanged; every Phase 8-specific value is overridden below.
+services:
+  api-eval:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: omnirag-api-eval
+    cpus: "2.0"
+    mem_limit: 4g
+    container_name: omnirag-api-eval
+    command: uvicorn omnirag.api.main:app --host 0.0.0.0 --port 8000
+    env_file:
+      - ../.env
+      - ../.env.phase8
+    environment:
+      OMNIRAG_ENVIRONMENT: production
+      OMNIRAG_QDRANT_URL: http://qdrant:6333
+      OMNIRAG_QDRANT_COLLECTION: omnirag_eval_phase8_20261104
+      OMNIRAG_DATA_DIR: /app/data
+      OMNIRAG_VALIDATION_MAX_COST_USD: "0"
+      OMNIRAG_VALIDATION_MAX_TOTAL_TOKENS: "4200000"
+      OMNIRAG_VALIDATION_MAX_CALLS: "3000"
+      OMNIRAG_RATE_LIMIT_REQUESTS_PER_MINUTE: "1200"
+      # Only the two currently configured local Ollama model IDs are admitted.
+      # Any other provider/model is rejected by the spend guard before a call.
+      OMNIRAG_PROVIDER_PRICE_TABLE_JSON: '{"openai_compatible/llama3.2:3b":{"input_per_million_usd":0,"output_per_million_usd":0},"openai_compatible/nomic-embed-text":{"input_per_million_usd":0,"output_per_million_usd":0}}'
+    ports:
+      - "127.0.0.1:8001:8000"
+    volumes:
+      - omnirag_eval_data:/app/data
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=3)"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  api-eval-rw:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: omnirag-api-eval-rw
+    cpus: "2.0"
+    mem_limit: 4g
+    container_name: omnirag-api-eval-rw
+    command: uvicorn omnirag.api.main:app --host 0.0.0.0 --port 8000
+    env_file:
+      - ../.env.phase8-rw
+    environment:
+      OMNIRAG_ENVIRONMENT: production
+      OMNIRAG_API_PORT: "8000"
+      OMNIRAG_QDRANT_URL: http://qdrant-rw:6333
+      OMNIRAG_QDRANT_COLLECTION: omnirag_eval_rw_omnirag_realtech_m1p2_nomic768
+      OMNIRAG_REQUIRE_EVAL_COLLECTION_PREFIX: "true"
+      OMNIRAG_DATA_DIR: /app/data
+      OMNIRAG_EMBEDDING_SPACE_ALIAS: nomic-embed-text-768
+      OMNIRAG_EMBEDDING_MODEL_DIGEST: ""
+      OMNIRAG_VALIDATION_MAX_COST_USD: "0"
+      OMNIRAG_VALIDATION_MAX_TOTAL_TOKENS: "4200000"
+      OMNIRAG_VALIDATION_MAX_CALLS: "3000"
+      OMNIRAG_RATE_LIMIT_REQUESTS_PER_MINUTE: "1200"
+    ports:
+      - "127.0.0.1:8002:8000"
+    volumes:
+      - omnirag_eval_rw_data:/app/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=3)"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  qdrant-rw:
+    image: qdrant/qdrant:latest
+    cpus: "1.0"
+    mem_limit: 2g
+    container_name: omnirag-qdrant-rw
+    ports:
+      - "127.0.0.1:6335:6333"
+    volumes:
+      - omnirag_eval_rw_qdrant_data:/qdrant/storage
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - -ec
+        - 'exec 3<>/dev/tcp/127.0.0.1/6333; printf "GET /healthz HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n" >&3; IFS= read -r response <&3; [[ "$$response" == *"200"* ]]'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  omnirag_eval_data:
+  omnirag_eval_rw_data:
+
+  omnirag_eval_rw_qdrant_data:

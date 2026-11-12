@@ -2,7 +2,7 @@ import json
 import hashlib
 from pathlib import Path
 
-from evaluation.dataset import EvaluationDataset, dataset_checksum
+from eval.dataset import EvaluationDataset, dataset_checksum
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,7 +32,7 @@ def test_p3_changes_only_verification_role_and_uses_offline_scorer():
     verification_keys = {"verification_provider", "verification_model_id", "verification_endpoint",
                          "effective_verifier"}
     assert {key for key in control if control[key] != treatment[key]} == verification_keys
-    assert config["scoring"]["implementation"] == "evaluation/phase8_scorer.py"
+    assert config["scoring"]["implementation"] == "eval/phase8_scorer.py"
     assert config["scoring"]["scorer_version"] == "phase8-offline-2"
     assert config["scoring"]["offline_only"] is True
     assert "UNKNOWN" in config["scoring"]["claim_level_false_acceptance_rejection"]

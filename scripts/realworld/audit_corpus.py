@@ -15,7 +15,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
+from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
 from scripts.realworld.prepare_corpus import CORPUS_ROOT, MANIFEST, validate_corpus
 
 
@@ -253,7 +253,7 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, default=MANIFEST)
     parser.add_argument("--corpus-root", type=Path, default=CORPUS_ROOT)
     parser.add_argument("--evaluation-manifest", type=Path,
-                        default=ROOT / "evaluation/realworld/corpus_manifest.json")
+                        default=ROOT / "eval/realworld/corpus_manifest.json")
     parser.add_argument("--progress", type=Path, default=None)
     parser.add_argument("--qdrant-url", default="http://localhost:6333")
     parser.add_argument("--principal-user-id", default=None)

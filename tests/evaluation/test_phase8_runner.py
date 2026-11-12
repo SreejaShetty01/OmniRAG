@@ -3,9 +3,9 @@ import hashlib
 import pytest
 from urllib.error import URLError
 
-import evaluation.phase8_runner as runner_module
-from evaluation.dataset import EvaluationCase
-from evaluation.phase8_runner import (
+import eval.phase8_runner as runner_module
+from eval.dataset import EvaluationCase
+from eval.phase8_runner import (
     DEFAULT_RUN_TIMEOUT_SECONDS,
     EXPECTED_DATASET_SHA256,
     MAX_PROVIDER_CALLS,
@@ -205,7 +205,7 @@ def test_empty_generation_usage_for_safe_abstention_does_not_trigger_budget_stop
 
 
 def test_request_signs_identity_and_forces_no_escalation():
-    from api.trusted_proxy import verify_proxy_identity
+    from omnirag.api.trusted_proxy import verify_proxy_identity
 
     unit = ScheduledUnit(case(), "lite", 1)
     body, headers, request_id = build_chat_request(

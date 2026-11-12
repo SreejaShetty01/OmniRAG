@@ -15,8 +15,8 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from config.settings import get_settings
-from evaluation.dataset import (
+from omnirag.config.settings import get_settings
+from eval.dataset import (
     CORPUS_ID,
     CORPUS_VERSION,
     DATASET_ID,
@@ -24,11 +24,11 @@ from evaluation.dataset import (
     dataset_checksum,
     validate_dataset,
 )
-from evaluation.phase8_safety import require_evaluation_collection
-from indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
-from infrastructure.provider_budget import activate_run_budget
-from ingestion.pipeline import IngestionPipeline, IngestionStatus
-from models.chunk import AccessControlMetadata
+from eval.phase8_safety import require_evaluation_collection
+from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
+from omnirag.infrastructure.provider_budget import activate_run_budget
+from omnirag.ingestion.pipeline import IngestionPipeline, IngestionStatus
+from omnirag.models.chunk import AccessControlMetadata
 
 
 DATASET_PATH = ROOT / "evaluation" / "datasets" / f"{DATASET_ID}-{DATASET_VERSION}.json"
@@ -134,7 +134,7 @@ def _scroll_all(client, collection: str) -> list[Any]:
 
 def _evidence_mappings(dataset, corpus_root: Path, point_summaries: list[dict[str, Any]],
                        points: list[Any]) -> list[dict[str, Any]]:
-    from evaluation.dataset import _read_source
+    from eval.dataset import _read_source
 
     mapping = []
     for case in dataset.cases:
@@ -207,8 +207,8 @@ def run(*, audit_existing: bool = False) -> dict[str, Any]:
     if dataset_manifest.get("dataset_sha256") != checksum:
         raise ValueError("Dataset sidecar manifest checksum does not match dataset")
 
-    from indexing.embeddings import provider_from_config
-    from infrastructure.qdrant_client import get_qdrant_client
+    from omnirag.indexing.embeddings import provider_from_config
+    from omnirag.infrastructure.qdrant_client import get_qdrant_client
 
     client = get_qdrant_client()
     if client.collection_exists(collection):

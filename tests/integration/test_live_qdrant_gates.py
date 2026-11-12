@@ -21,9 +21,9 @@ def _client_or_skip():
 def test_live_qdrant_tenant_and_acl_filters_reject_other_principals():
     from qdrant_client import models
 
-    from config.settings import get_settings
-    from retrieval.contracts import RetrievalFilters, RetrievalScope
-    from retrieval.query_filters import FilterBuilder
+    from omnirag.config.settings import get_settings
+    from omnirag.retrieval.contracts import RetrievalFilters, RetrievalScope
+    from omnirag.retrieval.query_filters import FilterBuilder
 
     client = _client_or_skip()
     name = f"omnirag_7a_gate_{uuid4().hex[:12]}"
@@ -61,8 +61,8 @@ def test_live_qdrant_tenant_and_acl_filters_reject_other_principals():
 
 
 def test_live_retrieval_cache_key_separates_tenants_and_corpus_versions():
-    from retrieval.contracts import RetrievalFilters, RetrievalPolicy, RetrievalScope
-    from retrieval.hybrid_retriever import HybridRetriever
+    from omnirag.retrieval.contracts import RetrievalFilters, RetrievalPolicy, RetrievalScope
+    from omnirag.retrieval.hybrid_retriever import HybridRetriever
 
     retriever = HybridRetriever(dense_retriever=object(), sparse_retriever=object(),
                                 expander=object(), collection="phase7a-live")

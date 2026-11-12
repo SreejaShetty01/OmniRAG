@@ -2,9 +2,9 @@ import json
 
 import pytest
 
-from config.settings import Settings
-from evaluation.phase8_safety import require_evaluation_collection
-from infrastructure.provider_budget import BudgetExceeded, activate_run_budget, before_provider_call
+from omnirag.config.settings import Settings
+from eval.phase8_safety import require_evaluation_collection
+from omnirag.infrastructure.provider_budget import BudgetExceeded, activate_run_budget, before_provider_call
 
 
 def test_collection_guard_accepts_only_phase8_prefixed_targets():

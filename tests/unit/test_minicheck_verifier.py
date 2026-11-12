@@ -4,19 +4,19 @@ from io import BytesIO
 
 import pytest
 
-from config.settings import Settings
-from evaluation.p3_grounding_scorer import score_grounding, write_audit_csv
-from generation.answer_pipeline import AnswerPipeline
-from models.response import ClaimVerificationStatus
-from generation.answer_generator import AnswerGenerator
-from models.chunk import AccessControlMetadata, Chunk
-from models.document import DocumentType
-from retrieval.contracts import (EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis,
+from omnirag.config.settings import Settings
+from eval.p3_grounding_scorer import score_grounding, write_audit_csv
+from omnirag.generation.answer_pipeline import AnswerPipeline
+from omnirag.models.response import ClaimVerificationStatus
+from omnirag.generation.answer_generator import AnswerGenerator
+from omnirag.models.chunk import AccessControlMetadata, Chunk
+from omnirag.models.document import DocumentType
+from omnirag.retrieval.contracts import (EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis,
                                  QueryCharacteristics, RetrievalEvidence, RetrievalFilters, RetrievalResult)
-from services.claim_entailment.server import verify_request
-from verification.claim_extractor import extract_claims
-from verification.claim_verifier import verify_claims
-from verification.nli_verifier import (EntailmentLabel, EntailmentResult,
+from omnirag.services.claim_entailment.server import verify_request
+from omnirag.verification.claim_extractor import extract_claims
+from omnirag.verification.claim_verifier import verify_claims
+from omnirag.verification.nli_verifier import (EntailmentLabel, EntailmentResult,
                                         HttpMiniCheckVerifier, UnconfiguredEntailmentVerifier)
 
 
@@ -39,7 +39,7 @@ class FakeProvider:
         self.payload, self.requests = payload, []
 
     def complete(self, request):
-        from llm.llm_client import ChatResponse
+        from omnirag.llm.llm_client import ChatResponse
         self.requests.append(request)
         value = self.payload.pop(0) if isinstance(self.payload, list) else self.payload
         return ChatResponse(json.dumps(value), "fake", "test-model", 10, 5, 0.0)

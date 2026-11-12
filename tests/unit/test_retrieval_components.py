@@ -1,23 +1,23 @@
 import pytest
 from pydantic import ValidationError
 
-from models.query import Query
-from models.chunk import Chunk
-from models.document import DocumentType
-from retrieval.cache import RetrievalCache
-from retrieval.contracts import (
+from omnirag.models.query import Query
+from omnirag.models.chunk import Chunk
+from omnirag.models.document import DocumentType
+from omnirag.retrieval.cache import RetrievalCache
+from omnirag.retrieval.contracts import (
     EvidenceAssessmentState,
     RetrievalCandidate,
     RetrievalFilters,
     RetrievalPolicy,
     RetrievalScope,
 )
-from retrieval.deduplication import deduplicate
-from retrieval.evidence_selection import EvidenceSelector
-from retrieval.fusion import ReciprocalRankFusion, StructuralScorer
-from retrieval.query_analyzer import QueryAnalyzer
-from retrieval.query_filters import FilterBuilder
-from retrieval.sufficiency import EvidenceSufficiencyAssessor
+from omnirag.retrieval.deduplication import deduplicate
+from omnirag.retrieval.evidence_selection import EvidenceSelector
+from omnirag.retrieval.fusion import ReciprocalRankFusion, StructuralScorer
+from omnirag.retrieval.query_analyzer import QueryAnalyzer
+from omnirag.retrieval.query_filters import FilterBuilder
+from omnirag.retrieval.sufficiency import EvidenceSufficiencyAssessor
 
 
 def candidate(chunk_id: str, *, dense_rank=None, sparse_rank=None, content="some technical evidence"):
@@ -70,7 +70,7 @@ def test_filter_builder_requires_active_points_acl_and_tenant():
 
 
 def test_filter_builder_fails_closed_without_tenant():
-    from retrieval.query_filters import FilterBuilder
+    from omnirag.retrieval.query_filters import FilterBuilder
     with pytest.raises(ValueError, match="Tenant scope is required"):
         FilterBuilder().build(RetrievalFilters(), RetrievalScope(principal_ids=("user:alice",)))
 

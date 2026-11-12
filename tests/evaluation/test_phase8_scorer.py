@@ -1,6 +1,6 @@
 import json
 
-from evaluation.phase8_scorer import score_artifacts
+from eval.phase8_scorer import score_artifacts
 
 
 def test_offline_scorer_is_deterministic_and_keeps_unavailable_null():

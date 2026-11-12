@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 
-from indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS, QdrantIndexer
+from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS, QdrantIndexer
 
 
 class IndexClient:
