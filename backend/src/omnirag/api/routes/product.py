@@ -55,7 +55,7 @@ def application_settings(identity: Identity):
 
 
 def _gold_dataset_available() -> bool:
-    path = Path(__file__).resolve().parents[2] / "evaluation" / "eval_dataset.json"
+    path = Path(__file__).resolve().parents[5] / "eval" / "eval_dataset.json"
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
