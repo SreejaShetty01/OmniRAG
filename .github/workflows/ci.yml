@@ -27,6 +27,6 @@ jobs:
       - name: Validate Docker Compose configuration
         run: |
           cp .env.example .env
-          docker compose config --quiet
+          docker compose -f docker/compose.yml -f docker/compose.eval.yml config --quiet
       - name: Build Docker image
         run: docker build --tag omnirag:ci .
