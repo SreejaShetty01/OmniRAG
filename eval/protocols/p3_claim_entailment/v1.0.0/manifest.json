@@ -4,7 +4,7 @@
     "version":  "1.0.0",
     "status":  "prepared_not_run",
     "config_path":  "eval/protocols/p3_claim_entailment/v1.0.0/config.json",
-    "config_sha256":  "a9128e6c79b09c9f6e9b6a2b2d30c33ba054f93340ae932e73daaed5d50139ba",
+    "config_sha256":  "66e9a5d46e17b49e24b432329726eff2f422a7ee2aeee8814753b889febed9b5",
     "dataset_file_sha256":  "6a99cdd3389e4579a5d4e0aa55d083764595361680bd4b09af7168df8defc561",
     "dataset_manifest_file_sha256":  "356d3e077ed85d944a02d06ffb1ea5a1ac83f963d4111bfc209719cc6ddb75eb",
     "dataset_checksum":  "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",

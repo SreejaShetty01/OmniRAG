@@ -4,7 +4,7 @@
     "version":  "1.1.0",
     "status":  "prepared_not_run",
     "config_path":  "eval/protocols/p3_claim_entailment/v1.1.0/config.json",
-    "config_sha256":  "9aad24b4bf0610b2e1e894eb1d1cf70716ca31f129aca1fe34e2b996ad6438a4",
+    "config_sha256":  "fff3c8a8038e727c827f85018d1ede45794f57e9d0ecca6d74bfaf292ba193ca",
     "dataset_checksum":  "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
     "snapshot_sha256":  "2b325b263d49775788e66d3594c3d1109c319205c563a7c9253ad2b11dbf3847",
     "verifier_model_id":  "lytang/MiniCheck-Flan-T5-Large",
