@@ -6,27 +6,32 @@ attempts contain allowlisted metadata and derived evaluation features.
 
 from __future__ import annotations
 
+import errno
 import hashlib
 import hmac
-import errno
 import json
 import random
 import re
 import socket
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 from uuid import uuid4
+
 from omnirag.utils.atomic_file import atomic_replace
 
-from evaluation.dataset import DATASET_ID, DATASET_VERSION, EvaluationCase, EvaluationDataset, dataset_checksum
-from evaluation.phase8_safety import require_evaluation_collection, verify_snapshot_manifest
-
+from eval.dataset import (
+    DATASET_ID,
+    DATASET_VERSION,
+    EvaluationCase,
+)
+from eval.scorers.phase8_safety import require_evaluation_collection, verify_snapshot_manifest
 
 EXPECTED_DATASET_SHA256 = "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1"
 DEFAULT_REQUEST_TIMEOUT_SECONDS = 150.0
@@ -484,7 +489,7 @@ class Phase8BenchmarkRunner:
                                 "max_total_tokens": self.max_total_tokens,
                                 "max_provider_calls": self.max_provider_calls},
                 "schedule_sha256": schedule_hash, "warmup": warmup,
-                "status": "running", "created_at": datetime.now(timezone.utc).isoformat(),
+                "status": "running", "created_at": datetime.now(UTC).isoformat(),
                 "schedule": schedule, "budget_usage": None,
             }
             _atomic_json(progress_path, progress)
@@ -546,7 +551,7 @@ class Phase8BenchmarkRunner:
             request_url = f"{self.base_url}/api/v1/chat"
             row["status"] = "in_progress"
             row["request_id"] = request_id
-            row["request_started_at"] = datetime.now(timezone.utc).isoformat()
+            row["request_started_at"] = datetime.now(UTC).isoformat()
             _atomic_json(progress_path, progress)
             started = time.monotonic()
             attempt_path = directory / "attempts" / f"{unit.attempt_key}.json"
@@ -623,9 +628,7 @@ class Phase8BenchmarkRunner:
                         stop_reason = "security_violation"
                     elif safe.get("authorization_audit", {}).get("unknown_evidence_mapping"):
                         stop_reason = "unknown_evidence_mapping"
-                    elif usage.get("estimated_cost_usd", 0) > self.max_cost_usd:
-                        stop_reason = "budget_cap"
-                    elif (usage.get("total_tokens", 0) >= self.max_total_tokens or
+                    elif usage.get("estimated_cost_usd", 0) > self.max_cost_usd or (usage.get("total_tokens", 0) >= self.max_total_tokens or
                           usage.get("calls", 0) >= self.max_provider_calls):
                         stop_reason = "budget_cap"
                     elif safe.get("status") == "completed_with_errors":
@@ -671,6 +674,6 @@ class Phase8BenchmarkRunner:
         ) else "stopped_run_timeout" if any(row["status"] == "not_run_run_timeout"
                                              for row in progress["schedule"])
             else "incomplete" if not terminal else "completed_with_failures")
-        progress["finished_at"] = datetime.now(timezone.utc).isoformat()
+        progress["finished_at"] = datetime.now(UTC).isoformat()
         _atomic_json(progress_path, progress)
         return progress

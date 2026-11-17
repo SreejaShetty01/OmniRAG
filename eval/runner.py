@@ -1,4 +1,4 @@
-"""Offline evaluation/reporting for immutable Phase 8 benchmark artifacts.
+"""Offline eval/reporting for immutable Phase 8 benchmark artifacts.
 
 This runner never contacts the API, Qdrant, or an inference provider. It validates
 the pinned dataset/snapshot identities, scores a saved run, and emits sanitized
@@ -8,24 +8,24 @@ JSON plus a readable Markdown summary.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
-from datetime import datetime, timezone
 import json
 import math
-from pathlib import Path
 import statistics
-from typing import Any, Iterable
+from collections import Counter
+from collections.abc import Iterable
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
 
-from evaluation.dataset import dataset_checksum
-from evaluation.phase8_safety import verify_snapshot_manifest
-from evaluation.phase8_scorer import score_directory
-
+from eval.dataset import dataset_checksum
+from eval.scorers.phase8_safety import verify_snapshot_manifest
+from eval.scorers.phase8_scorer import score_directory
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_DATASET = ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json"
+DEFAULT_DATASET = ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json"
 DEFAULT_SNAPSHOT = ROOT / "docs/audit/phase8_eval_corpus_manifest.json"
 DEFAULT_BENCHMARK = ROOT / "data/phase8/benchmarks/phase8-pilot-20261104-b5"
-DEFAULT_OUTPUT = ROOT / "evaluation/results/phase8-b5-offline"
+DEFAULT_OUTPUT = ROOT / "eval/results/phase8-b5-offline"
 PROFILES = ("lite", "core", "research")
 
 
@@ -189,7 +189,7 @@ def evaluate_saved_run(dataset_path: str | Path, snapshot_path: str | Path,
 
     return {
         "schema_version": "1.0",
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_at_utc": datetime.now(UTC).isoformat(),
         "evaluation_kind": "offline_historical_artifact_replay",
         "baseline_validity": "invalid_incomplete_historical_pilot",
         "source_run": {

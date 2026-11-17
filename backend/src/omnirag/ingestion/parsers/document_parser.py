@@ -1,3 +1,4 @@
+import hashlib
 """Structure-preserving parser for PDF, DOCX, TXT, Markdown, and HTML."""
 
 import html
@@ -7,7 +8,12 @@ from pathlib import PurePath
 
 from omnirag.ingestion.loaders.base import SourceLoadError
 from omnirag.ingestion.structure.normalize import make_normalized_document, stable_id
-from omnirag.ingestion.structure.schema import ContentBlock, ContentKind, LoadedSource, NormalizedDocument
+from omnirag.ingestion.structure.schema import (
+    ContentBlock,
+    ContentKind,
+    LoadedSource,
+    NormalizedDocument,
+)
 from omnirag.models.document import DocumentType
 
 
@@ -138,6 +144,7 @@ class DocumentParser:
         """Prefer Docling's layout-aware conversion when the optional extra is installed."""
         try:
             from io import BytesIO
+
             from docling.datamodel.base_models import DocumentStream
             from docling.document_converter import DocumentConverter
         except ImportError:
@@ -260,12 +267,13 @@ class DocumentParser:
 
     def _docx(self, source: LoadedSource) -> NormalizedDocument:
         try:
+            from io import BytesIO
+
             from docx import Document as DocxDocument
-            from docx.table import Table
-            from docx.text.paragraph import Paragraph
             from docx.oxml.table import CT_Tbl
             from docx.oxml.text.paragraph import CT_P
-            from io import BytesIO
+            from docx.table import Table
+            from docx.text.paragraph import Paragraph
             document = DocxDocument(BytesIO(source.data))
             blocks: list[ContentBlock] = []
             headings: list[str] = []

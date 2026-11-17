@@ -3,17 +3,19 @@ import json
 import sys
 
 import pytest
-
 from omnirag.config.profiles import PROFILE_CONFIGS, ProfileName
 from omnirag.config.settings import Settings
-from experiments.runtime import (
-    ExperimentConfig, ExperimentRunStore, ExperimentRunner, ReplayUnavailable,
+from omnirag.experiments.runtime import (
+    ExperimentConfig,
+    ExperimentRunner,
+    ExperimentRunStore,
+    ReplayUnavailable,
     StageTraceCollector,
 )
-from omnirag.models.response import OmniRAGResponse
-from omnirag.profiles.execution import ProfileExecutionService
 from omnirag.models.chunk import AccessControlMetadata, Chunk
 from omnirag.models.document import DocumentType
+from omnirag.models.response import OmniRAGResponse
+from omnirag.profiles.execution import ProfileExecutionService
 from omnirag.retrieval.contracts import RetrievalCandidate, RetrievalPolicy, RetrievalScope
 from omnirag.retrieval.hybrid_retriever import HybridRetriever
 
@@ -110,7 +112,7 @@ def test_manifest_trace_result_and_unique_run_ids(tmp_path):
     initial_statuses = []
 
     async def execute():
-        from experiments.runtime import record_stage
+        from omnirag.experiments.runtime import record_stage
         statuses = [json.loads(path.read_text(encoding="utf-8"))["status"]
                     for path in tmp_path.glob("*/manifest.json")]
         initial_statuses.append(statuses.count("running"))

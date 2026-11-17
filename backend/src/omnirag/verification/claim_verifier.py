@@ -2,10 +2,10 @@
 
 import re
 
+from omnirag.infrastructure.provider_budget import BudgetExceeded
 from omnirag.models.response import ClaimVerification, ClaimVerificationStatus
 from omnirag.retrieval.contracts import RetrievalEvidence
 from omnirag.verification.nli_verifier import EntailmentLabel, EntailmentVerifier
-from omnirag.infrastructure.provider_budget import BudgetExceeded
 
 _NUMBER = re.compile(r"(?<![\w.])[-+]?\d+(?:\.\d+)?%?(?![\w.])")
 _IDENTIFIER = re.compile(

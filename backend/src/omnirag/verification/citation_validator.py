@@ -4,9 +4,9 @@ import re
 
 from omnirag.generation.citation_builder import build_references, evidence_id_map
 from omnirag.models.response import (
+    Citation,
     ClaimVerification,
     ClaimVerificationStatus,
-    Citation,
     EvidenceReference,
 )
 from omnirag.retrieval.contracts import RetrievalEvidence

@@ -1,13 +1,12 @@
-import json
 import hashlib
+import json
 from pathlib import Path
 
-from evaluation.dataset import EvaluationDataset, dataset_checksum
-
+from eval.dataset import EvaluationDataset, dataset_checksum
 
 ROOT = Path(__file__).resolve().parents[2]
-P3 = ROOT / "experiments/p3_claim_entailment/v1.0.0"
-P3_HTTP = ROOT / "experiments/p3_claim_entailment/v1.1.0"
+P3 = ROOT / "eval/protocols/p3_claim_entailment/v1.0.0"
+P3_HTTP = ROOT / "eval/protocols/p3_claim_entailment/v1.1.0"
 
 
 def test_p3_config_pins_immutable_development_inputs_and_paired_conditions():
@@ -32,7 +31,7 @@ def test_p3_changes_only_verification_role_and_uses_offline_scorer():
     verification_keys = {"verification_provider", "verification_model_id", "verification_endpoint",
                          "effective_verifier"}
     assert {key for key in control if control[key] != treatment[key]} == verification_keys
-    assert config["scoring"]["implementation"] == "evaluation/phase8_scorer.py"
+    assert config["scoring"]["implementation"] == "eval/phase8_scorer.py"
     assert config["scoring"]["scorer_version"] == "phase8-offline-2"
     assert config["scoring"]["offline_only"] is True
     assert "UNKNOWN" in config["scoring"]["claim_level_false_acceptance_rejection"]

@@ -6,15 +6,14 @@ by the application except in tests; PyTorch and MiniCheck never enter the API pr
 
 from __future__ import annotations
 
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import hashlib
 import hmac
 import json
 import math
 import os
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Protocol
-
 
 MAX_BODY_BYTES = 1_000_000
 

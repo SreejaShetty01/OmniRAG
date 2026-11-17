@@ -4,7 +4,6 @@ import hashlib
 import json
 import re
 
-
 EVALUATION_COLLECTION_PREFIX = "omnirag_eval_"
 
 

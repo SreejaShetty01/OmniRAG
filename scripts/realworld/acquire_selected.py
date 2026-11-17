@@ -4,18 +4,16 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-import shutil
-from collections import Counter
-from datetime import datetime, timezone
-from pathlib import Path
 import sys
-from urllib.error import HTTPError, URLError
+from collections import Counter
+from datetime import UTC, datetime
+from pathlib import Path
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data/realworld_corpus"
-EVAL_MANIFEST = ROOT / "evaluation/realworld/corpus_manifest.json"
+EVAL_MANIFEST = ROOT / "eval/realworld/corpus_manifest.json"
 LICENSE_CACHE = ROOT / ".m1p2_acquire"
 MAX_FILE_BYTES = 5 * 1024 * 1024
 FILE_NOTICE_PATTERN = re.compile(
@@ -97,7 +95,7 @@ SELECTIONS = [
 
 
 def _utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def _download(repo: dict, original_path: str) -> tuple[bytes, str]:
@@ -139,7 +137,7 @@ def _license_copy(name: str, expected_sha: str, destination: Path) -> dict:
     return {"repository": name, "path": f"metadata/licenses/{name}/LICENSE",
             "source_url": REPOSITORIES[name]["license_url"], "license": REPOSITORIES[name]["license"],
             "sha256": actual.lower(), "file_size_bytes": len(body),
-            "retrieved_at": datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).isoformat(
+            "retrieved_at": datetime.fromtimestamp(source.stat().st_mtime, UTC).isoformat(
                 timespec="seconds").replace("+00:00", "Z"),
             "retrieval_note": "Downloaded from official raw URL at pinned commit during this task; hash rechecked from preserved bytes."}
 
@@ -215,7 +213,7 @@ def acquire() -> dict:
             "attribution_requirements": "Preserve repository LICENSE and NOTICE/source notices. If corpus files are redistributed, include required license and attribution notices and mark modifications as applicable.",
             "processing_restrictions": "Selected first-party upstream files only; source copied byte-for-byte; re-check any third-party notice before expanding selection.",
             "retrieved_at": _utc_now(),
-            "retrieval_date": datetime.now(timezone.utc).date().isoformat(),
+            "retrieval_date": datetime.now(UTC).date().isoformat(),
             "sha256": digest,
             "file_size_bytes": len(body),
             "file_format": fmt,

@@ -5,25 +5,30 @@ import hashlib
 import os
 import re
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Annotated
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException, Query as QueryParam, Request, status
-from omnirag.models.chunk import AccessControlMetadata
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import Query as QueryParam
 
 from omnirag.api.dependencies import (
-    RequestIdentity, get_ingestion_pipeline, get_product_store, get_qdrant_indexer, get_request_identity,
+    RequestIdentity,
+    get_ingestion_pipeline,
+    get_product_store,
+    get_qdrant_indexer,
+    get_request_identity,
 )
 from omnirag.api.routes.collections import _set_document_collection
 from omnirag.api.schemas import DocumentResponse
 from omnirag.config.settings import get_settings
+from omnirag.infrastructure.product_store import ProductStore
 from omnirag.ingestion.loaders.code_loader import CODE_LANGUAGES, GENERIC_CODE_EXTENSIONS
 from omnirag.ingestion.loaders.document_loader import DOCUMENT_EXTENSIONS
 from omnirag.ingestion.pipeline import IngestionPipeline, IngestionResult, IngestionStatus
-from omnirag.infrastructure.product_store import ProductStore
 from omnirag.ingestion.structure.normalize import stable_id
+from omnirag.models.chunk import AccessControlMetadata
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 Identity = Annotated[RequestIdentity, Depends(get_request_identity)]
@@ -115,7 +120,7 @@ async def upload_document(request: Request, identity: Identity, store: Store, pi
     source_hash = hashlib.sha256(body).hexdigest()
     effective_version = version or (
         existing["version"] if existing and existing["source_hash"] == source_hash else
-        datetime.now(timezone.utc).strftime("upload-%Y%m%dT%H%M%SZ"))
+        datetime.now(UTC).strftime("upload-%Y%m%dT%H%M%SZ"))
     store.upsert_document(
         document_id=document_id, user_id=identity.user_id, tenant_id=identity.tenant_id,
         source_path=str(target), filename=filename, version=effective_version,

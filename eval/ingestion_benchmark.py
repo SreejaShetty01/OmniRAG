@@ -4,7 +4,11 @@ from dataclasses import dataclass
 from enum import StrEnum
 
 from omnirag.ingestion.chunking.contextualizer import DeterministicContextualizer
-from omnirag.ingestion.chunking.structure_chunker import ChunkingConfig, StructureChunker, estimate_tokens
+from omnirag.ingestion.chunking.structure_chunker import (
+    ChunkingConfig,
+    StructureChunker,
+    estimate_tokens,
+)
 from omnirag.ingestion.structure.schema import NormalizedDocument
 
 

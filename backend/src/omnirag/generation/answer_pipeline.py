@@ -1,24 +1,30 @@
 """Shared generation, citation validation, claim verification, and bounded correction."""
 
+import logging
 import re
 import time
-import logging
 
 from omnirag.config.profiles import ProfileName
 from omnirag.config.settings import get_settings
+from omnirag.experiments.runtime import record_stage
 from omnirag.generation.answer_generator import AnswerGenerator
+from omnirag.infrastructure.provider_budget import BudgetExceeded
 from omnirag.models.query import Query
 from omnirag.models.response import (
-    ClaimVerificationStatus, OmniRAGResponse, VerificationStatus,
+    ClaimVerificationStatus,
+    OmniRAGResponse,
+    VerificationStatus,
 )
 from omnirag.retrieval.contracts import EvidenceAssessmentState, RetrievalResult
-from omnirag.verification.abstention import ABSTENTION_TEXT, abstention_reason, unmatched_query_entities
+from omnirag.verification.abstention import (
+    ABSTENTION_TEXT,
+    abstention_reason,
+    unmatched_query_entities,
+)
 from omnirag.verification.citation_validator import validate_citations
 from omnirag.verification.claim_verifier import verify_claims
 from omnirag.verification.contradiction_detector import detect_contradictions
-from omnirag.infrastructure.provider_budget import BudgetExceeded
 from omnirag.verification.nli_verifier import UnconfiguredEntailmentVerifier
-from experiments.runtime import record_stage
 
 logger = logging.getLogger(__name__)
 

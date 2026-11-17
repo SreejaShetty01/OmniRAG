@@ -7,9 +7,9 @@ import json
 import math
 import threading
 from collections import OrderedDict
+from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import Iterator
 
 
 class BudgetExceeded(RuntimeError):
@@ -25,7 +25,7 @@ def estimate_tokens(text: str) -> int:
 
 @dataclass(frozen=True)
 class BudgetTicket:
-    ledger: "RunBudget"
+    ledger: RunBudget
     provider: str
     model: str
     input_tokens: int

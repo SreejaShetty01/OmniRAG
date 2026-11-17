@@ -2,14 +2,19 @@
 
 import json
 import math
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Protocol, Sequence
+from typing import Protocol
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
-from omnirag.infrastructure.provider_budget import (BudgetExceeded, after_provider_call,
-                                            before_provider_call, estimate_tokens)
 
 from omnirag.config.settings import get_settings
+from omnirag.infrastructure.provider_budget import (
+    BudgetExceeded,
+    after_provider_call,
+    before_provider_call,
+    estimate_tokens,
+)
 from omnirag.retrieval.contracts import RetrievalCandidate
 
 

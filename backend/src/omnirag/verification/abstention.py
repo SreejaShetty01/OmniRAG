@@ -4,8 +4,7 @@ import re
 
 from omnirag.retrieval.contracts import EvidenceAssessmentState, RetrievalResult
 
-
-ABSTENTION_TEXT = "I don’t have enough retrieved evidence to answer this reliably."
+ABSTENTION_TEXT = "I donâ€™t have enough retrieved evidence to answer this reliably."
 _QUERY_WORD = re.compile(r"\b[A-Za-z][A-Za-z0-9]*\b")
 _ENTITY_CUES = {"of", "for", "from", "at", "in", "into", "about", "by", "to", "called", "named"}
 _QUESTION_WORDS = {"who", "what", "when", "where", "why", "how", "which", "whose", "whom",

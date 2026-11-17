@@ -8,7 +8,8 @@ import time
 from typing import Any
 
 from omnirag.config.settings import get_settings
-from omnirag.indexing.embeddings import EmbeddingService, EmbeddingProvider, provider_from_config
+from omnirag.experiments.runtime import record_stage
+from omnirag.indexing.embeddings import EmbeddingProvider, EmbeddingService, provider_from_config
 from omnirag.indexing.provenance import assert_collection_embedder_compatible, configured_embedder
 from omnirag.infrastructure.provider_budget import BudgetExceeded
 from omnirag.infrastructure.qdrant_client import get_qdrant_client
@@ -30,7 +31,6 @@ from omnirag.retrieval.query_filters import FilterBuilder
 from omnirag.retrieval.reranker import Reranker, reranker_from_settings
 from omnirag.retrieval.sparse_retriever import SparseRetriever
 from omnirag.retrieval.sufficiency import EvidenceSufficiencyAssessor
-from experiments.runtime import record_stage
 
 logger = logging.getLogger(__name__)
 

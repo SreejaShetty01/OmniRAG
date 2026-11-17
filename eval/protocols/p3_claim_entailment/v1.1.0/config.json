@@ -16,7 +16,7 @@
   "dataset": {
     "id": "omnirag-phase8-eval",
     "version": "1.0.1",
-    "path": "evaluation/datasets/omnirag-phase8-eval-1.0.1.json",
+    "path": "eval/datasets/omnirag-phase8-eval-1.0.1.json",
     "dataset_sha256": "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
     "file_sha256": "6a99cdd3389e4579a5d4e0aa55d083764595361680bd4b09af7168df8defc561",
     "manifest_file_sha256": "356d3e077ed85d944a02d06ffb1ea5a1ac83f963d4111bfc209719cc6ddb75eb",
@@ -60,7 +60,7 @@
     "treatment": {"experiment": {"verification": true, "semantic_verification": true}}
   },
   "scoring": {
-    "implementation": "evaluation/p3_grounding_scorer.py",
+    "implementation": "eval/p3_grounding_scorer.py",
     "offline_only": true,
     "unsupported_claim_rate": "unsupported claims / claims with resolved supported, unsupported, or contradicted status; uncertain and not_checked excluded",
     "citation_entailment_precision": "human-supported cited claim/evidence pairs / system-predicted-supported cited pairs with a human label",

@@ -11,14 +11,13 @@ import hashlib
 import json
 import re
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
 import pymupdf as fitz
 from docx import Document
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-
 
 DATASET_ID = "omnirag-phase8-eval"
 DATASET_VERSION = "1.0.1"
@@ -263,7 +262,7 @@ def create_manifest(dataset: EvaluationDataset | dict[str, Any], *, corpus_root:
         "manifest_schema_version": "1.0",
         "dataset_id": parsed.dataset_id,
         "dataset_version": parsed.dataset_version,
-        "created_at": created_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "created_at": created_at or datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "corpus_id": parsed.corpus_id,
         "corpus_version": parsed.corpus_version,
         "corpus_manifest": parsed.corpus_manifest,
@@ -321,9 +320,9 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dataset", type=Path, default=Path(f"evaluation/datasets/{DATASET_ID}-{DATASET_VERSION}.json"))
+    parser.add_argument("--dataset", type=Path, default=Path(f"eval/datasets/{DATASET_ID}-{DATASET_VERSION}.json"))
     parser.add_argument("--manifest", type=Path, default=Path(
-        f"evaluation/datasets/{DATASET_ID}-{DATASET_VERSION}.manifest.json"))
+        f"eval/datasets/{DATASET_ID}-{DATASET_VERSION}.manifest.json"))
     parser.add_argument("--corpus", type=Path, default=CORPUS_RELATIVE_ROOT)
     parser.add_argument("--repository-root", type=Path, default=Path.cwd())
     args = parser.parse_args()

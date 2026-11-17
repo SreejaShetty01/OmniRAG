@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 from typing import Any
 
-from evaluation.phase8_runner import FAILURE_CODE_PREFIXES
+from eval.phase8_runner import FAILURE_CODE_PREFIXES
 
 SCORER_VERSION = "phase8-offline-2"
 TERMINAL_FAILURES = {"failed", "timed_out", "indeterminate_after_interruption"}

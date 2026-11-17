@@ -2,8 +2,8 @@
 
 import logging
 import os
-from pathlib import Path
 import time
+from pathlib import Path
 from uuid import uuid4
 
 from fastapi import FastAPI, Request
@@ -12,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from omnirag.api.dependencies import get_qdrant_indexer
 from omnirag.api.routes.chat import router as chat_router
 from omnirag.api.routes.collections import router as collections_router
 from omnirag.api.routes.conversations import router as conversations_router
@@ -19,15 +20,17 @@ from omnirag.api.routes.documents import router as documents_router
 from omnirag.api.routes.preferences import router as preferences_router
 from omnirag.api.routes.product import router as product_router
 from omnirag.api.routes.profiles import router as profiles_router
-from omnirag.api.dependencies import get_qdrant_indexer
 from omnirag.api.trusted_proxy import identity_is_allowed, verify_proxy_identity
-from omnirag.infrastructure.provider_budget import (BudgetExceeded, activate_run_budget,
-                                            current_budget_snapshot)
-from omnirag.infrastructure.rate_limit import PrincipalRateLimiter, too_many_requests_response
-from omnirag.infrastructure.runtime_metrics import runtime_metrics
 from omnirag.config.profiles import PROFILE_CONFIGS
 from omnirag.config.settings import get_settings
+from omnirag.infrastructure.provider_budget import (
+    BudgetExceeded,
+    activate_run_budget,
+    current_budget_snapshot,
+)
 from omnirag.infrastructure.qdrant_client import get_qdrant_client
+from omnirag.infrastructure.rate_limit import PrincipalRateLimiter, too_many_requests_response
+from omnirag.infrastructure.runtime_metrics import runtime_metrics
 from omnirag.utils.logger import configure_logging
 
 settings = get_settings()

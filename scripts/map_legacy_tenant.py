@@ -6,7 +6,7 @@ import argparse
 import json
 import shutil
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 TABLES = {
@@ -19,7 +19,7 @@ TABLES = {
 def _audit(path: Path, event: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as stream:
-        stream.write(json.dumps({"at": datetime.now(timezone.utc).isoformat(), **event}) + "\n")
+        stream.write(json.dumps({"at": datetime.now(UTC).isoformat(), **event}) + "\n")
 
 
 def run_mapping(mapping: dict, *, sqlite_path: Path, qdrant_client, collection: str,
@@ -51,7 +51,7 @@ def run_mapping(mapping: dict, *, sqlite_path: Path, qdrant_client, collection: 
                                 "owner_id": owner_id, "action": action})
 
         if apply:
-            stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+            stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
             backup = sqlite_path.with_name(f"{sqlite_path.name}.{stamp}.bak")
             shutil.copy2(sqlite_path, backup)
             with sqlite3.connect(sqlite_path) as db:

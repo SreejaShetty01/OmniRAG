@@ -44,8 +44,8 @@ deploy/env.production
 docs/
 scripts/
 tests/
-evaluation/datasets/
-evaluation/results/
+eval/datasets/
+eval/results/
 .pytest-tmp-*/
 data/
 # The API imports experiments.runtime for request tracing and experiment runs.

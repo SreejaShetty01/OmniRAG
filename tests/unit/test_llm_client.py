@@ -1,6 +1,6 @@
 import json
 
-import omnirag.llm.llm_client as llm_client
+from omnirag.llm import llm_client
 from omnirag.llm.llm_client import (
     ChatMessage,
     ChatRequest,

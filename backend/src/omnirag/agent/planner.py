@@ -18,7 +18,7 @@ class DeterministicResearchPlanner:
 
     def decompose(self, query: str, limit: int) -> list[str]:
         text = query.strip()
-        parts = [part.strip(" \t-•0123456789.)") for part in re.split(r"\n+|;", text) if part.strip()]
+        parts = [part.strip(" \t-â€¢0123456789.)") for part in re.split(r"\n+|;", text) if part.strip()]
         if len(parts) == 1:
             match = re.match(r"(?i)^(what|describe|explain|compare)\s+(.+?)\s+and\s+(.+?)[?.]?$", text)
             if match and match.group(1).casefold() != "compare":

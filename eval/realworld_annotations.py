@@ -12,8 +12,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from evaluation.dataset import (EvaluationCase, EvaluationDataset, EvidenceReference,
-                                validate_dataset)
+from eval.dataset import EvaluationCase, EvaluationDataset, EvidenceReference, validate_dataset
 
 AnnotationCategory = Literal[
     "exact_identifier", "code_understanding", "multi_document_reasoning",
@@ -115,7 +114,7 @@ def _span_to_evidence(span: AnnotationSpan, corpus_root: Path,
     root = corpus_root.resolve()
     if not path.is_relative_to(root) or not path.is_file():
         raise ValueError(f"evidence document is missing or outside corpus: {span.source_document}")
-    from evaluation.dataset import _read_source
+    from eval.dataset import _read_source
     lines = _read_source(path)
     full = "\n".join(lines)
     if span.start_offset >= span.end_offset or span.end_offset > len(full):

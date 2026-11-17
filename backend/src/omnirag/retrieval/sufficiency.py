@@ -2,7 +2,11 @@
 
 from collections.abc import Sequence
 
-from omnirag.retrieval.contracts import EvidenceAssessment, EvidenceAssessmentState, RetrievalCandidate
+from omnirag.retrieval.contracts import (
+    EvidenceAssessment,
+    EvidenceAssessmentState,
+    RetrievalCandidate,
+)
 
 
 class EvidenceSufficiencyAssessor:

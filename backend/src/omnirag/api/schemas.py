@@ -1,12 +1,11 @@
 """Typed product API contracts, separate from storage and provider details."""
 
-from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from omnirag.config.profiles import ProfileName
+from omnirag.experiments.runtime import ExperimentConfig
 from omnirag.models.query import EscalationPreference
 from omnirag.models.response import OmniRAGResponse
-from experiments.runtime import ExperimentConfig
 
 
 class PreferencesResponse(BaseModel):

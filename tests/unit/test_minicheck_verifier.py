@@ -3,22 +3,31 @@ import json
 from io import BytesIO
 
 import pytest
-
 from omnirag.config.settings import Settings
-from evaluation.p3_grounding_scorer import score_grounding, write_audit_csv
-from omnirag.generation.answer_pipeline import AnswerPipeline
-from omnirag.models.response import ClaimVerificationStatus
 from omnirag.generation.answer_generator import AnswerGenerator
+from omnirag.generation.answer_pipeline import AnswerPipeline
 from omnirag.models.chunk import AccessControlMetadata, Chunk
 from omnirag.models.document import DocumentType
-from omnirag.retrieval.contracts import (EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis,
-                                 QueryCharacteristics, RetrievalEvidence, RetrievalFilters, RetrievalResult)
+from omnirag.models.response import ClaimVerificationStatus
+from omnirag.retrieval.contracts import (
+    EvidenceAssessment,
+    EvidenceAssessmentState,
+    QueryAnalysis,
+    QueryCharacteristics,
+    RetrievalEvidence,
+    RetrievalFilters,
+    RetrievalResult,
+)
 from omnirag.services.claim_entailment.server import verify_request
 from omnirag.verification.claim_extractor import extract_claims
 from omnirag.verification.claim_verifier import verify_claims
-from omnirag.verification.nli_verifier import (EntailmentLabel, EntailmentResult,
-                                        HttpMiniCheckVerifier, UnconfiguredEntailmentVerifier)
+from omnirag.verification.nli_verifier import (
+    EntailmentLabel,
+    HttpMiniCheckVerifier,
+    UnconfiguredEntailmentVerifier,
+)
 
+from eval.scorers.p3_grounding_scorer import score_grounding, write_audit_csv
 
 MODEL_ID = "lytang/MiniCheck-Flan-T5-Large"
 MODEL_DIGEST = "a" * 64

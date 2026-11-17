@@ -16,7 +16,7 @@
   "dataset": {
     "id": "omnirag-phase8-eval",
     "version": "1.0.1",
-    "path": "evaluation/datasets/omnirag-phase8-eval-1.0.1.json",
+    "path": "eval/datasets/omnirag-phase8-eval-1.0.1.json",
     "dataset_sha256": "7b44b8f616b2df74768ff9620c30d3a311000ef0bffd41015f7bb49123ca7af1",
     "file_sha256": "6a99cdd3389e4579a5d4e0aa55d083764595361680bd4b09af7168df8defc561",
     "case_count": 40,
@@ -62,7 +62,7 @@
     }
   },
   "scoring": {
-    "implementation": "evaluation/phase8_scorer.py",
+    "implementation": "eval/phase8_scorer.py",
     "scorer_version": "phase8-offline-2",
     "offline_only": true,
     "paired_key": ["case_id", "profile", "repetition"],

@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import csv
 import json
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 AUDIT_FIELDS = ["record_type", "sample_slot", "run_id", "case_id", "item_id", "text",
                 "evidence_references", "prediction", "score", "human_label", "reviewer", "notes"]

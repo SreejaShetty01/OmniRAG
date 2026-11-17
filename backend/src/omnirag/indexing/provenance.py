@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 
 class EmbeddingProvenanceMismatch(ValueError):
@@ -60,5 +60,5 @@ def new_point_provenance(*, provider: str, model: str, dimension: int,
         "chunker_version": chunker_version,
         "enrichment_mode": enrichment_mode,
         "ingestion_schema_version": ingestion_schema_version,
-        "ingested_at": datetime.now(timezone.utc).isoformat(),
+        "ingested_at": datetime.now(UTC).isoformat(),
     }

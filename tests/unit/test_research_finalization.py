@@ -12,8 +12,13 @@ from omnirag.models.document import DocumentType
 from omnirag.models.query import Query
 from omnirag.models.response import ClaimVerificationStatus
 from omnirag.retrieval.contracts import (
-    EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis, QueryCharacteristics,
-    RetrievalEvidence, RetrievalFilters, RetrievalResult,
+    EvidenceAssessment,
+    EvidenceAssessmentState,
+    QueryAnalysis,
+    QueryCharacteristics,
+    RetrievalEvidence,
+    RetrievalFilters,
+    RetrievalResult,
 )
 
 

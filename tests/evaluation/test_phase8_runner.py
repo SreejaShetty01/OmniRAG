@@ -1,11 +1,12 @@
-import json
 import hashlib
-import pytest
+import json
 from urllib.error import URLError
 
-import evaluation.phase8_runner as runner_module
-from evaluation.dataset import EvaluationCase
-from evaluation.phase8_runner import (
+import pytest
+
+import eval.phase8_runner as runner_module
+from eval.dataset import EvaluationCase
+from eval.phase8_runner import (
     DEFAULT_RUN_TIMEOUT_SECONDS,
     EXPECTED_DATASET_SHA256,
     MAX_PROVIDER_CALLS,

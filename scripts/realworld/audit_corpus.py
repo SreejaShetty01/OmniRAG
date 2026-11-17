@@ -5,17 +5,17 @@ import argparse
 import hashlib
 import json
 import os
-from uuid import uuid4
-from pathlib import Path
 import sys
-from datetime import datetime, timezone
-from urllib.error import HTTPError
+from datetime import UTC, datetime
+from pathlib import Path
 from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
+from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
+
 from scripts.realworld.prepare_corpus import CORPUS_ROOT, MANIFEST, validate_corpus
 
 
@@ -192,7 +192,7 @@ def record_protected_baselines(client, output_path: Path) -> dict:
     """Record dev/Phase8 collection counts and stable sampled hashes without writing Qdrant."""
     if output_path.exists():
         raise FileExistsError(f"Refusing to overwrite protected baseline record: {output_path}")
-    record = {"schema_version": 1, "recorded_at": datetime.now(timezone.utc).isoformat(),
+    record = {"schema_version": 1, "recorded_at": datetime.now(UTC).isoformat(),
               "collections": [collection_sample_fingerprint(client, name)
                               for name in ("omnirag", "omnirag_eval_phase8_20261104")]}
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -253,7 +253,7 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, default=MANIFEST)
     parser.add_argument("--corpus-root", type=Path, default=CORPUS_ROOT)
     parser.add_argument("--evaluation-manifest", type=Path,
-                        default=ROOT / "evaluation/realworld/corpus_manifest.json")
+                        default=ROOT / "eval/realworld/corpus_manifest.json")
     parser.add_argument("--progress", type=Path, default=None)
     parser.add_argument("--qdrant-url", default="http://localhost:6333")
     parser.add_argument("--principal-user-id", default=None)

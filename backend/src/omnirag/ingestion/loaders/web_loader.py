@@ -1,10 +1,10 @@
 """HTTP(S) HTML loader with response size and timeout limits."""
 
+import ipaddress
+import socket
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
-import ipaddress
-import socket
 
 from omnirag.config.settings import get_settings
 from omnirag.ingestion.loaders.base import SourceLoadError

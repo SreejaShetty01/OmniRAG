@@ -12,23 +12,32 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from omnirag.config.settings import Settings
-from evaluation.dataset import (
-    DATASET_ID, DATASET_VERSION, EvaluationDataset, dataset_checksum,
-    validate_dataset, validate_manifest,
+
+from eval.dataset import (
+    DATASET_ID,
+    DATASET_VERSION,
+    dataset_checksum,
+    validate_dataset,
+    validate_manifest,
 )
-from evaluation.phase8_runner import (
-    DEFAULT_RUN_TIMEOUT_SECONDS, EXPECTED_DATASET_SHA256, MAX_PROVIDER_CALLS,
-    MAX_TOTAL_TOKENS, Phase8BenchmarkRunner, WARMUP_CASE_ID, schedule_units,
+from eval.phase8_runner import (
+    DEFAULT_RUN_TIMEOUT_SECONDS,
+    EXPECTED_DATASET_SHA256,
+    MAX_PROVIDER_CALLS,
+    MAX_TOTAL_TOKENS,
+    WARMUP_CASE_ID,
+    Phase8BenchmarkRunner,
+    schedule_units,
 )
-from evaluation.phase8_safety import verify_snapshot_manifest
+from eval.scorers.phase8_safety import verify_snapshot_manifest
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base-url", default="http://localhost:8001")
-    parser.add_argument("--dataset", type=Path, default=ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.json")
+    parser.add_argument("--dataset", type=Path, default=ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json")
     parser.add_argument("--dataset-manifest", type=Path,
-                        default=ROOT / "evaluation/datasets/omnirag-phase8-eval-1.0.1.manifest.json")
+                        default=ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.manifest.json")
     parser.add_argument("--snapshot-manifest", type=Path,
                         default=ROOT / "docs/audit/phase8_eval_corpus_manifest.json")
     parser.add_argument("--output-root", type=Path)

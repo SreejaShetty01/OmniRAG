@@ -7,10 +7,15 @@ import re
 import tokenize
 from pathlib import PurePath
 
-from omnirag.ingestion.loaders.code_loader import CODE_LANGUAGES, GENERIC_CODE_EXTENSIONS
 from omnirag.ingestion.loaders.base import SourceLoadError
+from omnirag.ingestion.loaders.code_loader import CODE_LANGUAGES, GENERIC_CODE_EXTENSIONS
 from omnirag.ingestion.structure.normalize import make_normalized_document
-from omnirag.ingestion.structure.schema import ContentBlock, ContentKind, LoadedSource, NormalizedDocument
+from omnirag.ingestion.structure.schema import (
+    ContentBlock,
+    ContentKind,
+    LoadedSource,
+    NormalizedDocument,
+)
 from omnirag.models.document import DocumentType
 
 

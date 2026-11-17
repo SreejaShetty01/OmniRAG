@@ -1,7 +1,12 @@
 """Human-reviewed Phase 7c seed cases derived from the Phase 7a synthetic corpus."""
 
-from evaluation.dataset import (
-    CORPUS_ID, CORPUS_MANIFEST, CORPUS_VERSION, DATASET_ID, DATASET_VERSION, PROFILES,
+from eval.dataset import (
+    CORPUS_ID,
+    CORPUS_MANIFEST,
+    CORPUS_VERSION,
+    DATASET_ID,
+    DATASET_VERSION,
+    PROFILES,
     EvaluationDataset,
 )
 
@@ -260,7 +265,7 @@ def build_dataset() -> EvaluationDataset:
 
 
 def main() -> None:
-    from evaluation.dataset import CORPUS_RELATIVE_ROOT, write_release
+    from eval.dataset import CORPUS_RELATIVE_ROOT, write_release
 
     root = Path(__file__).resolve().parents[1]
     corpus = root / CORPUS_RELATIVE_ROOT

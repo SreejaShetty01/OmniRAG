@@ -6,7 +6,6 @@ import json
 import subprocess
 from urllib.parse import urlsplit
 
-
 EXPECTED_PROJECT = "omnirag"
 EXPECTED_API_SERVICE = "api-eval-rw"
 EXPECTED_QDRANT_SERVICE = "qdrant-rw"

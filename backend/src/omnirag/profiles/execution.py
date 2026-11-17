@@ -2,21 +2,20 @@
 
 import asyncio
 import logging
-from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from omnirag.agent.graph import ResearchGraph, ResearchLimits
-from omnirag.config.profiles import PROFILE_CONFIGS, ProfileConfig, ProfileName
 from omnirag.config.model_registry import registry_from_settings
+from omnirag.config.profiles import PROFILE_CONFIGS, ProfileConfig, ProfileName
 from omnirag.config.settings import get_settings
+from omnirag.experiments.runtime import ExperimentConfig, record_stage
 from omnirag.generation.answer_pipeline import AnswerPipeline
+from omnirag.infrastructure.provider_budget import BudgetExceeded
 from omnirag.models.query import EscalationPreference, Query
 from omnirag.models.response import OmniRAGResponse
 from omnirag.retrieval.contracts import RetrievalPolicy, RetrievalScope
 from omnirag.retrieval.hybrid_retriever import HybridRetriever
-from omnirag.infrastructure.provider_budget import BudgetExceeded
-from experiments.runtime import ExperimentConfig, record_stage
 
 logger = logging.getLogger(__name__)
 

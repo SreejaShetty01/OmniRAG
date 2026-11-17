@@ -11,8 +11,13 @@ from urllib.request import Request, urlopen
 
 from omnirag.config.model_registry import ModelRegistry
 from omnirag.config.settings import get_settings
-from omnirag.infrastructure.provider_budget import (BudgetExceeded, after_provider_call,
-                                            before_provider_call, estimate_tokens)
+from omnirag.infrastructure.provider_budget import (
+    BudgetExceeded,
+    after_provider_call,
+    before_provider_call,
+    estimate_tokens,
+)
+
 
 class EmbeddingError(RuntimeError):
     pass

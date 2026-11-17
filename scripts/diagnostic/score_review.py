@@ -6,10 +6,10 @@ import argparse
 import csv
 import json
 import math
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
-from prepare_m2_review import PINNED_DATASET_SHA256, write_csv
+from prepare_m2_review import PINNED_DATASET_SHA256
 
 
 class IncompleteReview(ValueError):

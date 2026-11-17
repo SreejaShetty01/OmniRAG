@@ -5,16 +5,19 @@ import json
 from pathlib import Path
 
 import pytest
+from omnirag.config.settings import Settings
+from omnirag.experiments.runtime import ExperimentConfig, ExperimentRunner, ExperimentRunStore
 from pydantic import ValidationError
 
-from omnirag.config.settings import Settings
-from evaluation.dataset import (
-    EvaluationDataset, create_manifest, dataset_checksum, validate_dataset,
-    validate_manifest, write_release,
+from eval.dataset import (
+    EvaluationDataset,
+    create_manifest,
+    dataset_checksum,
+    validate_dataset,
+    validate_manifest,
+    write_release,
 )
-from evaluation.phase7c_seed import build_dataset
-from experiments.runtime import ExperimentConfig, ExperimentRunStore, ExperimentRunner
-
+from eval.phase7c_seed import build_dataset
 
 ROOT = Path(__file__).resolve().parents[2]
 CORPUS = ROOT / "tests" / "fixtures" / "phase7_smoke"
@@ -35,8 +38,8 @@ def test_checked_in_dataset_and_manifest_validate_against_real_corpus():
     }
     for version, expected in releases.items():
         stem = f"omnirag-phase8-eval-{version}"
-        data_path = ROOT / "evaluation" / "datasets" / f"{stem}.json"
-        manifest_path = ROOT / "evaluation" / "datasets" / f"{stem}.manifest.json"
+        data_path = ROOT / "eval" / "datasets" / f"{stem}.json"
+        manifest_path = ROOT / "eval" / "datasets" / f"{stem}.manifest.json"
         dataset = EvaluationDataset.model_validate_json(data_path.read_text(encoding="utf-8"))
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         validated = validate_dataset(dataset, corpus_root=CORPUS, repository_root=ROOT)
@@ -48,7 +51,7 @@ def test_checked_in_dataset_and_manifest_validate_against_real_corpus():
         if expected["sha256"]:
             assert manifest["dataset_sha256"] == expected["sha256"]
     latest = EvaluationDataset.model_validate_json(
-        (ROOT / "evaluation" / "datasets" / "omnirag-phase8-eval-1.0.1.json").read_text(encoding="utf-8"))
+        (ROOT / "eval" / "datasets" / "omnirag-phase8-eval-1.0.1.json").read_text(encoding="utf-8"))
     latest_acl = [case for case in latest.cases if case.category == "acl_tenant_isolation"]
     assert len(latest_acl) == 4
     assert all(case.ground_truth_status == "verified" for case in latest_acl)

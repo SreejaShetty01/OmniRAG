@@ -19,11 +19,10 @@ def _client_or_skip():
 
 
 def test_live_qdrant_tenant_and_acl_filters_reject_other_principals():
-    from qdrant_client import models
-
     from omnirag.config.settings import get_settings
     from omnirag.retrieval.contracts import RetrievalFilters, RetrievalScope
     from omnirag.retrieval.query_filters import FilterBuilder
+    from qdrant_client import models
 
     client = _client_or_skip()
     name = f"omnirag_7a_gate_{uuid4().hex[:12]}"

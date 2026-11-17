@@ -10,21 +10,22 @@ import hashlib
 import hmac
 import json
 import os
-from pathlib import Path
 import re
-import time
 import sys
-from datetime import datetime, timezone
+import time
+from datetime import UTC, datetime
+from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 from uuid import uuid4
+
 from omnirag.api.trusted_proxy import verify_proxy_identity
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from scripts.realworld.prepare_corpus import CORPUS_ROOT, MANIFEST, validate_corpus
 from scripts.realworld.isolation import inspect_dedicated_runtime, validate_dedicated_qdrant
+from scripts.realworld.prepare_corpus import CORPUS_ROOT, MANIFEST, validate_corpus
 
 PROTECTED = {"omnirag", "omnirag_eval_phase8_20261104"}
 MAX_COST_USD = 0.0
@@ -226,7 +227,7 @@ def _new_progress(manifest: dict, manifest_path: Path, *, run_id: str, user_id: 
                   initial_budget: dict) -> dict:
     return {
         "schema_version": 1, "run_id": run_id, "status": "running",
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "started_at_unix": time.time(),
         "deadline_unix": time.time() + run_timeout,
         "collection": manifest["target_collection"], "corpus_id": manifest["corpus_id"],
@@ -448,6 +449,7 @@ def execute_ingestion(manifest: dict, corpus_root: Path, manifest_path: Path, *,
             raise RuntimeError("Pre-ingestion dev/eval collection baseline is missing")
         if protected_baseline_check is None:
             from qdrant_client import QdrantClient
+
             from scripts.realworld.audit_corpus import compare_protected_baselines
             qdrant_client = QdrantClient(url=qdrant_url)
             try:
@@ -726,7 +728,7 @@ def execute_ingestion(manifest: dict, corpus_root: Path, manifest_path: Path, *,
         progress["status"] = "completed"
         progress["stop_reason"] = None
     _record_measurements(progress)
-    progress["updated_at"] = datetime.now(timezone.utc).isoformat()
+    progress["updated_at"] = datetime.now(UTC).isoformat()
     _atomic_json(progress_path, progress)
     return progress
 

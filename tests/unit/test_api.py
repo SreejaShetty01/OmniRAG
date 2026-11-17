@@ -1,5 +1,5 @@
-from omnirag.api.main import app, health, profiles
 from omnirag.api.dependencies import RequestIdentity
+from omnirag.api.main import app, health, profiles
 from omnirag.api.routes.preferences import get_preferences, update_preferences
 from omnirag.api.schemas import PreferencesUpdate
 from omnirag.infrastructure.product_store import ProductStore
@@ -58,8 +58,8 @@ def test_upload_size_guard_rejects_chunk_that_crosses_limit():
 
 
 def test_failed_ingestion_is_not_reported_as_successful_upload_or_reingestion():
-    from omnirag.ingestion.pipeline import IngestionResult, IngestionStatus
     from omnirag.api.routes.documents import _ingestion_response_status
+    from omnirag.ingestion.pipeline import IngestionResult, IngestionStatus
 
     failed = IngestionResult(
         status=IngestionStatus.FAILED,

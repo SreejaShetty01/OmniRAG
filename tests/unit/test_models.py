@@ -1,10 +1,8 @@
-from datetime import datetime, timezone
 
 import pytest
-from pydantic import ValidationError
-
 from omnirag.models import Chunk, Document, DocumentType, Query
 from omnirag.models.response import OmniRAGResponse, VerificationStatus
+from pydantic import ValidationError
 
 
 def test_document_defaults_timestamp_and_metadata():

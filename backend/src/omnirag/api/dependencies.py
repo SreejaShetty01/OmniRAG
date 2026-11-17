@@ -9,9 +9,8 @@ from pydantic import BaseModel
 from omnirag.config.settings import get_settings
 from omnirag.generation.answer_pipeline import AnswerPipeline
 from omnirag.indexing.qdrant_indexer import QdrantIndexer
-from omnirag.ingestion.pipeline import IngestionPipeline
 from omnirag.infrastructure.product_store import ProductStore
-from omnirag.models.query import Query
+from omnirag.ingestion.pipeline import IngestionPipeline
 from omnirag.profiles.execution import ProfileExecutionService
 from omnirag.retrieval.contracts import RetrievalScope
 from omnirag.retrieval.hybrid_retriever import HybridRetriever
