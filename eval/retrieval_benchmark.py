@@ -4,11 +4,10 @@ from __future__ import annotations
 
 import math
 import statistics
-import time
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Callable, Iterable, Mapping, Sequence
 
-from retrieval.contracts import RetrievalPolicy, RetrievalResult, RetrievalScope
+from omnirag.retrieval.contracts import RetrievalPolicy, RetrievalResult, RetrievalScope
 
 
 @dataclass(frozen=True, slots=True)

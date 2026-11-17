@@ -13,18 +13,22 @@ from omnirag.agent.evidence_ledger import LedgerEvidenceReference, ResearchLedge
 from omnirag.agent.planner import DeterministicResearchPlanner, ResearchPlanner
 from omnirag.agent.state import ResearchState
 from omnirag.config.profiles import PROFILE_CONFIGS, ProfileName
+from omnirag.experiments.runtime import record_stage
 from omnirag.generation.answer_pipeline import AnswerPipeline
+from omnirag.infrastructure.provider_budget import BudgetExceeded
 from omnirag.ingestion.chunking.structure_chunker import estimate_tokens
 from omnirag.models.query import Query
 from omnirag.retrieval.contracts import (
-    EvidenceAssessment, EvidenceAssessmentState, RetrievalFilters, RetrievalPolicy,
-    RetrievalResult, RetrievalScope,
+    EvidenceAssessment,
+    EvidenceAssessmentState,
+    RetrievalFilters,
+    RetrievalPolicy,
+    RetrievalResult,
+    RetrievalScope,
 )
 from omnirag.retrieval.hybrid_retriever import HybridRetriever
 from omnirag.retrieval.query_analyzer import QueryAnalyzer
 from omnirag.verification.contradiction_detector import detect_contradictions
-from omnirag.infrastructure.provider_budget import BudgetExceeded
-from omnirag.experiments.runtime import record_stage
 
 
 class ResearchLimits(BaseModel):

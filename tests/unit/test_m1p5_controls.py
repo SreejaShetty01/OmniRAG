@@ -1,13 +1,12 @@
 import logging
 
-from pydantic import SecretStr
-
 import omnirag.config.settings as settings_module
 from omnirag.api import main
 from omnirag.experiments.runtime import ExperimentRunStore
 from omnirag.infrastructure.rate_limit import PrincipalRateLimiter
 from omnirag.infrastructure.runtime_metrics import RuntimeMetrics
 from omnirag.utils.logger import JsonLogFormatter
+from pydantic import SecretStr
 
 
 def test_rate_limit_is_per_principal_and_reports_retry_after():

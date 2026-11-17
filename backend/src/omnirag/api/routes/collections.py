@@ -4,7 +4,12 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from qdrant_client import models
 
-from omnirag.api.dependencies import RequestIdentity, get_product_store, get_qdrant_indexer, get_request_identity
+from omnirag.api.dependencies import (
+    RequestIdentity,
+    get_product_store,
+    get_qdrant_indexer,
+    get_request_identity,
+)
 from omnirag.api.schemas import CollectionCreate, CollectionResponse, DocumentCollectionUpdate
 from omnirag.indexing.qdrant_indexer import QdrantIndexer
 from omnirag.infrastructure.product_store import ProductStore

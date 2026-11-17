@@ -3,8 +3,7 @@
 import re
 from urllib.parse import unquote
 
-from omnirag.ingestion.structure.schema import ContentBlock, ContentKind
-
+from omnirag.ingestion.structure.schema import ContentBlock
 
 _MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 _DOC_REF = re.compile(r"\b([\w./-]+\.(?:pdf|docx|md|markdown|txt|html?))\b", re.IGNORECASE)

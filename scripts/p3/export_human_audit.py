@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from eval.p3_grounding_scorer import write_audit_csv
+from eval.scorers.p3_grounding_scorer import write_audit_csv
 
 
 def main() -> None:

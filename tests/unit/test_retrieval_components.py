@@ -1,9 +1,7 @@
 import pytest
-from pydantic import ValidationError
-
-from omnirag.models.query import Query
 from omnirag.models.chunk import Chunk
 from omnirag.models.document import DocumentType
+from omnirag.models.query import Query
 from omnirag.retrieval.cache import RetrievalCache
 from omnirag.retrieval.contracts import (
     EvidenceAssessmentState,
@@ -18,6 +16,7 @@ from omnirag.retrieval.fusion import ReciprocalRankFusion, StructuralScorer
 from omnirag.retrieval.query_analyzer import QueryAnalyzer
 from omnirag.retrieval.query_filters import FilterBuilder
 from omnirag.retrieval.sufficiency import EvidenceSufficiencyAssessor
+from pydantic import ValidationError
 
 
 def candidate(chunk_id: str, *, dense_rank=None, sparse_rank=None, content="some technical evidence"):

@@ -2,22 +2,24 @@
 
 from __future__ import annotations
 
-from contextvars import ContextVar
-from datetime import datetime, timezone
 import inspect
-import math
 import json
-from pathlib import Path
+import math
 import platform
 import re
 import subprocess
 import sys
 import time
-from typing import Any, Callable
+from collections.abc import Callable
+from contextvars import ContextVar
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
 from uuid import uuid4
-from omnirag.utils.atomic_file import atomic_replace
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+from omnirag.utils.atomic_file import atomic_replace
 
 _SAFE_STAGE_NAMES = {
     "request_initialization", "profile_execution", "query_processing", "embedding",
@@ -301,7 +303,7 @@ class ExperimentRunner:
             "schema_version": 1,
             "run_id": run_id,
             "parent_run_id": parent_run_id,
-            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(UTC).isoformat(),
             "status": "running",
             "revision": _git_revision(),
             "worktree_state": _git_worktree_state(),
@@ -356,7 +358,7 @@ class ExperimentRunner:
             collector.record("final_response", (time.perf_counter() - started) * 1000,
                              status="failure", error_type=type(exc).__name__)
             manifest["status"] = "failed"
-            manifest["finished_at"] = datetime.now(timezone.utc).isoformat()
+            manifest["finished_at"] = datetime.now(UTC).isoformat()
             self.store.write_json(run_id, "manifest.json", manifest)
             self._write_trace(run_id, collector)
             self.store.write_json(run_id, "result.json", {"status": "failed", "error_type": type(exc).__name__})
@@ -375,7 +377,7 @@ class ExperimentRunner:
         manifest["status"] = run_status
         manifest["models"]["generation_resolved"] = response.generation_metadata.get("model")
         manifest["models"]["generation_provider_resolved"] = response.generation_metadata.get("provider")
-        manifest["finished_at"] = datetime.now(timezone.utc).isoformat()
+        manifest["finished_at"] = datetime.now(UTC).isoformat()
         self.store.write_json(run_id, "manifest.json", manifest)
         self._write_trace(run_id, collector)
         self.store.write_json(run_id, "result.json", {

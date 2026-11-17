@@ -1,11 +1,12 @@
 """Paired profile comparison runner over the same labeled question set."""
 
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from typing import Callable, Sequence
 
-from config.profiles import ProfileName
+from omnirag.config.profiles import ProfileName
+from omnirag.models.response import OmniRAGResponse
+
 from eval.generation_benchmark import AnswerGoldCase, aggregate_answer_metrics, evaluate_response
-from models.response import OmniRAGResponse
 
 
 @dataclass(frozen=True, slots=True)

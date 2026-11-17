@@ -5,7 +5,7 @@
 1. Copy `.env.example` to `.env` and configure an embedding provider/model before ingestion.
 2. Start Qdrant with `docker compose up -d qdrant` (the Compose service is internal-only; use a local Qdrant instance or temporary port mapping for development tooling).
 3. In `frontend/`, run `npm ci` and `npm run dev`.
-4. From the repository root, run `uvicorn api.main:app --reload`.
+4. From the repository root, run `uvicorn omnirag.api.main:app --reload`.
 
 The Vite proxy sends `/api` and `/health` to the API. `VITE_API_BASE_URL` can point
 the typed client at another backend; avoid embedding secrets in frontend variables.

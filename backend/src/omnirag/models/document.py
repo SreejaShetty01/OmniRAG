@@ -1,6 +1,6 @@
 """Validated document metadata contract."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -27,6 +27,6 @@ class Document(BaseModel):
     language: str | None = None
     version: str | None = None
     content_hash: str = Field(min_length=1)
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     updated_at: datetime | None = None
     metadata: dict[str, object] = Field(default_factory=dict)

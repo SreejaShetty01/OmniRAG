@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime, timezone
 import hashlib
 import json
-from pathlib import Path
 import uuid
+from datetime import UTC, datetime
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PINNED_DATASET_SHA256 = "7b44b8f616b2df74768ff962c30d3a311000ef0bffd41015f7bb49123ca7af1"
@@ -142,7 +142,7 @@ def prepare_exports(*, root: Path = ROOT, run_id: str | None = None,
         raise ValueError("Expected one attempt per 40 cases and three profiles")
 
     if run_id is None:
-        run_id = datetime.now(timezone.utc).strftime("review-%Y%m%dT%H%M%SZ-") + uuid.uuid4().hex[:8]
+        run_id = datetime.now(UTC).strftime("review-%Y%m%dT%H%M%SZ-") + uuid.uuid4().hex[:8]
     if not run_id.startswith("review-") or any(c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-" for c in run_id):
         raise ValueError("run_id must be a safe review- prefixed identifier")
     out_dir = root / "data" / "diagnostic" / run_id

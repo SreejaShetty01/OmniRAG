@@ -12,8 +12,13 @@ from omnirag.models.document import DocumentType
 from omnirag.models.query import Query
 from omnirag.models.response import ClaimVerificationStatus
 from omnirag.retrieval.contracts import (
-    EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis, QueryCharacteristics,
-    RetrievalEvidence, RetrievalFilters, RetrievalResult,
+    EvidenceAssessment,
+    EvidenceAssessmentState,
+    QueryAnalysis,
+    QueryCharacteristics,
+    RetrievalEvidence,
+    RetrievalFilters,
+    RetrievalResult,
 )
 
 
@@ -73,9 +78,9 @@ def test_research_finalization_keeps_citation_status_typed(monkeypatch):
                 yield None
             return self.value
 
-    monkeypatch.setattr("agent.graph.asyncio.to_thread",
+    monkeypatch.setattr("omnirag.agent.graph.asyncio.to_thread",
                         lambda function, *args, **kwargs: function(*args, **kwargs))
-    monkeypatch.setattr("agent.graph.asyncio.wait_for",
+    monkeypatch.setattr("omnirag.agent.graph.asyncio.wait_for",
                         lambda value, timeout: ImmediateAwaitable(value))
     finalization = graph._finalize(state)
     try:

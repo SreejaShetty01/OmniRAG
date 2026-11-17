@@ -39,7 +39,7 @@ def sentence_claims(answer: str) -> list[ClaimVerification]:
         text = re.sub(r"\[(?:E|C)\d+\]", "", sentence).strip(" -*#\t")
         if len(text.split()) < 4 or text.endswith("?"):
             continue
-        if re.match(r"^(however|therefore|in summary|note that)\b", text, re.I) and len(text.split()) < 8:
+        if re.match(r"^(however|therefore|in summary|note that)\b", text, re.IGNORECASE) and len(text.split()) < 8:
             continue
         claims.append(ClaimVerification(claim_id=f"CL{len(claims) + 1}", claim_text=text,
                                        supporting_evidence_ids=refs))

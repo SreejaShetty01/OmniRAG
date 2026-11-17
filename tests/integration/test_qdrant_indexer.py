@@ -1,7 +1,6 @@
-from qdrant_client import QdrantClient
-
 from omnirag.indexing.qdrant_indexer import QdrantIndexer
 from omnirag.models.chunk import Chunk
+from qdrant_client import QdrantClient
 
 
 def make_chunk(content: str, chunk_id: str) -> Chunk:

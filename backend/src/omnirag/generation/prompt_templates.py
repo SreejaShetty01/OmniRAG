@@ -3,8 +3,8 @@
 import json
 import re
 
-from omnirag.retrieval.contracts import RetrievalEvidence
 from omnirag.generation.citation_builder import evidence_id_map
+from omnirag.retrieval.contracts import RetrievalEvidence
 
 INJECTION_PATTERN = re.compile(
     r"\b(ignore|disregard|override)\b.{0,80}\b(instructions|system|developer|previous|prompt)\b|"

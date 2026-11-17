@@ -1,15 +1,19 @@
 """Provider-independent entailment interface and explicit non-success fallback."""
 
-from dataclasses import dataclass
-from enum import StrEnum
 import json
 import math
-from typing import Protocol, Sequence
-from urllib.error import HTTPError, URLError
+from collections.abc import Sequence
+from dataclasses import dataclass
+from enum import StrEnum
+from typing import Protocol
 from urllib.request import Request, urlopen
 
+from omnirag.infrastructure.provider_budget import (
+    after_provider_call,
+    before_provider_call,
+    estimate_tokens,
+)
 from omnirag.llm.llm_client import ChatMessage, ChatProvider, ChatRequest
-from omnirag.infrastructure.provider_budget import after_provider_call, before_provider_call, estimate_tokens
 
 
 class EntailmentLabel(StrEnum):

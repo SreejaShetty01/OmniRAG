@@ -1,9 +1,13 @@
 import json
+
 import pytest
 
 from eval.runner import (
-    DEFAULT_BENCHMARK, DEFAULT_DATASET, DEFAULT_SNAPSHOT,
-    evaluate_saved_run, write_outputs,
+    DEFAULT_BENCHMARK,
+    DEFAULT_DATASET,
+    DEFAULT_SNAPSHOT,
+    evaluate_saved_run,
+    write_outputs,
 )
 
 

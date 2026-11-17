@@ -8,24 +8,24 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime, timezone
 import hashlib
 import json
 import math
-import re
 import os
 import platform
-import subprocess
-from pathlib import Path
+import re
 import statistics
+import subprocess
 import time
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
-from uuid import uuid4
 from urllib.error import URLError
+from uuid import uuid4
 
-from eval.dataset import EvaluationDataset, EvaluationCase, CORPUS_RELATIVE_ROOT, validate_dataset
-from eval.phase8_scorer import _expected_chunks, score_artifacts
-from eval.phase8_runner import _collect_ids, _identity_for, sign_identity, _http_post, _http_get
+from eval.dataset import CORPUS_RELATIVE_ROOT, EvaluationCase, EvaluationDataset, validate_dataset
+from eval.phase8_runner import _collect_ids, _http_get, _http_post, _identity_for, sign_identity
+from eval.scorers.phase8_scorer import _expected_chunks, score_artifacts
 
 ROOT = Path(__file__).resolve().parents[2]
 PINNED_DATASET_HASH_PREFIX = "7b44b8f6"
@@ -285,11 +285,11 @@ def score_response(case: EvaluationCase, response: dict[str, Any], snapshot: dic
     final_context = set(evidence_ids)
     candidates = set(ranked_ids)
     marker_sources = [e.source_document for e in case.expected_evidence
-                      if e.source_document and re.search(r"synthetic phrase:\s*([^.]*)", e.quote, re.I)]
+                      if e.source_document and re.search(r"synthetic phrase:\s*([^.]*)", e.quote, re.IGNORECASE)]
     marker_results = []
     for source in marker_sources:
         evidence = next((e for e in case.expected_evidence if e.source_document == source), None)
-        match = re.search(r"synthetic phrase:\s*([^.]*)", evidence.quote, re.I) if evidence else None
+        match = re.search(r"synthetic phrase:\s*([^.]*)", evidence.quote, re.IGNORECASE) if evidence else None
         phrase = match.group(1).strip() if match else ""
         if phrase and phrase.casefold() in answer.casefold():
             marker_results.append({"source_document": source,
@@ -723,6 +723,7 @@ def execute(dataset_path: Path, snapshot_path: Path, output_dir: Path, base_url:
             api_container_name: str | None = None) -> dict[str, Any]:
     """Serial live execution. Caller must obtain explicit approval before --execute."""
     from omnirag.config.settings import get_settings
+
     from eval.phase8_runner import schedule_units
 
     dataset_raw = json.loads(dataset_path.read_text(encoding="utf-8"))
@@ -765,11 +766,11 @@ def execute(dataset_path: Path, snapshot_path: Path, output_dir: Path, base_url:
                   if case.acl_context and case.tenant_context}
         if not needed.issubset(accepted):
             raise RuntimeError("Runtime signed-identity allowlist does not cover dataset principals")
-    run_id = "diag-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid4().hex[:8]
+    run_id = "diag-" + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid4().hex[:8]
     run_dir = output_dir / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     report = {"run_id": run_id, "mode": "live_diagnostic", "dataset_sha256": dataset_hash,
-              "stamp": diagnostic_stamp(dataset_hash), "created_at_utc": datetime.now(timezone.utc).isoformat(),
+              "stamp": diagnostic_stamp(dataset_hash), "created_at_utc": datetime.now(UTC).isoformat(),
               "profiles_order": list(PROFILES), "order_seed": 20261106, "timeout_seconds": REQUEST_TIMEOUT_SECONDS,
               "local_budget_limits": {"tokens": LOCAL_TOKEN_CAP, "calls": LOCAL_CALL_CAP},
               "server_budget_limits_not_modified": {"cost_usd": 0, "tokens": 4_200_000, "calls": 3000},
@@ -845,7 +846,7 @@ def execute(dataset_path: Path, snapshot_path: Path, output_dir: Path, base_url:
                 break
         report["summary"] = summarize(report["attempts"])
         report["budget_usage_final"] = final_budget_usage
-        report["finished_at_utc"] = datetime.now(timezone.utc).isoformat()
+        report["finished_at_utc"] = datetime.now(UTC).isoformat()
         (run_dir / "run.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         audit_rows = export_human_audit(report["attempts"], snapshot, run_dir / "human_audit.csv")
         report["human_audit_rows"] = audit_rows
@@ -880,7 +881,7 @@ def main() -> int:
         parser.error("choose --dry-run or --execute")
     if args.dry_run:
         result = dry_run(args.dataset, args.snapshot, args.historical_run)
-        run_id = "dryrun-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid4().hex[:8]
+        run_id = "dryrun-" + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid4().hex[:8]
         directory = args.output_root / run_id
         directory.mkdir(parents=True, exist_ok=False)
         (directory / "dry_run.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")

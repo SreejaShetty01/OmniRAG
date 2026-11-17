@@ -1,7 +1,8 @@
-import json
 import hashlib
-import pytest
+import json
 from urllib.error import URLError
+
+import pytest
 
 import eval.phase8_runner as runner_module
 from eval.dataset import EvaluationCase

@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-import json
 import hashlib
 import hmac
+import json
 import time
 from pathlib import Path
 
 import pytest
 from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
-from qdrant_client import QdrantClient
-
 from omnirag.api.dependencies import get_product_store, get_profile_execution_service
 from omnirag.api.routes import chat as chat_route
 from omnirag.api.routes.chat import router as chat_router
@@ -33,10 +31,10 @@ from omnirag.retrieval.dense_retriever import DenseRetriever
 from omnirag.retrieval.hybrid_retriever import HybridRetriever
 from omnirag.retrieval.sparse_retriever import SparseRetriever
 from omnirag.verification.nli_verifier import UnconfiguredEntailmentVerifier
-
+from qdrant_client import QdrantClient
 
 ROOT = Path(__file__).resolve().parents[2]
-DATASET_PATH = ROOT / "evaluation" / "datasets" / "omnirag-phase8-eval-1.0.0.json"
+DATASET_PATH = ROOT / "eval" / "datasets" / "omnirag-phase8-eval-1.0.0.json"
 RESTRICTED_VALUE = "cobalt lantern 731"
 RESTRICTED_DOC = "doc-phase7c-restricted"
 RESTRICTED_CHUNK = "chk-phase7c-restricted"
@@ -80,10 +78,10 @@ def isolated_chat(tmp_path, monkeypatch):
                         embedding_provider="openai_compatible",
                         embedding_model_id="deterministic-acl-embedding")
     monkeypatch.setattr(chat_route, "get_settings", lambda: settings)
-    monkeypatch.setattr("profiles.execution.get_settings", lambda: settings)
-    monkeypatch.setattr("retrieval.hybrid_retriever.get_settings", lambda: settings)
-    monkeypatch.setattr("indexing.embeddings.get_settings", lambda: settings)
-    monkeypatch.setattr("indexing.qdrant_indexer.get_settings", lambda: settings)
+    monkeypatch.setattr("omnirag.profiles.execution.get_settings", lambda: settings)
+    monkeypatch.setattr("omnirag.retrieval.hybrid_retriever.get_settings", lambda: settings)
+    monkeypatch.setattr("omnirag.indexing.embeddings.get_settings", lambda: settings)
+    monkeypatch.setattr("omnirag.indexing.qdrant_indexer.get_settings", lambda: settings)
 
     client = QdrantClient(":memory:")
     collection = "phase7c_acl_isolated"

@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from scripts.realworld.isolation import validate_dedicated_qdrant
 from scripts.realworld.ingest_corpus import verify_api
+from scripts.realworld.isolation import validate_dedicated_qdrant
 
 
 def _docker_fixture():

@@ -1,7 +1,8 @@
 from omnirag.config.profiles import ProfileName
+from omnirag.models.response import OmniRAGResponse
+
 from eval.generation_benchmark import AnswerGoldCase
 from eval.profile_benchmark import ProfileBenchmarkVariant, compare_profiles
-from omnirag.models.response import OmniRAGResponse
 
 
 def test_profile_comparison_pairs_same_labeled_case_without_claiming_winner():

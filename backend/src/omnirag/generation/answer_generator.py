@@ -5,11 +5,11 @@ import time
 from dataclasses import dataclass
 
 from omnirag.config.settings import get_settings
+from omnirag.experiments.runtime import record_stage
+from omnirag.generation.prompt_templates import build_generation_messages
 from omnirag.llm.llm_client import ChatMessage, ChatProvider, ChatRequest, provider_from_settings
 from omnirag.retrieval.contracts import RetrievalResult
-from omnirag.generation.prompt_templates import build_generation_messages
 from omnirag.verification.claim_extractor import extract_claims
-from omnirag.experiments.runtime import record_stage
 
 
 class GenerationOutputError(ValueError):

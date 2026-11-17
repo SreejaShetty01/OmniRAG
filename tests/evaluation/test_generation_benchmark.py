@@ -1,6 +1,7 @@
-from eval.generation_benchmark import AnswerGoldCase, evaluate_response
-from omnirag.models.response import Citation, EvidenceReference, OmniRAGResponse
 from omnirag.config.profiles import ProfileName
+from omnirag.models.response import Citation, EvidenceReference, OmniRAGResponse
+
+from eval.generation_benchmark import AnswerGoldCase, evaluate_response
 
 
 def test_generation_benchmark_metrics_are_computed_from_labeled_case():

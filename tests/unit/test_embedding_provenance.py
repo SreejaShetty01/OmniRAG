@@ -1,10 +1,10 @@
 from types import SimpleNamespace
 
 import pytest
-from qdrant_client import models
-
 from omnirag.indexing.provenance import (
-    EmbeddingProvenanceMismatch, assert_collection_embedder_compatible, new_point_provenance,
+    EmbeddingProvenanceMismatch,
+    assert_collection_embedder_compatible,
+    new_point_provenance,
 )
 from omnirag.indexing.qdrant_indexer import prepare_point
 from omnirag.models.chunk import Chunk

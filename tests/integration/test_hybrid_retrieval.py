@@ -1,15 +1,13 @@
-from qdrant_client import QdrantClient
-
 from omnirag.indexing.qdrant_indexer import QdrantIndexer
 from omnirag.models.chunk import AccessControlMetadata, Chunk
 from omnirag.models.document import DocumentType
-from omnirag.retrieval.context_expander import ContextExpander
-from omnirag.retrieval.contracts import RetrievalPolicy, RetrievalScope
-from omnirag.retrieval.contracts import RetrievalFilters
-from omnirag.retrieval.dense_retriever import DenseRetriever
 from omnirag.retrieval.cache import RetrievalCache
+from omnirag.retrieval.context_expander import ContextExpander
+from omnirag.retrieval.contracts import RetrievalFilters, RetrievalPolicy, RetrievalScope
+from omnirag.retrieval.dense_retriever import DenseRetriever
 from omnirag.retrieval.query_filters import FilterBuilder
 from omnirag.retrieval.sparse_retriever import SparseRetriever
+from qdrant_client import QdrantClient
 
 
 def chunk(chunk_id: str, content: str, *, parent_id="doc-1", allowed=(), denied=(), version="v1",

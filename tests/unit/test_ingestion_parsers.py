@@ -1,14 +1,13 @@
 from pathlib import Path
 
 import pytest
-
-from omnirag.ingestion.loaders.document_loader import DocumentLoader
-from omnirag.ingestion.loaders.code_loader import CodeLoader
 from omnirag.ingestion.loaders.base import SourceLoadError
+from omnirag.ingestion.loaders.code_loader import CodeLoader
+from omnirag.ingestion.loaders.document_loader import DocumentLoader
+from omnirag.ingestion.loaders.web_loader import WebLoader
 from omnirag.ingestion.parsers.code_parser import CodeParser
 from omnirag.ingestion.parsers.document_parser import DocumentParser
 from omnirag.ingestion.structure.schema import ContentKind
-from omnirag.ingestion.loaders.web_loader import WebLoader
 
 
 def test_markdown_structure_and_references_survive_parse(tmp_path: Path):
@@ -103,6 +102,7 @@ def test_web_loader_rejects_private_network_targets():
 def test_web_loader_reads_html_with_bounded_source_metadata(monkeypatch):
     import email.message
     import socket
+
     import omnirag.ingestion.loaders.web_loader as web_module
 
     monkeypatch.setattr(socket, "getaddrinfo", lambda *args: [(None, None, None, None, ("93.184.216.34", 80))])

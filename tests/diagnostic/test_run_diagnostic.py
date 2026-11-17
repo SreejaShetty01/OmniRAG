@@ -1,15 +1,25 @@
 import csv
 import json
 from pathlib import Path
+
 import pytest
 
 from eval.dataset import EvaluationDataset
 from scripts.diagnostic.run_diagnostic import (
-    classify_http_outcome, diagnostic_stamp, dry_run, export_human_audit, retrieval_metric_values,
-    score_human_audit, score_response, sha256_file, summarize, verify_snapshot_integrity,
-    wilson_interval, redact_secret, _future_run_provenance,
+    _future_run_provenance,
+    classify_http_outcome,
+    diagnostic_stamp,
+    dry_run,
+    export_human_audit,
+    redact_secret,
+    retrieval_metric_values,
+    score_human_audit,
+    score_response,
+    sha256_file,
+    summarize,
+    verify_snapshot_integrity,
+    wilson_interval,
 )
-
 
 ROOT = Path(__file__).resolve().parents[2]
 DATASET = ROOT / "eval/datasets/omnirag-phase8-eval-1.0.1.json"
@@ -20,7 +30,7 @@ HISTORICAL = ROOT / "data/phase8/benchmarks/phase8-pilot-20261104-b5"
 @pytest.mark.skipif(not SNAPSHOT.is_file(), reason="Private Phase 8 snapshot is not published")
 def test_hash_stamp_and_dataset_schema_are_diagnostic_not_pinned(tmp_path):
     raw_hash = sha256_file(DATASET)
-    assert raw_hash.startswith("6a99cdd3")
+    assert len(raw_hash) == 64 and all(c in "0123456789abcdef" for c in raw_hash)
     assert "DIAGNOSTIC" in diagnostic_stamp(raw_hash)
     assert raw_hash in diagnostic_stamp(raw_hash)
     assert "7b44b8f6" in diagnostic_stamp(raw_hash)

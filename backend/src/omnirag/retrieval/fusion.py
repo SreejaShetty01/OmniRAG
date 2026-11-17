@@ -1,12 +1,11 @@
 """Rank-fusion strategy contract and deterministic Reciprocal Rank Fusion baseline."""
 
-from typing import Protocol
 from dataclasses import dataclass
+from typing import Protocol
 
 from qdrant_client import models
 
 from omnirag.config.settings import get_settings
-
 from omnirag.retrieval.contracts import RetrievalCandidate
 
 

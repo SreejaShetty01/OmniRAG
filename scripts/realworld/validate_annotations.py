@@ -3,15 +3,18 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from eval.dataset import dataset_checksum
-from eval.realworld_annotations import (HumanAnnotation, annotation_summary,
-                                              convert_human_approved_annotations)
+from eval.realworld_annotations import (
+    HumanAnnotation,
+    annotation_summary,
+    convert_human_approved_annotations,
+)
 
 
 def main() -> int:

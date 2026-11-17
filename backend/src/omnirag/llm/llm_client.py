@@ -4,13 +4,19 @@ from __future__ import annotations
 
 import json
 import time
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Iterator, Protocol, Sequence
-from urllib.parse import urlsplit, urlunsplit
+from typing import Protocol
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlsplit, urlunsplit
 from urllib.request import Request, urlopen
-from omnirag.infrastructure.provider_budget import (BudgetExceeded, after_provider_call,
-                                            before_provider_call, estimate_tokens)
+
+from omnirag.infrastructure.provider_budget import (
+    BudgetExceeded,
+    after_provider_call,
+    before_provider_call,
+    estimate_tokens,
+)
 
 
 @dataclass(frozen=True, slots=True)

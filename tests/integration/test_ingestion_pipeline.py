@@ -88,8 +88,8 @@ def test_pipeline_preserves_supplied_version_and_access_controls(tmp_path: Path)
 
 
 def test_pipeline_reports_missing_embedding_configuration_per_document(tmp_path: Path, monkeypatch):
-    from omnirag.config.settings import Settings
     import omnirag.indexing.embeddings as embedding_module
+    from omnirag.config.settings import Settings
 
     monkeypatch.delenv("OMNIRAG_EMBEDDING_ENDPOINT", raising=False)
     monkeypatch.delenv("OMNIRAG_EMBEDDING_MODEL_ID", raising=False)

@@ -12,8 +12,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from eval.dataset import (EvaluationCase, EvaluationDataset, EvidenceReference,
-                                validate_dataset)
+from eval.dataset import EvaluationCase, EvaluationDataset, EvidenceReference, validate_dataset
 
 AnnotationCategory = Literal[
     "exact_identifier", "code_understanding", "multi_document_reasoning",

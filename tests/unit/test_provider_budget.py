@@ -1,7 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
-
 from omnirag.infrastructure.provider_budget import BudgetExceeded, RunBudget
 
 

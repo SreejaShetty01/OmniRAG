@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import hashlib
 import argparse
+import hashlib
 import json
 import re
 import shutil
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +16,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from omnirag.config.settings import get_settings
+from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
+from omnirag.infrastructure.provider_budget import activate_run_budget
+from omnirag.ingestion.pipeline import IngestionPipeline, IngestionStatus
+from omnirag.models.chunk import AccessControlMetadata
+
 from eval.dataset import (
     CORPUS_ID,
     CORPUS_VERSION,
@@ -24,15 +29,10 @@ from eval.dataset import (
     dataset_checksum,
     validate_dataset,
 )
-from eval.phase8_safety import require_evaluation_collection
-from omnirag.indexing.qdrant_indexer import PAYLOAD_INDEX_SCHEMAS
-from omnirag.infrastructure.provider_budget import activate_run_budget
-from omnirag.ingestion.pipeline import IngestionPipeline, IngestionStatus
-from omnirag.models.chunk import AccessControlMetadata
+from eval.scorers.phase8_safety import require_evaluation_collection
 
-
-DATASET_PATH = ROOT / "evaluation" / "datasets" / f"{DATASET_ID}-{DATASET_VERSION}.json"
-DATASET_MANIFEST_PATH = ROOT / "evaluation" / "datasets" / f"{DATASET_ID}-{DATASET_VERSION}.manifest.json"
+DATASET_PATH = ROOT / "eval" / "datasets" / f"{DATASET_ID}-{DATASET_VERSION}.json"
+DATASET_MANIFEST_PATH = ROOT / "eval" / "datasets" / f"{DATASET_ID}-{DATASET_VERSION}.manifest.json"
 STANDARD_USER = "phase8-evaluation-user"
 STANDARD_TENANT = "phase8-evaluation-tenant"
 ACL_USER_A = "user:phase7a-user-a"
@@ -354,7 +354,7 @@ def run(*, audit_existing: bool = False) -> dict[str, Any]:
     manifest = {
         **core,
         "snapshot_sha256": snapshot_hash,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "document_count": len(ingestion_results),
         "point_count": point_count,
         "payload_indexes_observed": payload_indexes,
@@ -477,7 +477,7 @@ def audit_existing_snapshot(*, settings, dataset, dataset_manifest, corpus_root:
                 "budget_usage": previous.get("validation_budget", {}).get("usage", "UNKNOWN")}
     manifest = {
         **core, "snapshot_sha256": snapshot_hash,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "document_count": len(documents), "point_count": point_count,
         "payload_indexes_observed": payload_indexes,
         "validation_budget": {

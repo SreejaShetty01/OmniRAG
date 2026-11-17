@@ -8,10 +8,9 @@ import hmac
 import json
 import math
 import os
-import statistics
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -58,7 +57,7 @@ def _corpus_files() -> list[Path]:
 
 
 def _new_run_directory(non_live: bool) -> Path:
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%fZ")
     path = RUNS / f"{stamp}{'-non-live' if non_live else ''}"
     path.mkdir(parents=True, exist_ok=False)
     return path
@@ -300,7 +299,7 @@ def live_run(api_url: str) -> Path:
         client.close()
         raise RuntimeError(f"API readiness preflight failed with HTTP {status}")
 
-    run_id = f"phase7a-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid4().hex[:8]}"
+    run_id = f"phase7a-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}-{uuid4().hex[:8]}"
     run_dir = _new_run_directory(non_live=False)
     secret = settings.auth_shared_secret.get_secret_value()
     known_secrets = [secret]
@@ -479,7 +478,7 @@ def live_run(api_url: str) -> Path:
         latencies = [float(value) for value in latency_values]
         mechanical_failures = [row for row in query_results if row.get("mechanical_check_failures")]
         summary = {
-            "live": True, "run_id": run_id, "started_at_utc": datetime.now(timezone.utc).isoformat(),
+            "live": True, "run_id": run_id, "started_at_utc": datetime.now(UTC).isoformat(),
             "api_ready": ready, "corpus_files": len(files), "ingestion": ingestion_rows,
             "upload_probes": upload_probes,
             "identical_reingestion": identical_rows,

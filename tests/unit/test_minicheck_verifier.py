@@ -3,22 +3,31 @@ import json
 from io import BytesIO
 
 import pytest
-
 from omnirag.config.settings import Settings
-from eval.p3_grounding_scorer import score_grounding, write_audit_csv
-from omnirag.generation.answer_pipeline import AnswerPipeline
-from omnirag.models.response import ClaimVerificationStatus
 from omnirag.generation.answer_generator import AnswerGenerator
+from omnirag.generation.answer_pipeline import AnswerPipeline
 from omnirag.models.chunk import AccessControlMetadata, Chunk
 from omnirag.models.document import DocumentType
-from omnirag.retrieval.contracts import (EvidenceAssessment, EvidenceAssessmentState, QueryAnalysis,
-                                 QueryCharacteristics, RetrievalEvidence, RetrievalFilters, RetrievalResult)
+from omnirag.models.response import ClaimVerificationStatus
+from omnirag.retrieval.contracts import (
+    EvidenceAssessment,
+    EvidenceAssessmentState,
+    QueryAnalysis,
+    QueryCharacteristics,
+    RetrievalEvidence,
+    RetrievalFilters,
+    RetrievalResult,
+)
 from omnirag.services.claim_entailment.server import verify_request
 from omnirag.verification.claim_extractor import extract_claims
 from omnirag.verification.claim_verifier import verify_claims
-from omnirag.verification.nli_verifier import (EntailmentLabel, EntailmentResult,
-                                        HttpMiniCheckVerifier, UnconfiguredEntailmentVerifier)
+from omnirag.verification.nli_verifier import (
+    EntailmentLabel,
+    HttpMiniCheckVerifier,
+    UnconfiguredEntailmentVerifier,
+)
 
+from eval.scorers.p3_grounding_scorer import score_grounding, write_audit_csv
 
 MODEL_ID = "lytang/MiniCheck-Flan-T5-Large"
 MODEL_DIGEST = "a" * 64
@@ -79,7 +88,7 @@ def mocked_service(monkeypatch):
                                 model_digest=MODEL_DIGEST, threshold=THRESHOLD)
         return Response(json.dumps(result).encode())
 
-    monkeypatch.setattr("verification.nli_verifier.urlopen", fake_urlopen)
+    monkeypatch.setattr("omnirag.verification.nli_verifier.urlopen", fake_urlopen)
     return scorer, calls
 
 
@@ -127,7 +136,7 @@ def test_switch_on_uses_http_verifier_and_failure_is_uncertain(mocked_service, m
         from urllib.error import URLError
         raise URLError("offline")
 
-    monkeypatch.setattr("verification.nli_verifier.urlopen", fail_urlopen)
+    monkeypatch.setattr("omnirag.verification.nli_verifier.urlopen", fail_urlopen)
     unavailable = HttpMiniCheckVerifier("http://example.invalid/verify", MODEL_ID,
                                         MODEL_DIGEST, THRESHOLD, timeout_seconds=0.2)
     failed, warnings = verify_claims(extract_claims({"claims": [{"claim": "Retention is 30 days.",
@@ -182,7 +191,7 @@ def test_semantic_unsupported_uses_existing_one_correction_then_abstains(monkeyp
         assert payload["model_id"] == MODEL_ID
         return Response(json.dumps(value).encode())
 
-    monkeypatch.setattr("verification.nli_verifier.urlopen", unsupported_response)
+    monkeypatch.setattr("omnirag.verification.nli_verifier.urlopen", unsupported_response)
     verifier = HttpMiniCheckVerifier("http://example.invalid/verify", MODEL_ID,
                                      MODEL_DIGEST, THRESHOLD)
     generator = FakeProvider([

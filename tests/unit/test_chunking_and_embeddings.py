@@ -1,10 +1,15 @@
-from omnirag.ingestion.chunking.contextualizer import DeterministicContextualizer
-from omnirag.ingestion.chunking.structure_chunker import ChunkingConfig, StructureChunker
-from omnirag.ingestion.parsers.document_parser import DocumentParser
-from omnirag.ingestion.structure.schema import ContentBlock, ContentKind, LoadedSource, NormalizedDocument
 from omnirag.indexing.embeddings import EmbeddingError, EmbeddingService
 from omnirag.indexing.qdrant_indexer import prepare_point
 from omnirag.indexing.sparse_encoder import SparseEncoder
+from omnirag.ingestion.chunking.contextualizer import DeterministicContextualizer
+from omnirag.ingestion.chunking.structure_chunker import ChunkingConfig, StructureChunker
+from omnirag.ingestion.parsers.document_parser import DocumentParser
+from omnirag.ingestion.structure.schema import (
+    ContentBlock,
+    ContentKind,
+    LoadedSource,
+    NormalizedDocument,
+)
 from omnirag.models.document import Document, DocumentType
 
 
@@ -94,6 +99,7 @@ def test_embedding_rejects_inconsistent_vector_dimensions():
 
 def test_http_embedding_adapter_uses_configured_model_without_credentials(monkeypatch):
     import json
+
     import omnirag.indexing.embeddings as embedding_module
     from omnirag.indexing.embeddings import HttpEmbeddingProvider
 

@@ -3,15 +3,20 @@ from __future__ import annotations
 
 import hashlib
 import json
-from collections import Counter
-from datetime import datetime, timezone
-from pathlib import Path
-from urllib.parse import quote
 import sys
+from collections import Counter
+from datetime import UTC, datetime
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from scripts.realworld.acquire_selected import OUT, EVAL_MANIFEST, REPOSITORIES, _download, scan_file_notices
+from scripts.realworld.acquire_selected import (
+    EVAL_MANIFEST,
+    OUT,
+    REPOSITORIES,
+    _download,
+    scan_file_notices,
+)
 from scripts.realworld.prepare_corpus import content_set_sha256
 
 EXTRA = [
@@ -87,7 +92,7 @@ EXTRA = [
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def extend() -> dict:

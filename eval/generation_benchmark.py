@@ -1,12 +1,11 @@
 """Metrics for separately maintained, human-labeled answer/evidence evaluation cases."""
 
-from dataclasses import dataclass
 import re
 import statistics
-from typing import Iterable
+from collections.abc import Iterable
+from dataclasses import dataclass
 
-from models.response import (ClaimVerificationStatus, OmniRAGResponse,
-                             VerificationStatus)
+from omnirag.models.response import ClaimVerificationStatus, OmniRAGResponse, VerificationStatus
 
 
 @dataclass(frozen=True, slots=True)

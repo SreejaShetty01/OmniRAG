@@ -3,17 +3,19 @@ import json
 import sys
 
 import pytest
-
 from omnirag.config.profiles import PROFILE_CONFIGS, ProfileName
 from omnirag.config.settings import Settings
 from omnirag.experiments.runtime import (
-    ExperimentConfig, ExperimentRunStore, ExperimentRunner, ReplayUnavailable,
+    ExperimentConfig,
+    ExperimentRunner,
+    ExperimentRunStore,
+    ReplayUnavailable,
     StageTraceCollector,
 )
-from omnirag.models.response import OmniRAGResponse
-from omnirag.profiles.execution import ProfileExecutionService
 from omnirag.models.chunk import AccessControlMetadata, Chunk
 from omnirag.models.document import DocumentType
+from omnirag.models.response import OmniRAGResponse
+from omnirag.profiles.execution import ProfileExecutionService
 from omnirag.retrieval.contracts import RetrievalCandidate, RetrievalPolicy, RetrievalScope
 from omnirag.retrieval.hybrid_retriever import HybridRetriever
 

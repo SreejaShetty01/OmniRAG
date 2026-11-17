@@ -5,8 +5,11 @@ from dataclasses import dataclass
 from uuid import NAMESPACE_URL, uuid5
 
 from omnirag.config.settings import get_settings
-from omnirag.indexing.provenance import (assert_collection_embedder_compatible,
-                                 configured_embedder, new_point_provenance)
+from omnirag.indexing.provenance import (
+    assert_collection_embedder_compatible,
+    configured_embedder,
+    new_point_provenance,
+)
 from omnirag.indexing.sparse_encoder import SparseEncoder
 from omnirag.models.chunk import Chunk
 

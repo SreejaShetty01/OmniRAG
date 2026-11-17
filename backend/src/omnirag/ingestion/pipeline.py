@@ -9,22 +9,31 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from omnirag.config.settings import get_settings
-from omnirag.indexing.embeddings import EmbeddingError, EmbeddingService, EmbeddingProvider, provider_from_config
+from omnirag.indexing.embeddings import (
+    EmbeddingError,
+    EmbeddingProvider,
+    EmbeddingService,
+    provider_from_config,
+)
 from omnirag.indexing.provenance import new_point_provenance
+from omnirag.indexing.qdrant_indexer import QdrantIndexer
 from omnirag.indexing.sparse_encoder import SparseEncoder
 from omnirag.infrastructure.provider_budget import BudgetExceeded
-from omnirag.indexing.qdrant_indexer import QdrantIndexer
 from omnirag.ingestion.chunking.contextualizer import DeterministicContextualizer
 from omnirag.ingestion.chunking.structure_chunker import ChunkingConfig, StructureChunker
 from omnirag.ingestion.loaders.base import SourceLoadError
-from omnirag.ingestion.loaders.code_loader import CODE_LANGUAGES, GENERIC_CODE_EXTENSIONS, CodeLoader
+from omnirag.ingestion.loaders.code_loader import (
+    CODE_LANGUAGES,
+    GENERIC_CODE_EXTENSIONS,
+    CodeLoader,
+)
 from omnirag.ingestion.loaders.document_loader import DocumentLoader
 from omnirag.ingestion.loaders.web_loader import WebLoader
 from omnirag.ingestion.parsers.code_parser import CodeParser
 from omnirag.ingestion.parsers.document_parser import DocumentParser
+from omnirag.ingestion.structure.normalize import stable_id
 from omnirag.ingestion.structure.schema import LoadedSource
 from omnirag.ingestion.structure.structure_extractor import StructureExtractor
-from omnirag.ingestion.structure.normalize import stable_id
 from omnirag.models.chunk import AccessControlMetadata
 
 logger = logging.getLogger(__name__)

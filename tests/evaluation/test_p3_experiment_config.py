@@ -1,13 +1,12 @@
-import json
 import hashlib
+import json
 from pathlib import Path
 
 from eval.dataset import EvaluationDataset, dataset_checksum
 
-
 ROOT = Path(__file__).resolve().parents[2]
-P3 = ROOT / "experiments/p3_claim_entailment/v1.0.0"
-P3_HTTP = ROOT / "experiments/p3_claim_entailment/v1.1.0"
+P3 = ROOT / "eval/protocols/p3_claim_entailment/v1.0.0"
+P3_HTTP = ROOT / "eval/protocols/p3_claim_entailment/v1.1.0"
 
 
 def test_p3_config_pins_immutable_development_inputs_and_paired_conditions():

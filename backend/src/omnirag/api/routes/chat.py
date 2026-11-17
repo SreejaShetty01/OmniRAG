@@ -4,17 +4,20 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from omnirag.api.dependencies import (
-    RequestIdentity, get_product_store, get_profile_execution_service, get_request_identity,
+    RequestIdentity,
+    get_product_store,
+    get_profile_execution_service,
+    get_request_identity,
     get_retrieval_scope,
 )
 from omnirag.api.schemas import ChatRequest, ChatTurnResponse
+from omnirag.config.profiles import PROFILE_CONFIGS
+from omnirag.config.settings import get_settings
+from omnirag.experiments.runtime import ExperimentRunner, ExperimentRunStore
 from omnirag.infrastructure.product_store import ProductStore
 from omnirag.models.query import Query
 from omnirag.profiles.execution import ProfileExecutionService
 from omnirag.retrieval.contracts import RetrievalScope
-from omnirag.config.profiles import PROFILE_CONFIGS
-from omnirag.config.settings import get_settings
-from omnirag.experiments.runtime import ExperimentRunStore, ExperimentRunner
 
 router = APIRouter(tags=["chat"])
 Identity = Annotated[RequestIdentity, Depends(get_request_identity)]

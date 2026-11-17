@@ -1,6 +1,6 @@
 # OmniRAG API
 
-Run the API with `uvicorn api.main:app --reload`. OpenAPI is available at `/docs`.
+Run the API with `uvicorn omnirag.api.main:app --reload`. OpenAPI is available at `/docs`.
 Product routes use `/api/v1`. Development uses a documented fixed identity. Production
 requires `OMNIRAG_AUTH_SHARED_SECRET` and a trusted reverse proxy that strips inbound
 `X-OmniRAG-*` identity headers and signs the user ID, tenant ID and Unix timestamp

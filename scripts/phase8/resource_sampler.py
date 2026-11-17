@@ -12,13 +12,13 @@ the example intentionally does not assume names or that Ollama is evaluation-exc
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
 import json
 import os
-from pathlib import Path
 import subprocess
 import sys
 import time
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 from urllib.request import Request, urlopen
 
@@ -102,7 +102,7 @@ class ResourceSampler:
         self.ollama_url = ollama_url
 
     def sample(self) -> dict[str, Any]:
-        stamp = datetime.now(timezone.utc).isoformat()
+        stamp = datetime.now(UTC).isoformat()
         process = _psutil_snapshot(self.pids)
         pagefile = process.get("pagefile") or _windows_pagefile_snapshot()
         docker = []
@@ -131,7 +131,7 @@ class ResourceSampler:
         if not manifest.get("run_id") or "resource_sampling" in manifest:
             raise ValueError("Expected an unmodified run manifest with a run_id and no resource sampling")
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        started = datetime.now(timezone.utc)
+        started = datetime.now(UTC)
         count = 0
         interrupted = False
         deadline = time.monotonic() + duration_seconds
@@ -155,7 +155,7 @@ class ResourceSampler:
         manifest["resource_sampling"] = {
             "artifact": relative_output.as_posix(), "interval_seconds": 1.0,
             "sample_count": count, "started_at": started.isoformat(),
-            "finished_at": datetime.now(timezone.utc).isoformat(),
+            "finished_at": datetime.now(UTC).isoformat(),
             "status": "interrupted" if interrupted else "completed",
             "containers": list(self.containers), "pids": list(self.pids),
             "ollama_endpoint": self.ollama_url,

@@ -1,13 +1,11 @@
 import csv
 import json
-from pathlib import Path
 import uuid
+from pathlib import Path
 
 import pytest
-
 from prepare_m2_review import (
     PINNED_DATASET_SHA256,
-    canonical_json,
     prepare_exports,
     sha256_file,
     source_hashes,
